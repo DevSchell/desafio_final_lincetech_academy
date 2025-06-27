@@ -1,16 +1,6 @@
-# desafio_final_lincetech_academy
-
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+# Desafio Final - LinceTech Academy 2025
+ Este projeto é o desafio final do programa LinceTech Academy, com o objetivo de desenvolver um aplicativo Flutter à partir de um briefing
+ 
+## Descrição do Desafio
+ O aplicativo será desenvolvido com base nas necessidades do personagem **Marcelo**, que deseja criar um app para sua nova empresa de viagens.  
+ O objetivo é criar um MVP funcional com uma interface moderna, responsiva e agradável
