@@ -8,7 +8,9 @@ class Home extends StatelessWidget {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         backgroundColor: Color.fromRGBO(255, 166, 0, 1),
-        onPressed: () {},
+        onPressed: () {
+          Navigator.pushNamed(context, '/createTrip');
+        },
         shape: CircleBorder(),
         child: Icon(Icons.add, color: Colors.white),
       ),
