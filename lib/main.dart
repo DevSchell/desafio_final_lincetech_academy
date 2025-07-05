@@ -1,4 +1,4 @@
-import 'package:desafio_final_lincetech_academy/pages/settings.dart';
+ import 'package:desafio_final_lincetech_academy/pages/settings.dart';
 import 'package:flutter/material.dart';
 import 'pages/home.dart';
 import 'pages/createTrip.dart';
