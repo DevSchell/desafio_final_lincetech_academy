@@ -43,7 +43,7 @@ class _SettingsState extends State<Settings> {
               ),
             ),
             ListTile(
-              title: const Text("English"),
+              title: const Text("English", style: TextStyle(fontSize: 25, color: Color.fromRGBO(107, 114, 128, 1), fontWeight: FontWeight.bold),),
               leading: Radio(
                 activeColor: Color.fromRGBO(255, 166, 0, 1),
                 value: languageOptions[0],
@@ -56,7 +56,7 @@ class _SettingsState extends State<Settings> {
               ),
             ),
             ListTile(
-              title: const Text("Portuguese"),
+              title: const Text("Portuguese",  style: TextStyle(fontSize: 25, color: Color.fromRGBO(107, 114, 128, 1), fontWeight: FontWeight.bold),),
               leading: Radio(
                 activeColor: Color.fromRGBO(255, 166, 0, 1),
                 value: languageOptions[1],
@@ -69,7 +69,7 @@ class _SettingsState extends State<Settings> {
               ),
             ),
             ListTile(
-              title: const Text("Spanish"),
+              title: const Text("Spanish",  style: TextStyle(fontSize: 25, color: Color.fromRGBO(107, 114, 128, 1), fontWeight: FontWeight.bold),),
               leading: Radio(
                 activeColor: Color.fromRGBO(255, 166, 0, 1),
                 value: languageOptions[2],
@@ -91,7 +91,7 @@ class _SettingsState extends State<Settings> {
               ),
             ),
             ListTile(
-              title: Text("Light Theme"),
+              title: Text("Light Theme",  style: TextStyle(fontSize: 20, color: Color.fromRGBO(107, 114, 128, 1), fontWeight: FontWeight.bold),),
               leading: Radio(
                   value: themeOptions[0],
                   activeColor: Color.fromRGBO(255, 166, 0, 1),
@@ -104,7 +104,7 @@ class _SettingsState extends State<Settings> {
               ),
             ),
             ListTile(
-              title: Text("Dark Theme"),
+              title: Text("Dark Theme",  style: TextStyle(fontSize: 20, color: Color.fromRGBO(107, 114, 128, 1), fontWeight: FontWeight.bold),),
               leading: Radio(
                 value: themeOptions[1],
                 activeColor: Color.fromRGBO(255, 166, 0, 1),
