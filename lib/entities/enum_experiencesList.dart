@@ -1,3 +1,3 @@
 enum EnumExperiencesList {
-  culture, cuisine, hiking, swimming, sightseeing
+  culture, cuisine, hiking, swimming, wildlife, art, festivals, shopping, adventure
 }
