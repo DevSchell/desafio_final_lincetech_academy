@@ -1,5 +1,7 @@
+import 'package:desafio_final_lincetech_academy/presentation/providers/settings_state.dart';
 import 'package:flutter/material.dart';
 import 'all_widgets.dart';
+import 'package:provider/provider.dart';
 
 class CustomDatePicker extends StatefulWidget {
   const CustomDatePicker({super.key});
@@ -47,19 +49,28 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
                   Row(
                     children: [
                       InkWell(
-                        child: Icon(Icons.calendar_month, size: 30),
                         onTap: () async {
                           await _selectStartDate();
                         },
-                      ),
-                      Text(
-                        selectedStartDate != null
-                            ? '${selectedStartDate!.day}/${selectedStartDate!.month}/${selectedStartDate!.year}'
-                            : 'No date selected',
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Color.fromRGBO(255, 165, 0, 1),
-                          fontWeight: FontWeight.bold,
+                        child: Row(
+                          children: [
+                            Icon(Icons.calendar_month, size: 30),
+                            Text(
+                              selectedStartDate != null
+                                  ? '${selectedStartDate!.day}/${selectedStartDate!.month}/${selectedStartDate!.year}'
+                                  : 'No date selected',
+                              style: TextStyle(
+                                fontSize: 20,
+                                color:
+                                    Provider.of<SettingsProvider>(
+                                      context,
+                                    ).isDarkMode
+                                    ? Color.fromRGBO(255, 119, 74, 1)
+                                    : Color.fromRGBO(255, 165, 0, 1),
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ],
@@ -74,19 +85,28 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
                   Row(
                     children: [
                       InkWell(
-                        child: Icon(Icons.calendar_month, size: 30),
                         onTap: () async {
                           await _selectedEndDate();
                         },
-                      ),
-                      Text(
-                        selectedEndDate != null
-                            ? '${selectedEndDate!.day}/${selectedEndDate!.month}/${selectedEndDate!.year}'
-                            : 'No date selected',
-                        style: TextStyle(
-                          fontSize: 20,
-                          color: Color.fromRGBO(255, 165, 0, 1),
-                          fontWeight: FontWeight.bold,
+                        child: Row(
+                          children: [
+                            Icon(Icons.calendar_month, size: 30),
+                            Text(
+                              selectedEndDate != null
+                                  ? '${selectedEndDate!.day}/${selectedEndDate!.month}/${selectedEndDate!.year}'
+                                  : 'No date selected',
+                              style: TextStyle(
+                                fontSize: 20,
+                                color:
+                                    Provider.of<SettingsProvider>(
+                                      context,
+                                    ).isDarkMode
+                                    ? Color.fromRGBO(255, 119, 74, 1)
+                                    : Color.fromRGBO(255, 165, 0, 1),
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ],

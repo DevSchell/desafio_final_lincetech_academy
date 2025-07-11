@@ -1,5 +1,7 @@
 import 'package:desafio_final_lincetech_academy/entities/enum_experiencesList.dart';
+import 'package:desafio_final_lincetech_academy/presentation/providers/settings_state.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class CustomExperienceList extends StatefulWidget {
   const CustomExperienceList({super.key});
@@ -19,6 +21,7 @@ class _CustomExperienceListState extends State<CustomExperienceList> {
       children: [
         for (final i in EnumExperiencesList.values)
           CheckboxListTile(
+            checkColor: Colors.white,
             value: _map[i],
             onChanged: (value) {
               setState(() {
@@ -35,7 +38,7 @@ class _CustomExperienceListState extends State<CustomExperienceList> {
             ),
             fillColor: WidgetStateProperty.resolveWith((states) {
               if (_map[i] ?? false) {
-                return Color.fromRGBO(255, 166, 0, 1);
+                return Provider.of<SettingsProvider>(context).isDarkMode ? Color.fromRGBO(255, 119, 74, 1) : Color.fromRGBO(255, 166, 0, 1);
               } else {
                 return Colors.grey;
               }
