@@ -5,6 +5,8 @@ import 'presentation/pages/home.dart';
 import 'presentation/pages/settings.dart';
 import 'presentation/pages/createTrip.dart';
 import 'package:provider/provider.dart';
+import 'package:desafio_final_lincetech_academy/l10n/app_localizations.dart';
+import 'package:intl/intl.dart';
 
 void main() {
   runApp(
@@ -26,7 +28,10 @@ class MyApp extends StatelessWidget {
     final settingsProvider = Provider.of<SettingsProvider>(context);
 
     return MaterialApp(
-      title: 'WanderPlan',
+      locale: settingsProvider.currentLocale,
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
+      title: "WanderPlan",
       theme: ThemeData.light(),
       darkTheme: ThemeData.dark(),
       themeMode: settingsProvider.isDarkMode ? ThemeMode.dark : ThemeMode.light,

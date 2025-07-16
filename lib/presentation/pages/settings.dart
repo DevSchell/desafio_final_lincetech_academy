@@ -1,7 +1,7 @@
+import 'package:desafio_final_lincetech_academy/l10n/app_localizations.dart';
 import 'package:desafio_final_lincetech_academy/presentation/pages/widgets/all_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import '../providers/settings_state.dart';
 
 class Settings extends StatefulWidget {
@@ -11,12 +11,11 @@ class Settings extends StatefulWidget {
   State<Settings> createState() => _SettingsState();
 }
 
-List<String> languageOptions = [
-  "English",
-  "Portuguese",
-  "Spanish",
-]; //Test RadioButton
-List<String> themeOptions = ["Light Theme", "Dark Theme"];
+List<String> languageOptions = ["en", "pt", "es"]; //Test RadioButton
+List<String> themeOptions = [
+  "Light Theme",
+  "Dark Theme",
+]; //TODO: Preciso mexer com intL aq tbm...
 
 class _SettingsState extends State<Settings> {
   String currentOption = languageOptions[0]; //Test RadioButton
@@ -30,6 +29,7 @@ class _SettingsState extends State<Settings> {
       final settings = Provider.of<SettingsProvider>(context, listen: false);
       setState(() {
         currentTheme = settings.isDarkMode ? themeOptions[1] : themeOptions[0];
+        currentOption = settings.currentLocale.languageCode;
       });
     });
   }
@@ -37,7 +37,7 @@ class _SettingsState extends State<Settings> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppbar(title: 'Settings'),
+      appBar: CustomAppbar(title: AppLocalizations.of(context)!.settingsHeader),
       backgroundColor: Provider.of<SettingsProvider>(context).isDarkMode
           ? Color.fromRGBO(20, 24, 28, 1)
           : Color.fromRGBO(255, 255, 250, 1),
@@ -46,13 +46,17 @@ class _SettingsState extends State<Settings> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            CustomHeader(text: "Language"),
+            CustomHeader(text: AppLocalizations.of(context)!.language),
             Column(
               children: [
                 ListTile(
                   onTap: () {
                     setState(() {
                       currentOption = languageOptions[0];
+                      Provider.of<SettingsProvider>(
+                        context,
+                        listen: false,
+                      ).changeLocale(currentOption);
                     });
                   },
                   title: Align(
@@ -73,6 +77,10 @@ class _SettingsState extends State<Settings> {
                     onChanged: (value) {
                       setState(() {
                         currentOption = value.toString();
+                        Provider.of<SettingsProvider>(
+                          context,
+                          listen: false,
+                        ).changeLocale(currentOption);
                       });
                     },
                   ),
@@ -81,6 +89,10 @@ class _SettingsState extends State<Settings> {
                   onTap: () {
                     setState(() {
                       currentOption = languageOptions[1];
+                      Provider.of<SettingsProvider>(
+                        context,
+                        listen: false,
+                      ).changeLocale(currentOption);
                     });
                   },
                   title: Align(
@@ -101,6 +113,10 @@ class _SettingsState extends State<Settings> {
                     onChanged: (value) {
                       setState(() {
                         currentOption = value.toString();
+                        Provider.of<SettingsProvider>(
+                          context,
+                          listen: false,
+                        ).changeLocale(currentOption);
                       });
                     },
                   ),
@@ -109,6 +125,10 @@ class _SettingsState extends State<Settings> {
                   onTap: () {
                     setState(() {
                       currentOption = languageOptions[2];
+                      Provider.of<SettingsProvider>(
+                        context,
+                        listen: false,
+                      ).changeLocale(currentOption);
                     });
                   },
                   title: Align(
@@ -129,6 +149,10 @@ class _SettingsState extends State<Settings> {
                     onChanged: (value) {
                       setState(() {
                         currentOption = value.toString();
+                        Provider.of<SettingsProvider>(
+                          context,
+                          listen: false,
+                        ).changeLocale(currentOption);
                       });
                     },
                   ),

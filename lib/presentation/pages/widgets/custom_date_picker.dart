@@ -1,3 +1,4 @@
+import 'package:desafio_final_lincetech_academy/l10n/app_localizations.dart';
 import 'package:desafio_final_lincetech_academy/presentation/providers/settings_state.dart';
 import 'package:flutter/material.dart';
 import 'all_widgets.dart';
@@ -45,7 +46,7 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
             Expanded(
               child: Column(
                 children: [
-                  CustomHeader(text: "Start date"),
+                  CustomHeader(text: AppLocalizations.of(context)!.startDate),
                   Row(
                     children: [
                       InkWell(
@@ -58,7 +59,7 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
                             Text(
                               selectedStartDate != null
                                   ? '${selectedStartDate!.day}/${selectedStartDate!.month}/${selectedStartDate!.year}'
-                                  : 'No date selected',
+                                  : AppLocalizations.of(context)!.noDateSelected,
                               style: TextStyle(
                                 fontSize: 20,
                                 color:
@@ -81,7 +82,7 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
             Expanded(
               child: Column(
                 children: [
-                  CustomHeader(text: "End date"),
+                  CustomHeader(text: AppLocalizations.of(context)!.endDate),
                   Row(
                     children: [
                       InkWell(
@@ -94,7 +95,7 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
                             Text(
                               selectedEndDate != null
                                   ? '${selectedEndDate!.day}/${selectedEndDate!.month}/${selectedEndDate!.year}'
-                                  : 'No date selected',
+                                  : AppLocalizations.of(context)!.noDateSelected,
                               style: TextStyle(
                                 fontSize: 20,
                                 color:

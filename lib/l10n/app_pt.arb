@@ -1,0 +1,21 @@
+{
+  "@@locale" : "pt",
+  "appTitle" : "WanderPlan",
+  "noTripsAdded" : "Sem viagens adicionadas",
+  "language" : "Idioma",
+  "themeHeader": "Tema",
+  "lightTheme" : "Tema Claro",
+  "darkTheme" : "Tema Escuro",
+  "tripTitle" : "Título da Viagem",
+  "enterTitleHere" : "Escreva o título aqui...",
+  "startDate" : "Início",
+  "endDate" : "Fim",
+  "noDateSelected" : "Não selecionado",
+  "transportationMethodHeader" : "Método de Transporte",
+  "requestedExperiencesHeader" : "Experiências Solicitadas",
+  "participantList" : "Lista de Participantes",
+  "noParticipantsAdded" : "Sem participantes adicionados",
+  "addParticipantButton" : "Adicionar participante",
+  "settingsHeader" : "Configurações",
+  "createNewTripHeader" : "Criar uma nova viagem"
+}

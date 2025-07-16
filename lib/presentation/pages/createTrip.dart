@@ -1,4 +1,4 @@
-import 'package:desafio_final_lincetech_academy/presentation/pages/widgets/custom_appbar.dart';
+import 'package:desafio_final_lincetech_academy/l10n/app_localizations.dart';
 import 'package:desafio_final_lincetech_academy/presentation/providers/participant_state.dart';
 import 'package:desafio_final_lincetech_academy/presentation/providers/settings_state.dart';
 import 'package:flutter/material.dart';
@@ -12,8 +12,12 @@ class CreateTrip extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<ParticipantProvider>(
       builder: (context, participantState, child) => Scaffold(
-        backgroundColor: Provider.of<SettingsProvider>(context).isDarkMode ? Color.fromRGBO(20, 24, 28, 1) : Colors.white,
-        appBar: CustomAppbar(title: 'Create a new trip'),
+        backgroundColor: Provider.of<SettingsProvider>(context).isDarkMode
+            ? Color.fromRGBO(20, 24, 28, 1)
+            : Colors.white,
+        appBar: CustomAppbar(
+          title: AppLocalizations.of(context)!.createNewTripHeader,
+        ),
         body: SingleChildScrollView(
           child: Form(
             child: Padding(
@@ -21,11 +25,12 @@ class CreateTrip extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  CustomHeader(text: "Trip Title"),
+                  SizedBox(height: 10),
+                  CustomHeader(text: AppLocalizations.of(context)!.tripTitle),
                   TextFormField(
                     decoration: InputDecoration(
                       hint: Text(
-                        "Enter title here...",
+                        AppLocalizations.of(context)!.enterTitleHere,
                         style: TextStyle(
                           fontSize: 20,
                           color: Color.fromRGBO(107, 114, 128, 1),
@@ -39,22 +44,34 @@ class CreateTrip extends StatelessWidget {
                   CustomDatePicker(),
                   SizedBox(height: 20),
 
-                  CustomHeader(text: 'Transportation Method'),
+                  CustomHeader(
+                    text: AppLocalizations.of(
+                      context,
+                    )!.transportationMethodHeader,
+                  ),
                   CustomTranportMethod(),
 
                   SizedBox(height: 20),
 
-                  CustomHeader(text: "Requested Experiences"),
+                  CustomHeader(
+                    text: AppLocalizations.of(
+                      context,
+                    )!.requestedExperiencesHeader,
+                  ),
                   CustomExperienceList(),
 
                   SizedBox(height: 20),
 
-                  CustomHeader(text: "Participant List"),
+                  CustomHeader(
+                    text: AppLocalizations.of(context)!.participantList,
+                  ),
                   participantState.participantList.isEmpty
                       ? Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Center(
-                            child: Text("No participants added yet"),
+                            child: Text(
+                              AppLocalizations.of(context)!.noParticipantsAdded,
+                            ),
                           ),
                         )
                       : ListView.builder(
@@ -111,7 +128,9 @@ class CreateTrip extends StatelessWidget {
                               children: [
                                 Center(
                                   child: CustomHeader(
-                                    text: 'Add participant',
+                                    text: AppLocalizations.of(
+                                      context,
+                                    )!.addParticipantButton,
                                     size: 20,
                                   ),
                                 ),
@@ -137,7 +156,9 @@ class CreateTrip extends StatelessWidget {
                         vertical: 12,
                       ),
                     ),
-                    child: Text("Add participant"),
+                    child: Text(
+                      AppLocalizations.of(context)!.addParticipantButton,
+                    ),
                   ),
                 ],
               ),

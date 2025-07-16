@@ -1,3 +1,4 @@
+import 'package:desafio_final_lincetech_academy/l10n/app_localizations.dart';
 import 'package:desafio_final_lincetech_academy/presentation/providers/settings_state.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -41,7 +42,7 @@ class Home extends StatelessWidget {
       ),
       backgroundColor: Provider.of<SettingsProvider>(context).isDarkMode ? Color.fromRGBO(20, 24, 28, 1) : Colors.white,
       body: Center(
-        child: Text("No trips added", style: TextStyle(fontSize: 30)),
+        child: Text(AppLocalizations.of(context)!.noTripsAdded, style: TextStyle(fontSize: 30)),
       ),
     );
   }
