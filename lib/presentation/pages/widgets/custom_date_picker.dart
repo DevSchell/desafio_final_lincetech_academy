@@ -16,11 +16,38 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
   DateTime? selectedEndDate;
 
   Future<void> _selectStartDate() async {
+    final isDarkMode = Provider.of<SettingsProvider>(
+      context,
+      listen: false,
+    ).isDarkMode;
+
     final DateTime? pickedDate = await showDatePicker(
       context: context,
       firstDate: DateTime.now(),
       lastDate: DateTime(9998),
+      builder: (BuildContext context, Widget? child) {
+        return Theme(
+          data: Theme.of(context).copyWith(
+            colorScheme: isDarkMode
+                ? ColorScheme.dark(
+                    primary: Color(0xFFFF774A),
+                    onPrimary: Colors.black,
+                    surface: Colors.grey[800]!,
+                    onSurface: Colors.white,
+                  )
+                : ColorScheme.light(
+                    primary: Color(0xFFFFA600),
+                    onPrimary: Colors.white,
+                    surface: Colors.white,
+                    onSurface: Colors.black,
+                  ),
+            dialogBackgroundColor: isDarkMode ? Colors.grey[900] : Colors.white,
+          ),
+          child: child!,
+        );
+      },
     );
+
     setState(() {
       selectedStartDate = pickedDate;
     });
@@ -31,6 +58,26 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
       context: context,
       firstDate: DateTime.now(),
       lastDate: DateTime(9998),
+      builder: (BuildContext context, Widget? child) {
+        return Theme(
+          data: Theme.of(context).copyWith(
+            colorScheme: Provider.of<SettingsProvider>(context).isDarkMode
+                ? ColorScheme.dark(
+                    primary: Color(0xFFFF774A),
+                    onPrimary: Colors.black,
+                    surface: Colors.grey[800]!,
+                    onSurface: Colors.white,
+                  )
+                : ColorScheme.light(
+                    primary: Color(0xFFFFA600),
+                    onPrimary: Colors.white,
+                    onSurface: Colors.black,
+                  ),
+            dialogBackgroundColor: Colors.white,
+          ),
+          child: child!,
+        );
+      },
     );
     setState(() {
       selectedEndDate = pickedDate;
@@ -59,7 +106,9 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
                             Text(
                               selectedStartDate != null
                                   ? '${selectedStartDate!.day}/${selectedStartDate!.month}/${selectedStartDate!.year}'
-                                  : AppLocalizations.of(context)!.noDateSelected,
+                                  : AppLocalizations.of(
+                                      context,
+                                    )!.noDateSelected,
                               style: TextStyle(
                                 fontSize: 20,
                                 color:
@@ -95,7 +144,9 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
                             Text(
                               selectedEndDate != null
                                   ? '${selectedEndDate!.day}/${selectedEndDate!.month}/${selectedEndDate!.year}'
-                                  : AppLocalizations.of(context)!.noDateSelected,
+                                  : AppLocalizations.of(
+                                      context,
+                                    )!.noDateSelected,
                               style: TextStyle(
                                 fontSize: 20,
                                 color:

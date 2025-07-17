@@ -123,21 +123,71 @@ class CreateTrip extends StatelessWidget {
                         builder: (BuildContext context) {
                           return SizedBox(
                             height: MediaQuery.of(context).size.height * 0.9,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
-                              children: [
-                                Center(
-                                  child: CustomHeader(
-                                    text: AppLocalizations.of(
-                                      context,
-                                    )!.addParticipantButton,
-                                    size: 20,
-                                  ),
+                            child: Form(
+                              child: Padding(
+                                padding: const EdgeInsets.all(20.0),
+                                child: Column(
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.stretch,
+                                  children: [
+                                    Center(
+                                      child: CustomHeader(
+                                        text: AppLocalizations.of(
+                                          context,
+                                        )!.addParticipantButton,
+                                        size: 20,
+                                      ),
+                                    ),
+                                    InkWell(
+                                      child: CircleAvatar(
+                                        radius: 100,
+                                        child: Image.asset(
+                                          "assets/images/pfp_placeholder.png",
+                                        ),
+                                      ),
+                                    ),
+                                    CustomHeader(text: "Name"),
+                                    //TODO: criar intl name
+                                    TextFormField(
+                                      decoration: InputDecoration(
+                                        labelText: AppLocalizations.of(
+                                          context,
+                                        )!.enterTitleHere,
+                                      ),
+                                    ),
+                                    SizedBox(height: 30),
+
+                                    CustomHeader(text: "Age"),
+                                    //TODO: criar intl age
+                                    TextFormField(
+                                      decoration: InputDecoration(
+                                        labelText: AppLocalizations.of(
+                                          context,
+                                        )!.enterTitleHere,
+                                      ),
+                                    ),
+                                    SizedBox(height: 30),
+
+                                    CustomHeader(text: "Favorite Transport"),
+                                    CustomTranportMethod(),
+                                    SizedBox(height: 50),
+
+                                    FloatingActionButton(
+                                      onPressed: () {},
+                                      backgroundColor:
+                                          Provider.of<SettingsProvider>(
+                                            context,
+                                          ).isDarkMode
+                                          ? Color.fromRGBO(255, 119, 74, 1)
+                                          : Color.fromRGBO(255, 166, 0, 1),
+                                      child: Text(
+                                        "Add",
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                                Image.asset(
-                                  'assets/images/pfp_placeholder.png',
-                                ),
-                              ],
+                              ),
                             ),
                           );
                         },
@@ -158,6 +208,7 @@ class CreateTrip extends StatelessWidget {
                     ),
                     child: Text(
                       AppLocalizations.of(context)!.addParticipantButton,
+                      style: TextStyle(color: Colors.white),
                     ),
                   ),
                 ],
