@@ -1,9 +1,11 @@
 
+import 'package:desafio_final_lincetech_academy/entities/enum_transpMethod.dart';
+
 class Participant {
-  String name;
-  int age;
-  String photoPath;
-  Enum favoriteTransp; //TODO: Aqui é assim que eu crio o atributo? (Saber a opção do participantem opção está dentro de um Enum)
+  final String name;
+  final int age;
+  final String photoPath;
+  final EnumTransportationMethod favoriteTransp;
 
   Participant({
     required this.name,
