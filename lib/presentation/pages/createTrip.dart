@@ -1,5 +1,6 @@
 import 'package:desafio_final_lincetech_academy/entities/enum_transpMethod.dart';
 import 'package:desafio_final_lincetech_academy/l10n/app_localizations.dart';
+import 'package:desafio_final_lincetech_academy/presentation/pages/widgets/custom_action_button.dart';
 import 'package:desafio_final_lincetech_academy/presentation/providers/participant_state.dart';
 import 'package:desafio_final_lincetech_academy/presentation/providers/settings_state.dart';
 import 'package:desafio_final_lincetech_academy/use_cases/image_picker_use_cases.dart';
@@ -188,51 +189,15 @@ class CreateTrip extends StatelessWidget {
                                                         MainAxisAlignment
                                                             .center,
                                                     children: [
-                                                      FloatingActionButton(
+                                                      CustomActionButton(
+                                                        text:
+                                                            "Choose from camera",
                                                         onPressed: () {},
-                                                        backgroundColor:
-                                                            Provider.of<
-                                                                  SettingsProvider
-                                                                >(context)
-                                                                .isDarkMode
-                                                            ? Color.fromRGBO(
-                                                                255,
-                                                                119,
-                                                                74,
-                                                                1,
-                                                              )
-                                                            : Color.fromRGBO(
-                                                                255,
-                                                                166,
-                                                                0,
-                                                                1,
-                                                              ),
-                                                        child: Text(
-                                                          "Choose from camera",
-                                                        ),
                                                       ),
-                                                      FloatingActionButton(
-                                                        backgroundColor:
-                                                            Provider.of<
-                                                                  SettingsProvider
-                                                                >(context)
-                                                                .isDarkMode
-                                                            ? Color.fromRGBO(
-                                                                255,
-                                                                119,
-                                                                74,
-                                                                1,
-                                                              )
-                                                            : Color.fromRGBO(
-                                                                255,
-                                                                166,
-                                                                0,
-                                                                1,
-                                                              ),
+                                                      CustomActionButton(
+                                                        text:
+                                                            "Choose from gallery",
                                                         onPressed: () {},
-                                                        child: Text(
-                                                          "Choose from gallery",
-                                                        ),
                                                       ),
                                                     ],
                                                   ),
@@ -254,9 +219,7 @@ class CreateTrip extends StatelessWidget {
                                     TextFormField(
                                       controller: nameController,
                                       decoration: InputDecoration(
-                                        labelText: AppLocalizations.of(
-                                          context,
-                                        )!.enterTitleHere,
+                                        labelText: "Enter name here...",
                                       ),
                                     ),
                                     SizedBox(height: 30),
@@ -266,9 +229,7 @@ class CreateTrip extends StatelessWidget {
                                     TextFormField(
                                       controller: ageController,
                                       decoration: InputDecoration(
-                                        labelText: AppLocalizations.of(
-                                          context,
-                                        )!.enterTitleHere,
+                                        labelText: "Enter age here...",
                                       ),
                                     ),
                                     SizedBox(height: 30),
@@ -277,7 +238,8 @@ class CreateTrip extends StatelessWidget {
                                     CustomTranportMethod(),
                                     SizedBox(height: 50),
 
-                                    FloatingActionButton(
+                                    CustomActionButton(
+                                      text: "Add",
                                       onPressed: () {
                                         Participant p = Participant(
                                           name: nameController.text,
@@ -288,16 +250,6 @@ class CreateTrip extends StatelessWidget {
                                         participantState.addParticipant(p);
                                         Navigator.pop(context);
                                       },
-                                      backgroundColor:
-                                          Provider.of<SettingsProvider>(
-                                            context,
-                                          ).isDarkMode
-                                          ? Color.fromRGBO(255, 119, 74, 1)
-                                          : Color.fromRGBO(255, 166, 0, 1),
-                                      child: Text(
-                                        "Add",
-                                        style: TextStyle(color: Colors.white),
-                                      ),
                                     ),
                                   ],
                                 ),
