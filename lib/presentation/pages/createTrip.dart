@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:desafio_final_lincetech_academy/entities/enum_transpMethod.dart';
 import 'package:desafio_final_lincetech_academy/l10n/app_localizations.dart';
 import 'package:desafio_final_lincetech_academy/presentation/pages/widgets/custom_action_button.dart';
@@ -5,10 +7,10 @@ import 'package:desafio_final_lincetech_academy/presentation/providers/participa
 import 'package:desafio_final_lincetech_academy/presentation/providers/settings_state.dart';
 import 'package:desafio_final_lincetech_academy/use_cases/image_picker_use_cases.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import '../../entities/participant.dart';
 import 'widgets/all_widgets.dart';
-import 'package:image_picker/image_picker.dart';
 
 class CreateTrip extends StatelessWidget {
   const CreateTrip({super.key});
@@ -97,12 +99,9 @@ class CreateTrip extends StatelessWidget {
                             return Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                //TODO: Mudar cor das letras
                                 CircleAvatar(
-                                  child: Image.asset(
-                                    "assets/images/pfp_placeholder.png",
-                                    height: 80,
-                                    width: 80,
+                                  backgroundImage: FileImage(
+                                    File(participant.photoPath),
                                   ),
                                 ),
                                 SizedBox(width: 10),
@@ -145,6 +144,7 @@ class CreateTrip extends StatelessWidget {
                               TextEditingController();
                           EnumTransportationMethod selectedTransport =
                               EnumTransportationMethod.airplane;
+                          XFile? selectedImage;
 
                           return SizedBox(
                             height: MediaQuery.of(context).size.height * 0.9,
@@ -165,8 +165,6 @@ class CreateTrip extends StatelessWidget {
                                     ),
                                     InkWell(
                                       onTap: () {
-                                        final imagePicker =
-                                            ImagePickerUseCase();
                                         showDialog(
                                           context: context,
                                           builder: (BuildContext context) => Dialog(
@@ -192,12 +190,40 @@ class CreateTrip extends StatelessWidget {
                                                       CustomActionButton(
                                                         text:
                                                             "Choose from camera",
-                                                        onPressed: () {},
+                                                        onPressed: () async {
+                                                          final picker =
+                                                              ImagePickerUseCase();
+                                                          final newImage =
+                                                              await picker
+                                                                  .pickFromCamera();
+                                                          if (newImage !=
+                                                              null) {
+                                                            selectedImage =
+                                                                newImage;
+                                                          }
+                                                          Navigator.pop(
+                                                            context,
+                                                          );
+                                                        },
                                                       ),
                                                       CustomActionButton(
                                                         text:
                                                             "Choose from gallery",
-                                                        onPressed: () {},
+                                                        onPressed: () async {
+                                                          final picker =
+                                                              ImagePickerUseCase();
+                                                          final newImage =
+                                                              await picker
+                                                                  .pickFromGallery();
+                                                          if (newImage !=
+                                                              null) {
+                                                            selectedImage =
+                                                                newImage;
+                                                          }
+                                                          Navigator.pop(
+                                                            context,
+                                                          );
+                                                        },
                                                       ),
                                                     ],
                                                   ),
@@ -209,13 +235,17 @@ class CreateTrip extends StatelessWidget {
                                       },
                                       child: CircleAvatar(
                                         radius: 100,
-                                        child: Image.asset(
-                                          "assets/images/pfp_placeholder.png",
-                                        ),
+                                        backgroundImage: selectedImage == null
+                                            ? AssetImage(
+                                                "assets/images/pfp_placeholder.png",
+                                              )
+                                            : FileImage(
+                                                    File(selectedImage.path),
+                                                  )
+                                                  as ImageProvider,
                                       ),
                                     ),
                                     CustomHeader(text: "Name"),
-                                    //TODO: criar intl name
                                     TextFormField(
                                       controller: nameController,
                                       decoration: InputDecoration(
@@ -225,7 +255,6 @@ class CreateTrip extends StatelessWidget {
                                     SizedBox(height: 30),
 
                                     CustomHeader(text: "Age"),
-                                    //TODO: criar intl age
                                     TextFormField(
                                       controller: ageController,
                                       decoration: InputDecoration(
