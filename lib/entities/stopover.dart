@@ -7,7 +7,7 @@ class Stopover {
   DateTime arrivalDate;
   DateTime departureDate;
   List<String> actvDescription;
-  List<Review> reviewList;
+  List<Review>? reviewList;
 
   Stopover({
     required this.cityName,

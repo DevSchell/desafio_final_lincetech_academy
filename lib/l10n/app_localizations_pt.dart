@@ -39,7 +39,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get endDate => 'Fim';
 
   @override
-  String get noDateSelected => 'Não selecionado';
+  String get noDateSelected => 'Sem data';
 
   @override
   String get transportationMethodHeader => 'Método de Transporte';

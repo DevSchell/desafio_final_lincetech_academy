@@ -160,7 +160,7 @@ abstract class AppLocalizations {
   /// No description provided for @noDateSelected.
   ///
   /// In en, this message translates to:
-  /// **'No date selected'**
+  /// **'No date'**
   String get noDateSelected;
 
   /// No description provided for @transportationMethodHeader.

@@ -39,7 +39,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get endDate => 'Finalización';
 
   @override
-  String get noDateSelected => 'Ninguna fecha';
+  String get noDateSelected => 'Sin fecha';
 
   @override
   String get transportationMethodHeader => 'Método de Transporte';

@@ -10,7 +10,7 @@
   "enterTitleHere" : "Escreva o título aqui...",
   "startDate" : "Início",
   "endDate" : "Fim",
-  "noDateSelected" : "Não selecionado",
+  "noDateSelected" : "Sem data",
   "transportationMethodHeader" : "Método de Transporte",
   "requestedExperiencesHeader" : "Experiências Solicitadas",
   "participantList" : "Lista de Participantes",

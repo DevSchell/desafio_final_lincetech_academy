@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:desafio_final_lincetech_academy/presentation/providers/bottom_sheet_state.dart';
 import 'package:desafio_final_lincetech_academy/presentation/providers/participant_state.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -60,39 +59,39 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
                           children: [
                             const Text("Choose picture from..."),
                             const SizedBox(height: 15),
-                            Row(
-                              spacing: 30,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                CustomActionButton(
-                                  text: "Choose from camera",
-                                  onPressed: () async {
-                                    final picker = ImagePickerUseCase();
-                                    final newImage = await picker
-                                        .pickFromCamera();
-                                    if (newImage != null) {
-                                      setState(() {
-                                        selectedImage = newImage;
-                                      });
-                                    }
-                                    Navigator.pop(context);
-                                  },
-                                ),
-                                CustomActionButton(
-                                  text: "Choose from gallery",
-                                  onPressed: () async {
-                                    final picker = ImagePickerUseCase();
-                                    final newImage = await picker
-                                        .pickFromGallery();
-                                    if (newImage != null) {
-                                      setState(() {
-                                        selectedImage = newImage;
-                                      });
-                                    }
-                                    Navigator.pop(context);
-                                  },
-                                ),
-                              ],
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: CustomActionButton(
+                                text: "Choose from camera",
+                                onPressed: () async {
+                                  final picker = ImagePickerUseCase();
+                                  final newImage = await picker
+                                      .pickFromCamera();
+                                  if (newImage != null) {
+                                    setState(() {
+                                      selectedImage = newImage;
+                                    });
+                                  }
+                                  Navigator.pop(context);
+                                },
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: CustomActionButton(
+                                text: "Choose from gallery",
+                                onPressed: () async {
+                                  final picker = ImagePickerUseCase();
+                                  final newImage = await picker
+                                      .pickFromGallery();
+                                  if (newImage != null) {
+                                    setState(() {
+                                      selectedImage = newImage;
+                                    });
+                                  }
+                                  Navigator.pop(context);
+                                },
+                              ),
                             ),
                           ],
                         ),
@@ -109,6 +108,7 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
               ),
               CustomHeader(text: "Name"),
               TextFormField(
+                keyboardType: TextInputType.text,
                 controller: nameController,
                 decoration: InputDecoration(labelText: "Enter name here..."),
               ),
@@ -116,6 +116,7 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
 
               CustomHeader(text: "Age"),
               TextFormField(
+                keyboardType: TextInputType.number,
                 controller: ageController,
                 decoration: InputDecoration(labelText: "Enter age here..."),
               ),
@@ -132,7 +133,7 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
                     name: nameController.text,
                     age: int.parse(ageController.text),
                     favoriteTransp: selectedTransport,
-                    photoPath: "",
+                    photoPath: selectedImage!.path ?? "",
                   );
                   Provider.of<ParticipantProvider>(
                     context,

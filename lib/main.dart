@@ -1,12 +1,12 @@
 import 'package:desafio_final_lincetech_academy/presentation/providers/participant_state.dart';
 import 'package:desafio_final_lincetech_academy/presentation/providers/settings_state.dart';
+import 'package:desafio_final_lincetech_academy/presentation/providers/stopover_state.dart';
 import 'package:flutter/material.dart';
 import 'presentation/pages/home.dart';
 import 'presentation/pages/settings.dart';
 import 'presentation/pages/createTrip.dart';
 import 'package:provider/provider.dart';
 import 'package:desafio_final_lincetech_academy/l10n/app_localizations.dart';
-import 'package:intl/intl.dart';
 
 void main() {
   runApp(
@@ -14,6 +14,7 @@ void main() {
       providers: [
         ChangeNotifierProvider(create: (_) => ParticipantProvider()),
         ChangeNotifierProvider(create: (_) => SettingsProvider()),
+        ChangeNotifierProvider(create: (_) => StopoverProvider()),
       ],
       child: MyApp(),
     ),
