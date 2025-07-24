@@ -25,7 +25,7 @@ class Home extends StatelessWidget {
           "WanderPlan",
           style: TextStyle(
             color: Colors.white,
-            fontSize: 40,
+            fontSize: 30,
           ),
         ),
         actions: [

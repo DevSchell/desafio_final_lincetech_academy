@@ -1,6 +1,8 @@
 import 'dart:io';
 import 'package:desafio_final_lincetech_academy/l10n/app_localizations.dart';
-import 'package:desafio_final_lincetech_academy/presentation/pages/widgets/custom_bottom_sheet.dart';
+import 'package:desafio_final_lincetech_academy/presentation/pages/widgets/custom_add_button.dart';
+import 'package:desafio_final_lincetech_academy/presentation/pages/widgets/custom_bottom_sheet_add_participant.dart';
+import 'package:desafio_final_lincetech_academy/presentation/pages/widgets/custom_botton_sheet_add_stopover.dart';
 import 'package:desafio_final_lincetech_academy/presentation/providers/participant_state.dart';
 import 'package:desafio_final_lincetech_academy/presentation/providers/settings_state.dart';
 import 'package:desafio_final_lincetech_academy/presentation/providers/stopover_state.dart';
@@ -111,7 +113,7 @@ class CreateTrip extends StatelessWidget {
                                       Text(
                                         "Transport: ${participant.favoriteTransp.name}",
                                       ),
-                                      SizedBox(height: 30),
+                                      SizedBox(height: 10),
                                     ],
                                   ),
                                 ),
@@ -127,37 +129,20 @@ class CreateTrip extends StatelessWidget {
                             );
                           },
                         ),
-                  FilledButton(
+                  CustomAddButton(
                     onPressed: () {
                       showModalBottomSheet(
                         isScrollControlled: true,
                         elevation: 700.098,
                         context: context,
                         builder: (BuildContext context) {
-                          return CustomBottomSheet();
+                          return CustomBottomSheetAddParticipant();
                         },
                       );
                     },
-                    style: FilledButton.styleFrom(
-                      backgroundColor:
-                          Provider.of<SettingsProvider>(context).isDarkMode
-                          ? Color.fromRGBO(255, 119, 74, 1)
-                          : Color.fromRGBO(255, 166, 0, 1),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 24,
-                        vertical: 12,
-                      ),
-                    ),
-                    child: Text(
-                      AppLocalizations.of(context)!.addParticipantButton,
-                      style: TextStyle(color: Colors.white),
-                    ),
                   ),
                   SizedBox(height: 30),
-                  CustomHeader(text: "Stopovers"),
+                  CustomHeader(text: "Stopover List"),
                   SizedBox(height: 20),
                   Consumer<StopoverProvider>(
                     builder: (context, stopoverState, child) =>
@@ -214,35 +199,18 @@ class CreateTrip extends StatelessWidget {
                             },
                           ),
                   ),
-                  SizedBox(height: 30),
-                  FilledButton(
+                  SizedBox(height: 10),
+                  CustomAddButton(
                     onPressed: () {
                       showModalBottomSheet(
                         isScrollControlled: true,
                         elevation: 700.098,
                         context: context,
                         builder: (BuildContext context) {
-                          return CustomBottomSheet(); //Só pra buildar, mas aqui tem que rodar outro bottomSheet
+                          return CustomBottomSheetAddStopover();
                         },
                       );
                     },
-                    style: FilledButton.styleFrom(
-                      backgroundColor:
-                          Provider.of<SettingsProvider>(context).isDarkMode
-                          ? Color.fromRGBO(255, 119, 74, 1)
-                          : Color.fromRGBO(255, 166, 0, 1),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 24,
-                        vertical: 12,
-                      ),
-                    ),
-                    child: Text(
-                      AppLocalizations.of(context)!.addParticipantButton,
-                      style: TextStyle(color: Colors.white),
-                    ),
                   ),
                 ],
               ),

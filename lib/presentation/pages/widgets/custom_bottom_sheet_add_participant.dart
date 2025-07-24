@@ -13,14 +13,14 @@ import 'custom_header.dart';
 import 'custom_transport_method.dart';
 import 'package:provider/provider.dart';
 
-class CustomBottomSheet extends StatefulWidget {
-  const CustomBottomSheet({super.key});
+class CustomBottomSheetAddParticipant extends StatefulWidget {
+  const CustomBottomSheetAddParticipant({super.key});
 
   @override
-  State<CustomBottomSheet> createState() => _CustomBottomSheetState();
+  State<CustomBottomSheetAddParticipant> createState() => _CustomBottomSheetState();
 }
 
-class _CustomBottomSheetState extends State<CustomBottomSheet> {
+class _CustomBottomSheetState extends State<CustomBottomSheetAddParticipant> {
   TextEditingController nameController = TextEditingController();
 
   TextEditingController ageController = TextEditingController();
