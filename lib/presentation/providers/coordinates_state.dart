@@ -8,6 +8,11 @@ class CoordinatesProvider with ChangeNotifier {
   double? longitude;
   String? errorMessage;
 
+  //TODO: Does it work?
+  CoordinatesProvider() {
+    getPosition();
+  }
+
   getPosition() async {
     try{
       Position position = await _currentPosition();
@@ -16,6 +21,7 @@ class CoordinatesProvider with ChangeNotifier {
     } catch (e) {
       errorMessage = e.toString();
     }
+    notifyListeners();
   }
 
   //Method to get the current position of the device

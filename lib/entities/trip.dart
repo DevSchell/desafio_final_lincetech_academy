@@ -1,6 +1,12 @@
 import 'package:desafio_final_lincetech_academy/entities/participant.dart';
 import 'package:desafio_final_lincetech_academy/entities/stopover.dart';
 
+/*
+ This is one of the main classes from the application, because the "Trip class
+ contains every type of info, for example participant list, stopover list, travel dates and etc."
+ It'll be from here where we'll take the data to create the PDF in the future
+ */
+
 class Trip {
   int tripId;
   String tripTitle;

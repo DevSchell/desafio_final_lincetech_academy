@@ -1,6 +1,7 @@
 
 import 'package:desafio_final_lincetech_academy/entities/enum_transpMethod.dart';
 
+//This class represents a trip participant
 class Participant {
   final String name;
   final int age;

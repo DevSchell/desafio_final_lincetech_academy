@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+/* This appbar follows the pattern and the color scheme*/
 class CustomAppbar extends StatelessWidget implements PreferredSizeWidget{
   final String title;
 

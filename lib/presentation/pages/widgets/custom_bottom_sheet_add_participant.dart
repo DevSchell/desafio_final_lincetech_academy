@@ -13,21 +13,21 @@ import 'custom_header.dart';
 import 'custom_transport_method.dart';
 import 'package:provider/provider.dart';
 
+// This bottomSheet is about adding a new participant to the "participantList" in the object "Trip"
 class CustomBottomSheetAddParticipant extends StatefulWidget {
   const CustomBottomSheetAddParticipant({super.key});
 
   @override
-  State<CustomBottomSheetAddParticipant> createState() => _CustomBottomSheetState();
+  State<CustomBottomSheetAddParticipant> createState() =>
+      _CustomBottomSheetState();
 }
 
 class _CustomBottomSheetState extends State<CustomBottomSheetAddParticipant> {
+  //Those are the variables we are using to temporarily keep data
   TextEditingController nameController = TextEditingController();
-
   TextEditingController ageController = TextEditingController();
-
   EnumTransportationMethod selectedTransport =
       EnumTransportationMethod.airplane;
-
   XFile? selectedImage;
 
   @override
@@ -43,11 +43,13 @@ class _CustomBottomSheetState extends State<CustomBottomSheetAddParticipant> {
               Center(
                 child: CustomHeader(
                   text: AppLocalizations.of(context)!.addParticipantButton,
+                  //TODO: gotta change the intl later
                   size: 20,
                 ),
               ),
               InkWell(
                 onTap: () {
+                  // Here the user chooses between picking a photo com gallery or camera
                   showDialog(
                     context: context,
                     builder: (BuildContext context) => Dialog(
@@ -64,10 +66,13 @@ class _CustomBottomSheetState extends State<CustomBottomSheetAddParticipant> {
                               child: CustomActionButton(
                                 text: "Choose from camera",
                                 onPressed: () async {
+                                  //Creating an instance of our use case "image_picker_use_case"
                                   final picker = ImagePickerUseCase();
                                   final newImage = await picker
                                       .pickFromCamera();
+                                  //If the newImage was selected and isn't null, change the photo
                                   if (newImage != null) {
+                                    //Updating the state
                                     setState(() {
                                       selectedImage = newImage;
                                     });
@@ -81,10 +86,13 @@ class _CustomBottomSheetState extends State<CustomBottomSheetAddParticipant> {
                               child: CustomActionButton(
                                 text: "Choose from gallery",
                                 onPressed: () async {
+                                  //Creating an instance of our use case "image_picker_use_case"
                                   final picker = ImagePickerUseCase();
                                   final newImage = await picker
                                       .pickFromGallery();
+                                  //If the newImage was selected and isn't null, change the photo
                                   if (newImage != null) {
+                                    //Updating the state
                                     setState(() {
                                       selectedImage = newImage;
                                     });
@@ -129,6 +137,7 @@ class _CustomBottomSheetState extends State<CustomBottomSheetAddParticipant> {
               CustomActionButton(
                 text: "Add",
                 onPressed: () {
+                  //On pressing this button, we create a new object "Participant" and add them into our participantList
                   Participant p = Participant(
                     name: nameController.text,
                     age: int.parse(ageController.text),

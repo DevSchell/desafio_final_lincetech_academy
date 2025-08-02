@@ -3,6 +3,8 @@ import 'package:provider/provider.dart';
 
 import '../../providers/settings_state.dart';
 
+/* This custom widget relies on the idea of using a custom button which will
+* follow the selected theme and is inside the design pattern*/
 class CustomActionButton extends StatelessWidget {
   final String text;
   final VoidCallback onPressed;

@@ -1,6 +1,7 @@
 import 'package:desafio_final_lincetech_academy/entities/coordinate.dart';
 import 'package:desafio_final_lincetech_academy/entities/review.dart';
 
+// A trip can have a lot of stopovers, so this class represents those stopovers
 class Stopover {
   String cityName;
   Coordinate coordinates;
@@ -16,5 +17,5 @@ class Stopover {
     required this.departureDate,
     required this.actvDescription,
     required this.reviewList,
-});
+  });
 }

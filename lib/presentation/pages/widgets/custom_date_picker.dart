@@ -11,6 +11,9 @@ class CustomDatePicker extends StatefulWidget {
   State<CustomDatePicker> createState() => _CustomDatePickerState();
 }
 
+/*
+ This class is reusable for everytime you need to use the structure of an Arrival Date and a Departure Date
+ */
 class _CustomDatePickerState extends State<CustomDatePicker> {
   DateTime? selectedStartDate;
   DateTime? selectedEndDate;

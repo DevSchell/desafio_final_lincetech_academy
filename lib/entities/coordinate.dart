@@ -1,10 +1,6 @@
-
 class Coordinate {
   double latidude;
   double longitude;
 
-  Coordinate({
-    required this.latidude,
-    required this.longitude,
-});
+  Coordinate({required this.latidude, required this.longitude});
 }
