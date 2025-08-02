@@ -6,12 +6,13 @@ import 'package:provider/provider.dart';
 * was way too  "eye-catching" and maybe making users believe that specific button was the end of the bottomSheet*/
 class CustomAddButton extends StatelessWidget {
   final VoidCallback onPressed;
-
-  const CustomAddButton({super.key, required this.onPressed});
+final String heroTag;
+  const CustomAddButton({super.key, required this.onPressed, required this.heroTag});
 
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton(
+      heroTag: heroTag,
       onPressed: onPressed,
       shape: CircleBorder(),
       backgroundColor:

@@ -130,6 +130,7 @@ class CreateTrip extends StatelessWidget {
                           },
                         ),
                   CustomAddButton(
+                    heroTag: 'addParticipant',
                     onPressed: () {
                       showModalBottomSheet(
                         isScrollControlled: true,
@@ -201,6 +202,7 @@ class CreateTrip extends StatelessWidget {
                   ),
                   SizedBox(height: 10),
                   CustomAddButton(
+                    heroTag: 'addStopover',
                     onPressed: () {
                       showModalBottomSheet(
                         isScrollControlled: true,

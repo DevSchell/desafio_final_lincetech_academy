@@ -3,6 +3,7 @@
 
 class Place {
   final String cityName;
+  final String cityState;
   final String cityCountry;
   final double latitude;
   final double longitude;
@@ -10,6 +11,7 @@ class Place {
   Place({
     required this.cityName,
     required this.cityCountry,
+    required this.cityState,
     required this.latitude,
     required this.longitude,
   });
@@ -17,8 +19,9 @@ class Place {
   factory Place.fromJson(Map<String, dynamic> json) {
     try {
       return Place(
-        cityName: json['address']['city'],
-        cityCountry: json['address']['country'],
+        cityName: json['name'] ?? 'not found',
+        cityState: json['address']['state'] ?? 'not found',
+        cityCountry: json["address"]["country"] ?? 'not found',
         latitude: double.tryParse(json['lat']) ?? 0.0,
         longitude: double.tryParse(json['lon']) ?? 0.0,
       );

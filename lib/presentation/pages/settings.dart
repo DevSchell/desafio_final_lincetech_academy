@@ -12,10 +12,7 @@ class Settings extends StatefulWidget {
 }
 
 List<String> languageOptions = ["en", "pt", "es"]; //Test RadioButton
-List<String> themeOptions = [
-  "Light Theme",
-  "Dark Theme",
-]; //TODO: Preciso mexer com intL aq tbm...
+List<String> themeOptions = ["Light Theme", "Dark Theme"];
 
 class _SettingsState extends State<Settings> {
   String currentOption = languageOptions[0]; //Test RadioButton
@@ -163,13 +160,23 @@ class _SettingsState extends State<Settings> {
             CustomHeader(text: "Theme"),
             ListTile(
               title: Text(
-                "Light Theme",
+                AppLocalizations.of(context)!.lightTheme,
                 style: TextStyle(
                   fontSize: 20,
                   color: Color.fromRGBO(107, 114, 128, 1),
                   fontWeight: FontWeight.bold,
                 ),
               ),
+              onTap: () {
+                final settingsState = Provider.of<SettingsProvider>(
+                  context,
+                  listen: false,
+                );
+                setState(() {
+                  currentTheme = themeOptions[0];
+                  settingsState.toggleTheme(false);
+                });
+              },
               leading: Radio(
                 value: themeOptions[0],
                 activeColor: Provider.of<SettingsProvider>(context).isDarkMode
@@ -190,13 +197,23 @@ class _SettingsState extends State<Settings> {
             ),
             ListTile(
               title: Text(
-                "Dark Theme",
+                AppLocalizations.of(context)!.darkTheme,
                 style: TextStyle(
                   fontSize: 20,
                   color: Color.fromRGBO(107, 114, 128, 1),
                   fontWeight: FontWeight.bold,
                 ),
               ),
+              onTap: () {
+                final settingsState = Provider.of<SettingsProvider>(
+                  context,
+                  listen: false,
+                );
+                setState(() {
+                  currentTheme = themeOptions[1];
+                  settingsState.toggleTheme(true);
+                });
+              },
               leading: Radio(
                 value: themeOptions[1],
                 activeColor: Provider.of<SettingsProvider>(context).isDarkMode
