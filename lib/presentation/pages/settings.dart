@@ -157,7 +157,7 @@ class _SettingsState extends State<Settings> {
               ],
             ),
             SizedBox(height: 50),
-            CustomHeader(text: "Theme"),
+            CustomHeader(text: AppLocalizations.of(context)!.themeHeader),
             ListTile(
               title: Text(
                 AppLocalizations.of(context)!.lightTheme,

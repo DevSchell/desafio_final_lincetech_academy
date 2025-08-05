@@ -1,7 +1,6 @@
 import 'package:desafio_final_lincetech_academy/entities/coordinate.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:google_maps/google_maps.dart';
 
 class CoordinatesProvider with ChangeNotifier {
   double? latitude;

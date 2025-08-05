@@ -5,7 +5,6 @@ import 'package:desafio_final_lincetech_academy/presentation/providers/coordinat
 import 'package:desafio_final_lincetech_academy/use_cases/geolocation/nominatim_service.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../../entities/stopoverPlace.dart';
 
@@ -32,15 +31,6 @@ class _CustomBottomSheetAddStopoverState
   double defaultLon = 0;
 
   CoordinatesProvider coordState = CoordinatesProvider();
-
-  @override
-  void initState() async {
-    super.initState();
-    //TODO: Delete later, I can create a use_case based on this...
-    Position coordHolder = await coordState.getPosition();
-    defaultLat = coordHolder.latitude;
-    defaultLon = coordHolder.longitude;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -123,18 +113,6 @@ class _CustomBottomSheetAddStopoverState
 
                 CustomExperienceList(),
                 SizedBox(height: 30),
-
-                SizedBox(
-                  height: 200,
-                  width: 200,
-                  child: GoogleMap(
-                    myLocationButtonEnabled: false,
-                    initialCameraPosition: CameraPosition(
-                      target: LatLng(defaultLat, defaultLon),
-                      zoom: 10,
-                    ),
-                  ),
-                ),
               ],
             ),
           ),
