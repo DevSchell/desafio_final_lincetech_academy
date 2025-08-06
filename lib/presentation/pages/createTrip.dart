@@ -144,7 +144,6 @@ class CreateTrip extends StatelessWidget {
                   ),
                   SizedBox(height: 30),
                   CustomHeader(text: "Stopover List"),
-                  SizedBox(height: 20),
                   Consumer<StopoverProvider>(
                     builder: (context, stopoverState, child) =>
                         stopoverState.stopoverList.isEmpty
@@ -155,33 +154,34 @@ class CreateTrip extends StatelessWidget {
                             ),
                           )
                         : ListView.builder(
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
                             itemCount: stopoverState.stopoverList.length,
                             itemBuilder: (context, index) {
                               final stopover =
                                   stopoverState.stopoverList[index];
                               return Row(
                                 children: [
-                                  Expanded(
-                                    child: Center(
-                                      child: Container(color: Colors.blue),
-                                    ),
+                                  Container(
+                                    color: Colors.blue,
+                                    height: 50,
+                                    width: 50,
                                   ),
-                                  Expanded(
-                                    child: Column(
-                                      children: [
-                                        Text(stopover.cityName),
-                                        Row(
-                                          children: [
-                                            Text(
-                                              stopover.arrivalDate.toString(),
-                                            ),
-                                            Text(
-                                              stopover.departureDate.toString(),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
+                                  Column(
+                                    children: [
+                                      Text(stopover.cityName),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            "${stopover.arrivalDate.day}/${stopover.arrivalDate.month}"
+                                          ),
+                                          Icon(Icons.arrow_right_alt),
+                                          Text(
+                                            "${stopover.departureDate.day}/${stopover.departureDate.month}",
+                                          ),
+                                        ],
+                                      ),
+                                    ],
                                   ),
                                   Column(
                                     children: [
@@ -190,7 +190,9 @@ class CreateTrip extends StatelessWidget {
                                         icon: Icon(Icons.edit),
                                       ),
                                       IconButton(
-                                        onPressed: () {},
+                                        onPressed: () {
+                                          stopoverState.deleteStopover(stopover);
+                                        },
                                         icon: Icon(Icons.delete),
                                       ),
                                     ],

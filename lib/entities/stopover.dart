@@ -7,15 +7,13 @@ class Stopover {
   Coordinate coordinates;
   DateTime arrivalDate;
   DateTime departureDate;
-  List<String> actvDescription;
-  List<Review>? reviewList;
+  List<String>? actvDescription; //Not required anymore for testing purposes
+  List<Review>? reviewList; // Isn't required anymore because I need to create the Stopover and then afterwards the user will add reviews to it
 
   Stopover({
     required this.cityName,
     required this.coordinates,
     required this.arrivalDate,
     required this.departureDate,
-    required this.actvDescription,
-    required this.reviewList,
   });
 }

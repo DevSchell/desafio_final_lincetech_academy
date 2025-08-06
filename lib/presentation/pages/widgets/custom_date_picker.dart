@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:desafio_final_lincetech_academy/l10n/app_localizations.dart';
 import 'package:desafio_final_lincetech_academy/presentation/providers/settings_state.dart';
 import 'package:flutter/material.dart';
@@ -5,7 +7,14 @@ import 'all_widgets.dart';
 import 'package:provider/provider.dart';
 
 class CustomDatePicker extends StatefulWidget {
-  const CustomDatePicker({super.key});
+  final Function(DateTime)? onStartDateChanged;
+  final Function(DateTime)? onEndDateChanged;
+
+  const CustomDatePicker({
+    super.key,
+    this.onStartDateChanged,
+    this.onEndDateChanged,
+  });
 
   @override
   State<CustomDatePicker> createState() => _CustomDatePickerState();
@@ -54,6 +63,12 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
     setState(() {
       selectedStartDate = pickedDate;
     });
+
+    //TODO: Explain this...
+    if(pickedDate != null && widget.onStartDateChanged != null) {
+      widget.onStartDateChanged!(pickedDate);
+    }
+
   }
 
   Future<void> _selectedEndDate() async {
@@ -85,6 +100,11 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
     setState(() {
       selectedEndDate = pickedDate;
     });
+
+    //TODO: Explain this...
+    if(pickedDate != null && widget.onEndDateChanged != null) {
+      widget.onEndDateChanged!(pickedDate);
+    }
   }
 
   @override

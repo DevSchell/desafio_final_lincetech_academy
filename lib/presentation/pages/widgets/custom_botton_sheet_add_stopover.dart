@@ -1,10 +1,15 @@
 import 'dart:async';
 
+import 'package:desafio_final_lincetech_academy/entities/coordinate.dart';
+import 'package:desafio_final_lincetech_academy/entities/stopover.dart';
 import 'package:desafio_final_lincetech_academy/presentation/pages/widgets/all_widgets.dart';
+import 'package:desafio_final_lincetech_academy/presentation/pages/widgets/custom_action_button.dart';
 import 'package:desafio_final_lincetech_academy/presentation/providers/coordinates_state.dart';
+import 'package:desafio_final_lincetech_academy/presentation/providers/stopover_state.dart';
 import 'package:desafio_final_lincetech_academy/use_cases/geolocation/nominatim_service.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:provider/provider.dart';
 
 import '../../../entities/stopoverPlace.dart';
 
@@ -29,6 +34,9 @@ class _CustomBottomSheetAddStopoverState
   late Place globalFoundPlace;
   double defaultLat = 0;
   double defaultLon = 0;
+
+  DateTime? _startDate;
+  DateTime? _endDate;
 
   CoordinatesProvider coordState = CoordinatesProvider();
 
@@ -108,11 +116,49 @@ class _CustomBottomSheetAddStopoverState
                         ),
                 ),
 
-                CustomDatePicker(),
+                CustomDatePicker(
+                  onStartDateChanged: (date) {
+                    setState(() {
+                      _startDate = date;
+                    });
+                  },
+                  onEndDateChanged: (date) {
+                    setState(() {
+                      _endDate = date;
+                    });
+                  },
+                ),
                 SizedBox(height: 30),
 
                 CustomExperienceList(),
                 SizedBox(height: 30),
+
+                CustomActionButton(
+                  text: "Add Stopover",
+                  onPressed: () {
+                    final selectedStopoverCoordinates = Coordinate(
+                      latidude: globalFoundPlace.latitude,
+                      longitude: globalFoundPlace.longitude,
+                    );
+                    final selectedStopover = Stopover(
+                      cityName: globalFoundPlace.cityName,
+                      coordinates: selectedStopoverCoordinates,
+                      // "!" because if they're here in the code, this won't be null
+                      arrivalDate: _startDate!,
+                      departureDate: _endDate!,
+                    );
+                    Provider.of<StopoverProvider>(
+                      context,
+                      listen: false,
+                    ).addStopover(selectedStopover);
+                    print("ççççççççççç");
+                    print(
+                      "${selectedStopover.cityName} foi adicionado na playlist",
+                    );
+                    print(StopoverProvider().stopoverList.length);
+                    Navigator.pop(context);
+                  },
+                ),
               ],
             ),
           ),
