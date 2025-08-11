@@ -2,14 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:desafio_final_lincetech_academy/entities/enum_transpMethod.dart';
 
 class CustomTranportMethod extends StatefulWidget {
-  const CustomTranportMethod({super.key});
+  final ValueChanged<EnumTransportationMethod> onChanged;
+
+  const CustomTranportMethod({super.key, required this.onChanged});
 
   @override
   State<CustomTranportMethod> createState() => _CustomTranportMethodState();
 }
 
 class _CustomTranportMethodState extends State<CustomTranportMethod> {
-  EnumTransportationMethod value = EnumTransportationMethod.airplane;
+  EnumTransportationMethod value = EnumTransportationMethod.airplane; //TODO: ?
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +30,7 @@ class _CustomTranportMethodState extends State<CustomTranportMethod> {
         }
         setState(() {
           this.value = value;
+          widget.onChanged(value);
         });
       },
       style: TextStyle(

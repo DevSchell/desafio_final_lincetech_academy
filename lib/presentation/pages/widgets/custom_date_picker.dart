@@ -21,7 +21,7 @@ class CustomDatePicker extends StatefulWidget {
 }
 
 /*
- This class is reusable for everytime you need to use the structure of an Arrival Date and a Departure Date
+ Reusable for everytime you need to use the structure of DateTime
  */
 class _CustomDatePickerState extends State<CustomDatePicker> {
   DateTime? selectedStartDate;
@@ -33,11 +33,11 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
       listen: false,
     ).isDarkMode;
 
-    final DateTime? pickedDate = await showDatePicker(
+    final pickedDate = await showDatePicker(
       context: context,
       firstDate: DateTime.now(),
       lastDate: DateTime(9998),
-      builder: (BuildContext context, Widget? child) {
+      builder: (context, child) {
         return Theme(
           data: Theme.of(context).copyWith(
             colorScheme: isDarkMode
@@ -72,11 +72,11 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
   }
 
   Future<void> _selectedEndDate() async {
-    final DateTime? pickedDate = await showDatePicker(
+    final pickedDate = await showDatePicker(
       context: context,
       firstDate: DateTime.now(),
       lastDate: DateTime(9998),
-      builder: (BuildContext context, Widget? child) {
+      builder: (context, child) {
         return Theme(
           data: Theme.of(context).copyWith(
             colorScheme: Provider.of<SettingsProvider>(context).isDarkMode

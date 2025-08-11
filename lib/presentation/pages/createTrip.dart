@@ -9,7 +9,10 @@ import 'package:desafio_final_lincetech_academy/presentation/providers/settings_
 import 'package:desafio_final_lincetech_academy/presentation/providers/stopover_state.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../entities/enum_experiencesList.dart';
+import '../../entities/enum_transpMethod.dart';
 import '../../entities/trip.dart';
+import '../providers/trip_state.dart';
 import 'widgets/all_widgets.dart';
 
 class CreateTrip extends StatefulWidget {
@@ -22,6 +25,16 @@ class CreateTrip extends StatefulWidget {
 class _CreateTripState extends State<CreateTrip> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _tripTitleController = TextEditingController();
+  DateTime? _tripStartDate;
+  DateTime? _tripEndDate;
+  List<EnumExperiencesList> _selectedTripExperiences = [];
+  late EnumTransportationMethod _selectedTransportationMethod;
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedTransportationMethod = EnumTransportationMethod.airplane;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +77,16 @@ class _CreateTripState extends State<CreateTrip> {
                   ),
                   SizedBox(height: 20),
 
-                  CustomDatePicker(),
+                  CustomDatePicker(
+                    onStartDateChanged: (date) {
+                      setState(() {
+                        _tripStartDate = date;
+                      });
+                    },
+                    onEndDateChanged: (date) {
+                      _tripEndDate = date;
+                    },
+                  ),
                   SizedBox(height: 20),
 
                   CustomHeader(
@@ -72,7 +94,13 @@ class _CreateTripState extends State<CreateTrip> {
                       context,
                     )!.transportationMethodHeader,
                   ),
-                  CustomTranportMethod(),
+                  CustomTranportMethod(
+                    onChanged: (method) {
+                      setState(() {
+                        _selectedTransportationMethod = method;
+                      });
+                    },
+                  ),
 
                   SizedBox(height: 20),
 
@@ -81,7 +109,13 @@ class _CreateTripState extends State<CreateTrip> {
                       context,
                     )!.requestedExperiencesHeader,
                   ),
-                  CustomExperienceList(),
+                  CustomExperienceList(
+                    onChanged: (experiences) {
+                      setState(() {
+                        _selectedTripExperiences = experiences;
+                      });
+                    },
+                  ),
 
                   SizedBox(height: 20),
 
@@ -126,10 +160,10 @@ class _CreateTripState extends State<CreateTrip> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.stretch,
                                     children: [
-                                      Text("Name: ${participant.name}"),
-                                      Text("Age: ${participant.age}"),
+                                      Text('Name: ${participant.name}'),
+                                      Text('Age: ${participant.age}'),
                                       Text(
-                                        "Transport: ${participant.favoriteTransp.name}",
+                                        'Transport: ${participant.favoriteTransp.name}',
                                       ),
                                       SizedBox(height: 10),
                                     ],
@@ -161,14 +195,14 @@ class _CreateTripState extends State<CreateTrip> {
                     },
                   ),
                   SizedBox(height: 30),
-                  CustomHeader(text: "Stopover List"),
+                  CustomHeader(text: 'Stopover List'),
                   Consumer<StopoverProvider>(
                     builder: (context, stopoverState, child) =>
                         stopoverState.stopoverList.isEmpty
                         ? Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Center(
-                              child: Text("No stopovers added yet"),
+                              child: Text('No stopovers added yet'),
                             ),
                           )
                         : ListView.builder(
@@ -180,10 +214,10 @@ class _CreateTripState extends State<CreateTrip> {
                                   stopoverState.stopoverList[index];
                               return Row(
                                 children: [
-                                  //TODO: Pls remove this image afterwards. This is just a test
+                                  //TODO: Pls remove this image afterwards.
                                   ClipRRect(
                                     child: Image.network(
-                                      "https://www.gaspar.sc.gov.br/uploads/sites/421/2022/05/3229516.jpg",
+                                      'https://www.gaspar.sc.gov.br/uploads/sites/421/2022/05/3229516.jpg',
                                       height: 100,
                                       width: 100,
                                       fit: BoxFit.cover,
@@ -225,7 +259,7 @@ class _CreateTripState extends State<CreateTrip> {
                                         Row(
                                           children: [
                                             Text(
-                                              "${stopover.arrivalDate.day}/${stopover.arrivalDate.month}",
+                                              '${stopover.arrivalDate.day}/${stopover.arrivalDate.month}',
                                               style: TextStyle(
                                                 color: Color.fromRGBO(
                                                   107,
@@ -248,7 +282,7 @@ class _CreateTripState extends State<CreateTrip> {
                                             ),
                                             SizedBox(width: 4),
                                             Text(
-                                              "${stopover.departureDate.day}/${stopover.departureDate.month}",
+                                              '${stopover.departureDate.day}/${stopover.departureDate.month}',
                                               style: TextStyle(
                                                 color: Color.fromRGBO(
                                                   107,
@@ -287,7 +321,7 @@ class _CreateTripState extends State<CreateTrip> {
                                           ).showSnackBar(
                                             SnackBar(
                                               content: Text(
-                                                "Stopover deleted sucessfully",
+                                                'Stopover deleted successfully',
                                               ),
                                               duration: Duration(seconds: 2),
                                             ),
@@ -318,7 +352,7 @@ class _CreateTripState extends State<CreateTrip> {
                         isScrollControlled: true,
                         elevation: 700.098,
                         context: context,
-                        builder: (BuildContext context) {
+                        builder: (context) {
                           return CustomBottomSheetAddStopover();
                         },
                       );
@@ -326,14 +360,35 @@ class _CreateTripState extends State<CreateTrip> {
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: CustomActionButton(
-                      text: 'Create trip',
-                      onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-                          print("çÇÇÇÇÇÇÇÇÇÇÇÇÇ");
-                        }
-                      },
-                    ),
+                    child:
+                        Provider.of<StopoverProvider>(
+                          context,
+                        ).stopoverList.isEmpty
+                        ? SizedBox(height: 20)
+                        : CustomActionButton(
+                            text: 'Create trip',
+                            onPressed: () {
+                              if (_formKey.currentState!.validate()) {
+                                final trip = Trip(
+                                  tripTitle: _tripTitleController.text,
+                                  participantList:
+                                      Provider.of<ParticipantProvider>(
+                                        context,
+                                      ).participantList,
+                                  experienceList: _selectedTripExperiences,
+                                  startDate: _tripStartDate!,
+                                  endDate: _tripEndDate!,
+                                  stopoverList: Provider.of<StopoverProvider>(
+                                    context,
+                                  ).stopoverList,
+                                  transportationMethod:
+                                      _selectedTransportationMethod,
+                                );
+
+                                print('CÇÇÇÇÇÇÇÇÇÇÇÇÇ');
+                              }
+                            },
+                          ),
                   ),
                 ],
               ),

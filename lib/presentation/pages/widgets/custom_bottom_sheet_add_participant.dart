@@ -13,7 +13,6 @@ import 'custom_header.dart';
 import 'custom_transport_method.dart';
 import 'package:provider/provider.dart';
 
-// This bottomSheet is about adding a new participant to the "participantList" in the object "Trip"
 class CustomBottomSheetAddParticipant extends StatefulWidget {
   const CustomBottomSheetAddParticipant({super.key});
 
@@ -29,6 +28,13 @@ class _CustomBottomSheetState extends State<CustomBottomSheetAddParticipant> {
   EnumTransportationMethod selectedTransport =
       EnumTransportationMethod.airplane;
   XFile? selectedImage;
+  late EnumTransportationMethod _selectedTransportationMethod;
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedTransportationMethod = EnumTransportationMethod.airplane;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +55,6 @@ class _CustomBottomSheetState extends State<CustomBottomSheetAddParticipant> {
               ),
               InkWell(
                 onTap: () {
-                  // Here the user chooses between picking a photo com gallery or camera
                   showDialog(
                     context: context,
                     builder: (BuildContext context) => Dialog(
@@ -59,12 +64,12 @@ class _CustomBottomSheetState extends State<CustomBottomSheetAddParticipant> {
                           mainAxisSize: MainAxisSize.min,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            const Text("Choose picture from..."),
+                            const Text('Choose picture from...'),
                             const SizedBox(height: 15),
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: CustomActionButton(
-                                text: "Choose from camera",
+                                text: 'Choose from camera',
                                 onPressed: () async {
                                   //Creating an instance of our use case "image_picker_use_case"
                                   final picker = ImagePickerUseCase();
@@ -84,7 +89,7 @@ class _CustomBottomSheetState extends State<CustomBottomSheetAddParticipant> {
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: CustomActionButton(
-                                text: "Choose from gallery",
+                                text: 'Choose from gallery',
                                 onPressed: () async {
                                   //Creating an instance of our use case "image_picker_use_case"
                                   final picker = ImagePickerUseCase();
@@ -110,44 +115,48 @@ class _CustomBottomSheetState extends State<CustomBottomSheetAddParticipant> {
                 child: CircleAvatar(
                   radius: 100,
                   backgroundImage: selectedImage == null
-                      ? AssetImage("assets/images/pfp_placeholder.png")
+                      ? AssetImage('assets/images/pfp_placeholder.png')
                       : FileImage(File(selectedImage!.path)) as ImageProvider,
                 ),
               ),
-              CustomHeader(text: "Name"),
+              CustomHeader(text: 'Name'),
               TextFormField(
                 keyboardType: TextInputType.text,
                 controller: nameController,
-                decoration: InputDecoration(labelText: "Enter name here..."),
+                decoration: InputDecoration(labelText: 'Enter name here...'),
               ),
               SizedBox(height: 30),
 
-              CustomHeader(text: "Age"),
+              CustomHeader(text: 'Age'),
               TextFormField(
                 keyboardType: TextInputType.number,
                 controller: ageController,
-                decoration: InputDecoration(labelText: "Enter age here..."),
+                decoration: InputDecoration(labelText: 'Enter age here...'),
               ),
               SizedBox(height: 30),
 
-              CustomHeader(text: "Favorite Transport"),
-              CustomTranportMethod(),
+              CustomHeader(text: 'Favorite Transport'),
+              CustomTranportMethod(
+                onChanged: (method) {
+                  _selectedTransportationMethod = method;
+                },
+              ),
               SizedBox(height: 50),
 
               CustomActionButton(
-                text: "Add",
+                text: 'Add',
                 onPressed: () {
-                  //On pressing this button, we create a new object "Participant" and add them into our participantList
-                  Participant p = Participant(
+                  //This button creates a new "Participant" object
+                  final participant = Participant(
                     name: nameController.text,
                     age: int.parse(ageController.text),
                     favoriteTransp: selectedTransport,
-                    photoPath: selectedImage!.path ?? "",
+                    photoPath: selectedImage!.path,
                   );
                   Provider.of<ParticipantProvider>(
                     context,
                     listen: false,
-                  ).addParticipant(p);
+                  ).addParticipant(participant);
                   Navigator.pop(context);
                 },
               ),

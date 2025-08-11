@@ -1,6 +1,7 @@
-import 'package:desafio_final_lincetech_academy/presentation/providers/settings_state.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import '../../providers/settings_state.dart';
 
 /* This custom add button was created because in a visual way, the "custom_action_button.dart"
 * was way too  "eye-catching" and maybe making users believe that specific button was the end of the bottomSheet*/

@@ -3,6 +3,8 @@ import 'package:desafio_final_lincetech_academy/presentation/providers/settings_
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../providers/trip_state.dart';
+
 class Home extends StatelessWidget {
   const Home({super.key});
 
@@ -10,7 +12,9 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Provider.of<SettingsProvider>(context).isDarkMode ? Color.fromRGBO(255, 119, 74, 1) : Color.fromRGBO(255, 166, 0, 1),
+        backgroundColor: Provider.of<SettingsProvider>(context).isDarkMode
+            ? Color.fromRGBO(255, 119, 74, 1)
+            : Color.fromRGBO(255, 166, 0, 1),
         onPressed: () {
           Navigator.pushNamed(context, '/createTrip');
         },
@@ -23,27 +27,25 @@ class Home extends StatelessWidget {
         leading: Image.asset("assets/images/logo_desafio_final.png"),
         title: Text(
           "WanderPlan",
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 30,
-          ),
+          style: TextStyle(color: Colors.white, fontSize: 30),
         ),
         actions: [
           InkWell(
-            child: Icon(
-              Icons.settings,
-              size: 40,
-              color: Colors.white,
-            ),
+            child: Icon(Icons.settings, size: 40, color: Colors.white),
             onTap: () {
               Navigator.pushNamed(context, '/settings');
             },
           ),
         ],
       ),
-      backgroundColor: Provider.of<SettingsProvider>(context).isDarkMode ? Color.fromRGBO(20, 24, 28, 1) : Colors.white,
+      backgroundColor: Provider.of<SettingsProvider>(context).isDarkMode
+          ? Color.fromRGBO(20, 24, 28, 1)
+          : Colors.white,
       body: Center(
-        child: Text(AppLocalizations.of(context)!.noTripsAdded, style: TextStyle(fontSize: 30)),
+        child: Text(
+          AppLocalizations.of(context)!.noTripsAdded,
+          style: TextStyle(fontSize: 30),
+        ),
       ),
     );
   }

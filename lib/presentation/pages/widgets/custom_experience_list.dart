@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class CustomExperienceList extends StatefulWidget {
-  const CustomExperienceList({super.key});
+  final ValueChanged<List<EnumExperiencesList>> onChanged;
+
+  const CustomExperienceList({super.key, required this.onChanged});
 
   @override
   State<CustomExperienceList> createState() => _CustomExperienceListState();
@@ -26,6 +28,8 @@ class _CustomExperienceListState extends State<CustomExperienceList> {
             onChanged: (value) {
               setState(() {
                 _map[i] = value ?? false;
+                final selectedExperiences = _map.entries.where((entry) => entry.value).map((entry) => entry.key).toList();
+                widget.onChanged(selectedExperiences);
               });
             },
             title: Text(

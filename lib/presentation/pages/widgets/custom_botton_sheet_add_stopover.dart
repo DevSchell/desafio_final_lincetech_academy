@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
 
+import '../../../entities/enum_experiencesList.dart';
 import '../../../entities/stopoverPlace.dart';
 
 // This bottomSheet is about adding new object "Stopover" to our "stopoverList" in "Trip"
@@ -29,14 +30,15 @@ class _CustomBottomSheetAddStopoverState
   final List<Place> placeSuggestions = [];
   Timer? _debounceTimer;
   String _searchText = '';
+  DateTime? _startDate;
+  DateTime? _endDate;
+  List<EnumExperiencesList> _selectedStopoverExperiences = [];
 
   //TEST AREA
   late Place globalFoundPlace;
   double defaultLat = 0;
   double defaultLon = 0;
 
-  DateTime? _startDate;
-  DateTime? _endDate;
 
   CoordinatesProvider coordState = CoordinatesProvider();
 
@@ -130,7 +132,13 @@ class _CustomBottomSheetAddStopoverState
                 ),
                 SizedBox(height: 30),
 
-                CustomExperienceList(),
+                CustomExperienceList(
+                  onChanged: (experiences) {
+                    setState(() {
+                      _selectedStopoverExperiences = experiences;
+                    });
+                  },
+                ),
                 SizedBox(height: 30),
 
                 CustomActionButton(
