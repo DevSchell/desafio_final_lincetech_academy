@@ -153,9 +153,19 @@ class _CustomBottomSheetAddStopoverState
                     ).addStopover(selectedStopover);
                     print("ççççççççççç");
                     print(
-                      "${selectedStopover.cityName} foi adicionado na playlist",
+                      "${selectedStopover.cityName} was added successfully",
                     );
                     print(StopoverProvider().stopoverList.length);
+                    ScaffoldMessenger.of(
+                      context,
+                    ).showSnackBar(
+                      SnackBar(
+                        content: Text(
+                          "Stopover successfully added!",
+                        ),
+                        duration: Duration(seconds: 2),
+                      ),
+                    );
                     Navigator.pop(context);
                   },
                 ),

@@ -8,7 +8,7 @@ import 'package:desafio_final_lincetech_academy/entities/stopover.dart';
  */
 
 class Trip {
-  int tripId;
+  //int tripId;
   String tripTitle;
   List<Participant> participantList;
   List<String> experienceList; //Talvez esse cara mude até o fim do projeto
@@ -18,7 +18,7 @@ class Trip {
   Enum transportationMethod;
 
   Trip({
-    required this.tripId,
+    //required this.tripId,
     required this.tripTitle,
     required this.participantList,
     required this.experienceList,

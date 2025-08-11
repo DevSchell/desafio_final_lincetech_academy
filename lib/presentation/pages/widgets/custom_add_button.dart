@@ -12,6 +12,7 @@ final String heroTag;
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton(
+      mini: true,
       heroTag: heroTag,
       onPressed: onPressed,
       shape: CircleBorder(),
