@@ -145,7 +145,7 @@ class _CustomBottomSheetAddStopoverState
                   text: "Add Stopover",
                   onPressed: () {
                     final selectedStopoverCoordinates = Coordinate(
-                      latidude: globalFoundPlace.latitude,
+                      latitude: globalFoundPlace.latitude,
                       longitude: globalFoundPlace.longitude,
                     );
                     final selectedStopover = Stopover(

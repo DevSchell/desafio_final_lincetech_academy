@@ -10,7 +10,7 @@ import 'package:desafio_final_lincetech_academy/presentation/providers/stopover_
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../entities/enum_experiencesList.dart';
-import '../../entities/enum_transpMethod.dart';
+import '../../entities/enum_transportation_method.dart';
 import '../../entities/trip.dart';
 import 'widgets/all_widgets.dart';
 

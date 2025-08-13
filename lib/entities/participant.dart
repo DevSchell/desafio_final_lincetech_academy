@@ -1,5 +1,5 @@
 
-import 'package:desafio_final_lincetech_academy/entities/enum_transpMethod.dart';
+import 'package:desafio_final_lincetech_academy/entities/enum_transportation_method.dart';
 
 //This class represents a trip participant
 class Participant {

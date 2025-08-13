@@ -4,7 +4,7 @@ import 'package:desafio_final_lincetech_academy/presentation/providers/participa
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../../../entities/enum_transpMethod.dart';
+import '../../../entities/enum_transportation_method.dart';
 import '../../../entities/participant.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../use_cases/image_picker_use_cases.dart';

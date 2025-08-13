@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:desafio_final_lincetech_academy/entities/enum_transpMethod.dart';
+import 'package:desafio_final_lincetech_academy/entities/enum_transportation_method.dart';
 
 class CustomTranportMethod extends StatefulWidget {
   final ValueChanged<EnumTransportationMethod> onChanged;
