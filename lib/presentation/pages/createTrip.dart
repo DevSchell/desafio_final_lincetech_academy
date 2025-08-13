@@ -51,13 +51,13 @@ class _CreateTripState extends State<CreateTrip> {
                   'The information on the fields will be erased',
                 ),
                 actions: [
-                  TextButton(
+                  CustomActionButton(
+                    text: 'Cancel',
                     onPressed: () => Navigator.of(context).pop(false),
-                    child: const Text('Cancel'),
                   ),
-                  TextButton(
+                  CustomActionButton(
+                    text: 'Discard changes',
                     onPressed: () => Navigator.of(context).pop(true),
-                    child: Text('Discard filled fields'),
                   ),
                 ],
               );
