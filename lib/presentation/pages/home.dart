@@ -24,9 +24,9 @@ class Home extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Color.fromRGBO(25, 121, 130, 1),
         centerTitle: true,
-        leading: Image.asset("assets/images/logo_desafio_final.png"),
+        leading: Image.asset('assets/images/logo_desafio_final.png'),
         title: Text(
-          "WanderPlan",
+          'WanderPlan',
           style: TextStyle(color: Colors.white, fontSize: 30),
         ),
         actions: [
