@@ -1,7 +1,7 @@
 import 'package:desafio_final_lincetech_academy/entities/participant.dart';
 import 'package:desafio_final_lincetech_academy/entities/stopover.dart';
 
-import 'enum_experiencesList.dart';
+import 'enum_experiences_list.dart';
 
 /*
  This is one of the main classes from the application, because the "Trip class

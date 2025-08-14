@@ -57,27 +57,26 @@ class _CustomBottomSheetState extends State<CustomBottomSheetAddParticipant> {
                 onTap: () {
                   showDialog(
                     context: context,
-                    builder: (BuildContext context) => Dialog(
+                    builder: (context) => Dialog(
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            const Text('Choose picture from...'),
+                            Text(
+                              AppLocalizations.of(context)!.choosePictureFrom,
+                            ),
                             const SizedBox(height: 15),
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: CustomActionButton(
-                                text: 'Choose from camera',
+                                text: AppLocalizations.of(context)!.chooseFromCamera,
                                 onPressed: () async {
-                                  //Creating an instance of our use case "image_picker_use_case"
                                   final picker = ImagePickerUseCase();
                                   final newImage = await picker
                                       .pickFromCamera();
-                                  //If the newImage was selected and isn't null, change the photo
                                   if (newImage != null) {
-                                    //Updating the state
                                     setState(() {
                                       selectedImage = newImage;
                                     });
@@ -89,15 +88,12 @@ class _CustomBottomSheetState extends State<CustomBottomSheetAddParticipant> {
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: CustomActionButton(
-                                text: 'Choose from gallery',
+                                text: AppLocalizations.of(context)!.chooseFromGallery,
                                 onPressed: () async {
-                                  //Creating an instance of our use case "image_picker_use_case"
                                   final picker = ImagePickerUseCase();
                                   final newImage = await picker
                                       .pickFromGallery();
-                                  //If the newImage was selected and isn't null, change the photo
                                   if (newImage != null) {
-                                    //Updating the state
                                     setState(() {
                                       selectedImage = newImage;
                                     });
@@ -119,23 +115,23 @@ class _CustomBottomSheetState extends State<CustomBottomSheetAddParticipant> {
                       : FileImage(File(selectedImage!.path)) as ImageProvider,
                 ),
               ),
-              CustomHeader(text: 'Name'),
+              CustomHeader(text: AppLocalizations.of(context)!.name),
               TextFormField(
                 keyboardType: TextInputType.text,
                 controller: nameController,
-                decoration: InputDecoration(labelText: 'Enter name here...'),
+                decoration: InputDecoration(labelText: AppLocalizations.of(context)!.enterNameHere),
               ),
               SizedBox(height: 30),
 
-              CustomHeader(text: 'Age'),
+              CustomHeader(text: AppLocalizations.of(context)!.age),
               TextFormField(
                 keyboardType: TextInputType.number,
                 controller: ageController,
-                decoration: InputDecoration(labelText: 'Enter age here...'),
+                decoration: InputDecoration(labelText: AppLocalizations.of(context)!.enterAgeHere),
               ),
               SizedBox(height: 30),
 
-              CustomHeader(text: 'Favorite Transport'),
+              CustomHeader(text: AppLocalizations.of(context)!.favoriteTransport),
               CustomTranportMethod(
                 onChanged: (method) {
                   _selectedTransportationMethod = method;
@@ -144,7 +140,7 @@ class _CustomBottomSheetState extends State<CustomBottomSheetAddParticipant> {
               SizedBox(height: 50),
 
               CustomActionButton(
-                text: 'Add',
+                text: AppLocalizations.of(context)!.add,
                 onPressed: () {
                   //This button creates a new "Participant" object
                   final participant = Participant(

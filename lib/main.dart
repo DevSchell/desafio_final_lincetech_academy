@@ -1,12 +1,13 @@
-import 'package:desafio_final_lincetech_academy/presentation/providers/participant_state.dart';
-import 'package:desafio_final_lincetech_academy/presentation/providers/settings_state.dart';
-import 'package:desafio_final_lincetech_academy/presentation/providers/stopover_state.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import 'l10n/app_localizations.dart';
+import 'presentation/pages/create_trip.dart';
 import 'presentation/pages/home.dart';
 import 'presentation/pages/settings.dart';
-import 'presentation/pages/createTrip.dart';
-import 'package:provider/provider.dart';
-import 'package:desafio_final_lincetech_academy/l10n/app_localizations.dart';
+import 'presentation/providers/participant_state.dart';
+import 'presentation/providers/settings_state.dart';
+import 'presentation/providers/stopover_state.dart';
 
 void main() {
   runApp(
@@ -20,8 +21,10 @@ void main() {
     ),
   );
 }
-
+/// This is the main class of the app, because it makes the app run
 class MyApp extends StatelessWidget {
+
+  ///That's the constructor for this class
   const MyApp({super.key});
 
   @override
@@ -32,7 +35,7 @@ class MyApp extends StatelessWidget {
       locale: settingsProvider.currentLocale,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
-      title: "WanderPlan",
+      title: 'WanderPlan',
       theme: ThemeData.light(),
       darkTheme: ThemeData.dark(),
       themeMode: settingsProvider.isDarkMode ? ThemeMode.dark : ThemeMode.light,

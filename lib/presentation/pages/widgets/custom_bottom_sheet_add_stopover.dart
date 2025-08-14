@@ -11,8 +11,9 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
 
-import '../../../entities/enum_experiencesList.dart';
+import '../../../entities/enum_experiences_list.dart';
 import '../../../entities/stopoverPlace.dart';
+import '../../../l10n/app_localizations.dart';
 
 // This bottomSheet is about adding new object "Stopover" to our "stopoverList" in "Trip"
 class CustomBottomSheetAddStopover extends StatefulWidget {
@@ -39,7 +40,6 @@ class _CustomBottomSheetAddStopoverState
   double defaultLat = 0;
   double defaultLon = 0;
 
-
   CoordinatesProvider coordState = CoordinatesProvider();
 
   @override
@@ -53,14 +53,14 @@ class _CustomBottomSheetAddStopoverState
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Center(child: CustomHeader(text: "Add Stopover", size: 20)),
+                Center(child: CustomHeader(text: AppLocalizations.of(context)!.addStopover, size: 20)),
                 SizedBox(height: 20),
 
-                CustomHeader(text: "City Name"),
+                CustomHeader(text: AppLocalizations.of(context)!.cityName),
                 TextFormField(
                   controller: cityNameController,
                   keyboardType: TextInputType.text,
-                  decoration: InputDecoration(labelText: "Enter name here..."),
+                  decoration: InputDecoration(labelText: AppLocalizations.of(context)!.enterNameHere),
 
                   /*Here each time the user types, the API searches the value on Nominatim API*/
                   onChanged: (String value) async {
@@ -142,7 +142,7 @@ class _CustomBottomSheetAddStopoverState
                 SizedBox(height: 30),
 
                 CustomActionButton(
-                  text: "Add Stopover",
+                  text: AppLocalizations.of(context)!.addStopover,
                   onPressed: () {
                     final selectedStopoverCoordinates = Coordinate(
                       latitude: globalFoundPlace.latitude,
@@ -161,15 +161,16 @@ class _CustomBottomSheetAddStopoverState
                     ).addStopover(selectedStopover);
                     print("ççççççççççç");
                     print(
-                      "${selectedStopover.cityName} was added successfully",
+                      '${selectedStopover.cityName} '
+                          '${AppLocalizations.of(context)!.wasAddedSuccessfully}',
                     );
                     print(StopoverProvider().stopoverList.length);
-                    ScaffoldMessenger.of(
-                      context,
-                    ).showSnackBar(
+                    ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
                         content: Text(
-                          "Stopover successfully added!",
+                          AppLocalizations.of(
+                            context,
+                          )!.stopoverSuccessfullyAdded,
                         ),
                         duration: Duration(seconds: 2),
                       ),

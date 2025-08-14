@@ -1,18 +1,20 @@
 import 'dart:io';
-import 'package:desafio_final_lincetech_academy/l10n/app_localizations.dart';
-import 'package:desafio_final_lincetech_academy/presentation/pages/widgets/custom_action_button.dart';
-import 'package:desafio_final_lincetech_academy/presentation/pages/widgets/custom_add_button.dart';
-import 'package:desafio_final_lincetech_academy/presentation/pages/widgets/custom_bottom_sheet_add_participant.dart';
-import 'package:desafio_final_lincetech_academy/presentation/pages/widgets/custom_botton_sheet_add_stopover.dart';
-import 'package:desafio_final_lincetech_academy/presentation/providers/participant_state.dart';
-import 'package:desafio_final_lincetech_academy/presentation/providers/settings_state.dart';
-import 'package:desafio_final_lincetech_academy/presentation/providers/stopover_state.dart';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../entities/enum_experiencesList.dart';
+
+import '../../entities/enum_experiences_list.dart';
 import '../../entities/enum_transportation_method.dart';
 import '../../entities/trip.dart';
+import '../../l10n/app_localizations.dart';
+import '../providers/participant_state.dart';
+import '../providers/settings_state.dart';
+import '../providers/stopover_state.dart';
 import 'widgets/all_widgets.dart';
+import 'widgets/custom_action_button.dart';
+import 'widgets/custom_add_button.dart';
+import 'widgets/custom_bottom_sheet_add_participant.dart';
+import 'widgets/custom_bottom_sheet_add_stopover.dart';
 
 ///That class represents the screen where we can create 'Trip' objects
 class CreateTrip extends StatefulWidget {
@@ -41,24 +43,25 @@ class _CreateTripState extends State<CreateTrip> {
   Widget build(BuildContext context) {
     return Consumer<ParticipantProvider>(
       builder: (context, participantState, child) => WillPopScope(
+        //TODO: I have to change this bro here into PopScope()
         onWillPop: () async {
           final confirmExit = await showDialog<bool>(
             context: context,
             builder: (context) {
               return AlertDialog(
-                title: const Text('Discard filled fields until now?'),
-                content: const Text(
-                  'The information on the fields will be erased',
+                title: Text(AppLocalizations.of(context)!.discardFiles),
+                content: Text(
+                  AppLocalizations.of(context)!.informationWillBeErased,
                 ),
                 actions: [
                   CustomActionButton(
-                    text: 'Cancel',
+                    text: AppLocalizations.of(context)!.cancel,
                     onPressed: () => Navigator.of(context).pop(false),
                   ),
                   CustomActionButton(
-                    text: 'Discard changes',
+                    text: AppLocalizations.of(context)!.discardChanges,
                     onPressed: () => Navigator.of(context).pop(true),
-                  ),
+                  )
                 ],
               );
             },
@@ -85,7 +88,9 @@ class _CreateTripState extends State<CreateTrip> {
                     TextFormField(
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return "This field can't be null";
+                          return AppLocalizations.of(
+                            context,
+                          )!.thisFieldCantBeNull;
                         }
                         return null;
                       },
@@ -186,10 +191,18 @@ class _CreateTripState extends State<CreateTrip> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.stretch,
                                       children: [
-                                        Text('Name: ${participant.name}'),
-                                        Text('Age: ${participant.age}'),
                                         Text(
-                                          'Transport: ${participant.favoriteTransp.name}',
+                                          '${AppLocalizations.of(context)!
+                                              .nameField} ${participant.name}',
+                                        ),
+                                        Text(
+                                          '${AppLocalizations.of(context)!
+                                              .ageField} ${participant.age}',
+                                        ),
+                                        Text(
+                                          '${AppLocalizations.of(context)!.
+                                          transportField}${participant.
+                                          favoriteTransp.name}',
                                         ),
                                         SizedBox(height: 10),
                                       ],
@@ -221,14 +234,14 @@ class _CreateTripState extends State<CreateTrip> {
                       },
                     ),
                     SizedBox(height: 30),
-                    CustomHeader(text: 'Stopover List'),
+                    CustomHeader(text: AppLocalizations.of(context)!.stopoverList),
                     Consumer<StopoverProvider>(
                       builder: (context, stopoverState, child) =>
                           stopoverState.stopoverList.isEmpty
                           ? Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Center(
-                                child: Text('No stopovers added yet'),
+                                child: Text(AppLocalizations.of(context)!.noStopoverAddedYet),
                               ),
                             )
                           : ListView.builder(
@@ -347,7 +360,7 @@ class _CreateTripState extends State<CreateTrip> {
                                             ).showSnackBar(
                                               SnackBar(
                                                 content: Text(
-                                                  'Stopover deleted successfully',
+                                                  AppLocalizations.of(context)!.stopoverDeletedSuccessfully,
                                                 ),
                                                 duration: Duration(seconds: 2),
                                               ),
@@ -392,7 +405,7 @@ class _CreateTripState extends State<CreateTrip> {
                           ).stopoverList.isEmpty
                           ? SizedBox(height: 20)
                           : CustomActionButton(
-                              text: 'Create trip',
+                              text: AppLocalizations.of(context)!.createTrip,
                               onPressed: () {
                                 if (_formKey.currentState!.validate()) {
                                   final trip = Trip(

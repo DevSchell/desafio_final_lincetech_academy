@@ -1,4 +1,4 @@
-import 'package:desafio_final_lincetech_academy/entities/enum_experiencesList.dart';
+import 'package:desafio_final_lincetech_academy/entities/enum_experiences_list.dart';
 import 'package:desafio_final_lincetech_academy/presentation/providers/settings_state.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

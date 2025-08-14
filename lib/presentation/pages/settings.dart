@@ -12,7 +12,7 @@ class Settings extends StatefulWidget {
 }
 
 List<String> languageOptions = ["en", "pt", "es"]; //Test RadioButton
-List<String> themeOptions = ["Light Theme", "Dark Theme"];
+List<String> themeOptions = <String>["Light Theme", "Dark Theme"];
 
 class _SettingsState extends State<Settings> {
   String currentOption = languageOptions[0]; //Test RadioButton
@@ -59,7 +59,7 @@ class _SettingsState extends State<Settings> {
                   title: Align(
                     alignment: Alignment.centerLeft,
                     child: Image.asset(
-                      "assets/images/flags/us.webp",
+                      'assets/images/flags/us.webp',
                       height: 60,
                       width: 60,
                     ),
@@ -95,7 +95,7 @@ class _SettingsState extends State<Settings> {
                   title: Align(
                     alignment: Alignment.centerLeft,
                     child: Image.asset(
-                      "assets/images/flags/br.png",
+                      'assets/images/flags/br.png',
                       height: 60,
                       width: 60,
                     ),
@@ -131,7 +131,7 @@ class _SettingsState extends State<Settings> {
                   title: Align(
                     alignment: Alignment.centerLeft,
                     child: Image.asset(
-                      "assets/images/flags/sp.png",
+                      'assets/images/flags/sp.png',
                       height: 60,
                       width: 60,
                     ),

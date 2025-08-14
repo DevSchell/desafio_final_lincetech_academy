@@ -109,6 +109,12 @@ abstract class AppLocalizations {
   /// **'No trips added'**
   String get noTripsAdded;
 
+  /// No description provided for @settingsHeader.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get settingsHeader;
+
   /// No description provided for @language.
   ///
   /// In en, this message translates to:
@@ -132,6 +138,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Dark Theme'**
   String get darkTheme;
+
+  /// No description provided for @createNewTripHeader.
+  ///
+  /// In en, this message translates to:
+  /// **'Create a new trip'**
+  String get createNewTripHeader;
 
   /// No description provided for @tripTitle.
   ///
@@ -193,17 +205,215 @@ abstract class AppLocalizations {
   /// **'Add participant'**
   String get addParticipantButton;
 
-  /// No description provided for @settingsHeader.
+  /// No description provided for @cultureExperience.
   ///
   /// In en, this message translates to:
-  /// **'Settings'**
-  String get settingsHeader;
+  /// **'Culture'**
+  String get cultureExperience;
 
-  /// No description provided for @createNewTripHeader.
+  /// No description provided for @cuisineExperience.
   ///
   /// In en, this message translates to:
-  /// **'Create a new trip'**
-  String get createNewTripHeader;
+  /// **'Cuisine'**
+  String get cuisineExperience;
+
+  /// No description provided for @hikingExperience.
+  ///
+  /// In en, this message translates to:
+  /// **'Hiking'**
+  String get hikingExperience;
+
+  /// No description provided for @swimmingExperience.
+  ///
+  /// In en, this message translates to:
+  /// **'Swimming'**
+  String get swimmingExperience;
+
+  /// No description provided for @wildlifeExperience.
+  ///
+  /// In en, this message translates to:
+  /// **'Wildlife'**
+  String get wildlifeExperience;
+
+  /// No description provided for @artExperience.
+  ///
+  /// In en, this message translates to:
+  /// **'Art'**
+  String get artExperience;
+
+  /// No description provided for @festivalsExperience.
+  ///
+  /// In en, this message translates to:
+  /// **'Festivals'**
+  String get festivalsExperience;
+
+  /// No description provided for @shoppingExperience.
+  ///
+  /// In en, this message translates to:
+  /// **'Shopping'**
+  String get shoppingExperience;
+
+  /// No description provided for @adventureExperience.
+  ///
+  /// In en, this message translates to:
+  /// **'Adventure'**
+  String get adventureExperience;
+
+  /// No description provided for @discardFiles.
+  ///
+  /// In en, this message translates to:
+  /// **'Discard filled fields until now?'**
+  String get discardFiles;
+
+  /// No description provided for @informationWillBeErased.
+  ///
+  /// In en, this message translates to:
+  /// **'The information on the fields will be erased'**
+  String get informationWillBeErased;
+
+  /// No description provided for @cancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cancel;
+
+  /// No description provided for @discardChanges.
+  ///
+  /// In en, this message translates to:
+  /// **'Discard changes'**
+  String get discardChanges;
+
+  /// No description provided for @thisFieldCantBeNull.
+  ///
+  /// In en, this message translates to:
+  /// **'This field can\'t be null'**
+  String get thisFieldCantBeNull;
+
+  /// No description provided for @nameField.
+  ///
+  /// In en, this message translates to:
+  /// **'Name: '**
+  String get nameField;
+
+  /// No description provided for @ageField.
+  ///
+  /// In en, this message translates to:
+  /// **'Age: '**
+  String get ageField;
+
+  /// No description provided for @transportField.
+  ///
+  /// In en, this message translates to:
+  /// **'Transport: '**
+  String get transportField;
+
+  /// No description provided for @stopoverList.
+  ///
+  /// In en, this message translates to:
+  /// **'Stopover List'**
+  String get stopoverList;
+
+  /// No description provided for @noStopoverAddedYet.
+  ///
+  /// In en, this message translates to:
+  /// **'No stopovers added yet'**
+  String get noStopoverAddedYet;
+
+  /// No description provided for @stopoverDeletedSuccessfully.
+  ///
+  /// In en, this message translates to:
+  /// **'Stopover deleted successfully'**
+  String get stopoverDeletedSuccessfully;
+
+  /// No description provided for @addStopover.
+  ///
+  /// In en, this message translates to:
+  /// **'addStopover'**
+  String get addStopover;
+
+  /// No description provided for @createTrip.
+  ///
+  /// In en, this message translates to:
+  /// **'Create trip'**
+  String get createTrip;
+
+  /// No description provided for @choosePictureFrom.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose picture from...'**
+  String get choosePictureFrom;
+
+  /// No description provided for @chooseFromCamera.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose from camera'**
+  String get chooseFromCamera;
+
+  /// No description provided for @chooseFromGallery.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose from gallery'**
+  String get chooseFromGallery;
+
+  /// No description provided for @name.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get name;
+
+  /// No description provided for @enterNameHere.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter name here...'**
+  String get enterNameHere;
+
+  /// No description provided for @age.
+  ///
+  /// In en, this message translates to:
+  /// **'Age'**
+  String get age;
+
+  /// No description provided for @enterAgeHere.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter age here...'**
+  String get enterAgeHere;
+
+  /// No description provided for @favoriteTransport.
+  ///
+  /// In en, this message translates to:
+  /// **'Favorite Transport'**
+  String get favoriteTransport;
+
+  /// No description provided for @add.
+  ///
+  /// In en, this message translates to:
+  /// **'Add'**
+  String get add;
+
+  /// No description provided for @cityName.
+  ///
+  /// In en, this message translates to:
+  /// **'City Name'**
+  String get cityName;
+
+  /// No description provided for @wasAddedSuccessfully.
+  ///
+  /// In en, this message translates to:
+  /// **' was added successfully'**
+  String get wasAddedSuccessfully;
+
+  /// No description provided for @stopoverSuccessfullyAdded.
+  ///
+  /// In en, this message translates to:
+  /// **'Stopover successfully added!'**
+  String get stopoverSuccessfullyAdded;
+
+  /// No description provided for @thereWasAnErrorNominatimAPI.
+  ///
+  /// In en, this message translates to:
+  /// **'There was an error on the attempt of searching places'**
+  String get thereWasAnErrorNominatimAPI;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

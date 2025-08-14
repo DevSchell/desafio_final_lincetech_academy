@@ -21,7 +21,7 @@ class Place {
       return Place(
         cityName: json['name'] ?? 'not found',
         cityState: json['address']['state'] ?? 'not found',
-        cityCountry: json["address"]["country"] ?? 'not found',
+        cityCountry: json['address']['country'] ?? 'not found',
         latitude: double.tryParse(json['lat']) ?? 0.0,
         longitude: double.tryParse(json['lon']) ?? 0.0,
       );
