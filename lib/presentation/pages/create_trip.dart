@@ -26,6 +26,7 @@ class CreateTrip extends StatefulWidget {
 }
 
 class _CreateTripState extends State<CreateTrip> {
+  bool _formIsDirty = false;
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _tripTitleController = TextEditingController();
   DateTime? _tripStartDate;
@@ -45,6 +46,10 @@ class _CreateTripState extends State<CreateTrip> {
       builder: (context, participantState, child) => WillPopScope(
         //TODO: I have to change this bro here into PopScope()
         onWillPop: () async {
+          if (!_formIsDirty) {
+            return true;
+          }
+
           final confirmExit = await showDialog<bool>(
             context: context,
             builder: (context) {
@@ -61,7 +66,7 @@ class _CreateTripState extends State<CreateTrip> {
                   CustomActionButton(
                     text: AppLocalizations.of(context)!.discardChanges,
                     onPressed: () => Navigator.of(context).pop(true),
-                  )
+                  ),
                 ],
               );
             },
@@ -94,6 +99,9 @@ class _CreateTripState extends State<CreateTrip> {
                         }
                         return null;
                       },
+                      onChanged: (value) {
+                        _formIsDirty = true;
+                      },
                       controller: _tripTitleController,
                       decoration: InputDecoration(
                         hint: Text(
@@ -112,10 +120,12 @@ class _CreateTripState extends State<CreateTrip> {
                       onStartDateChanged: (date) {
                         setState(() {
                           _tripStartDate = date;
+                          _formIsDirty = true;
                         });
                       },
                       onEndDateChanged: (date) {
                         _tripEndDate = date;
+                        _formIsDirty = true;
                       },
                     ),
                     SizedBox(height: 20),
@@ -129,6 +139,7 @@ class _CreateTripState extends State<CreateTrip> {
                       onChanged: (method) {
                         setState(() {
                           _selectedTransportationMethod = method;
+                          _formIsDirty = true;
                         });
                       },
                     ),
@@ -144,6 +155,7 @@ class _CreateTripState extends State<CreateTrip> {
                       onChanged: (experiences) {
                         setState(() {
                           _selectedTripExperiences = experiences;
+                          _formIsDirty = true;
                         });
                       },
                     ),
@@ -192,17 +204,13 @@ class _CreateTripState extends State<CreateTrip> {
                                           CrossAxisAlignment.stretch,
                                       children: [
                                         Text(
-                                          '${AppLocalizations.of(context)!
-                                              .nameField} ${participant.name}',
+                                          '${AppLocalizations.of(context)!.nameField} ${participant.name}',
                                         ),
                                         Text(
-                                          '${AppLocalizations.of(context)!
-                                              .ageField} ${participant.age}',
+                                          '${AppLocalizations.of(context)!.ageField} ${participant.age}',
                                         ),
                                         Text(
-                                          '${AppLocalizations.of(context)!.
-                                          transportField}${participant.
-                                          favoriteTransp.name}',
+                                          '${AppLocalizations.of(context)!.transportField}${participant.favoriteTransp.name}',
                                         ),
                                         SizedBox(height: 10),
                                       ],
@@ -234,14 +242,20 @@ class _CreateTripState extends State<CreateTrip> {
                       },
                     ),
                     SizedBox(height: 30),
-                    CustomHeader(text: AppLocalizations.of(context)!.stopoverList),
+                    CustomHeader(
+                      text: AppLocalizations.of(context)!.stopoverList,
+                    ),
                     Consumer<StopoverProvider>(
                       builder: (context, stopoverState, child) =>
                           stopoverState.stopoverList.isEmpty
                           ? Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Center(
-                                child: Text(AppLocalizations.of(context)!.noStopoverAddedYet),
+                                child: Text(
+                                  AppLocalizations.of(
+                                    context,
+                                  )!.noStopoverAddedYet,
+                                ),
                               ),
                             )
                           : ListView.builder(
@@ -360,7 +374,9 @@ class _CreateTripState extends State<CreateTrip> {
                                             ).showSnackBar(
                                               SnackBar(
                                                 content: Text(
-                                                  AppLocalizations.of(context)!.stopoverDeletedSuccessfully,
+                                                  AppLocalizations.of(
+                                                    context,
+                                                  )!.stopoverDeletedSuccessfully,
                                                 ),
                                                 duration: Duration(seconds: 2),
                                               ),
