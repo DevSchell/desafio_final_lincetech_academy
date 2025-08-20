@@ -150,7 +150,8 @@ class _CustomBottomSheetAddStopoverState
                     );
                     final selectedStopover = Stopover(
                       cityName: globalFoundPlace.cityName,
-                      coordinates: selectedStopoverCoordinates,
+                      latitude: selectedStopoverCoordinates.latitude,
+                      longitude: selectedStopoverCoordinates.longitude,
                       // "!" because if they're here in the code, this won't be null
                       arrivalDate: _startDate!,
                       departureDate: _endDate!,
