@@ -10,17 +10,18 @@ import 'enum_experiences_list.dart';
  */
 
 class Trip {
-  //int tripId;
+  int? tripId;
   String tripTitle;
-  List<Participant> participantList;
-  List<EnumExperiencesList> experienceList; //Talvez esse cara mude até o fim do projeto
+  String experienceList;
   DateTime startDate;
   DateTime endDate;
-  List<Stopover> stopoverList;
-  Enum transportationMethod;
+  String transportationMethod;
+
+  List<Participant> participantList; // Table "participant"
+  List<Stopover> stopoverList; //Table "stopover"
 
   Trip({
-    //required this.tripId,
+    this.tripId,
     required this.tripTitle,
     required this.participantList,
     required this.experienceList,
@@ -28,5 +29,5 @@ class Trip {
     required this.endDate,
     required this.stopoverList,
     required this.transportationMethod,
-});
+  });
 }

@@ -207,10 +207,10 @@ class _CreateTripState extends State<CreateTrip> {
                                           '${AppLocalizations.of(context)!.nameField} ${participant.name}',
                                         ),
                                         Text(
-                                          '${AppLocalizations.of(context)!.ageField} ${participant.age}',
+                                          '${AppLocalizations.of(context)!.ageField} ${participant.dateOfBirth}',
                                         ),
                                         Text(
-                                          '${AppLocalizations.of(context)!.transportField}${participant.favoriteTransp.name}',
+                                          '${AppLocalizations.of(context)!.transportField}${participant.favoriteTransp}',
                                         ),
                                         SizedBox(height: 10),
                                       ],
@@ -430,14 +430,16 @@ class _CreateTripState extends State<CreateTrip> {
                                         Provider.of<ParticipantProvider>(
                                           context,
                                         ).participantList,
-                                    experienceList: _selectedTripExperiences,
+                                    experienceList: _selectedTripExperiences
+                                        .toString(),
                                     startDate: _tripStartDate!,
                                     endDate: _tripEndDate!,
                                     stopoverList: Provider.of<StopoverProvider>(
                                       context,
                                     ).stopoverList,
                                     transportationMethod:
-                                        _selectedTransportationMethod,
+                                        _selectedTransportationMethod
+                                            .toString(),
                                   );
 
                                   print('CÇÇÇÇÇÇÇÇÇÇÇÇÇ');

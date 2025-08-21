@@ -1,27 +1,27 @@
-
 import 'package:desafio_final_lincetech_academy/entities/enum_transportation_method.dart';
 
 //This class represents a trip participant
 class Participant {
+  final int? participatID;
   final String name;
-  final int age;
+  final String dateOfBirth; //TODO: Change to DATETIME afterwards
   final String photoPath;
-  final EnumTransportationMethod favoriteTransp; // Tem que trocar esse tipo de dado aq pra String
+  final String favoriteTransp;
 
   Participant({
+    this.participatID,
     required this.name,
-    required this.age,
+    required this.dateOfBirth,
     required this.photoPath,
     required this.favoriteTransp,
-});
+  });
 
   Map<String, dynamic> toMap() {
     return {
-      'name' : name,
-      'age' : age,
-      'photoPath' : photoPath,
-      // TODO: trocar tipo de dado Enum pra String - favoriteTransp
+      'name': name,
+      'age_of_birth': dateOfBirth,
+      'photoPath': photoPath,
+      'favoriteTransp': favoriteTransp,
     };
   }
-
 }

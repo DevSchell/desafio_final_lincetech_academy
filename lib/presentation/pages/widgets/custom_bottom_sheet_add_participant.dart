@@ -71,7 +71,9 @@ class _CustomBottomSheetState extends State<CustomBottomSheetAddParticipant> {
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: CustomActionButton(
-                                text: AppLocalizations.of(context)!.chooseFromCamera,
+                                text: AppLocalizations.of(
+                                  context,
+                                )!.chooseFromCamera,
                                 onPressed: () async {
                                   final picker = ImagePickerUseCase();
                                   final newImage = await picker
@@ -88,7 +90,9 @@ class _CustomBottomSheetState extends State<CustomBottomSheetAddParticipant> {
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: CustomActionButton(
-                                text: AppLocalizations.of(context)!.chooseFromGallery,
+                                text: AppLocalizations.of(
+                                  context,
+                                )!.chooseFromGallery,
                                 onPressed: () async {
                                   final picker = ImagePickerUseCase();
                                   final newImage = await picker
@@ -119,7 +123,9 @@ class _CustomBottomSheetState extends State<CustomBottomSheetAddParticipant> {
               TextFormField(
                 keyboardType: TextInputType.text,
                 controller: nameController,
-                decoration: InputDecoration(labelText: AppLocalizations.of(context)!.enterNameHere),
+                decoration: InputDecoration(
+                  labelText: AppLocalizations.of(context)!.enterNameHere,
+                ),
               ),
               SizedBox(height: 30),
 
@@ -127,11 +133,15 @@ class _CustomBottomSheetState extends State<CustomBottomSheetAddParticipant> {
               TextFormField(
                 keyboardType: TextInputType.number,
                 controller: ageController,
-                decoration: InputDecoration(labelText: AppLocalizations.of(context)!.enterAgeHere),
+                decoration: InputDecoration(
+                  labelText: AppLocalizations.of(context)!.enterAgeHere,
+                ),
               ),
               SizedBox(height: 30),
 
-              CustomHeader(text: AppLocalizations.of(context)!.favoriteTransport),
+              CustomHeader(
+                text: AppLocalizations.of(context)!.favoriteTransport,
+              ),
               CustomTranportMethod(
                 onChanged: (method) {
                   _selectedTransportationMethod = method;
@@ -145,8 +155,9 @@ class _CustomBottomSheetState extends State<CustomBottomSheetAddParticipant> {
                   //This button creates a new "Participant" object
                   final participant = Participant(
                     name: nameController.text,
-                    age: int.parse(ageController.text),
-                    favoriteTransp: selectedTransport,
+                    dateOfBirth: ageController.text,
+                    //TODO: Change to DATETIME afterwards
+                    favoriteTransp: selectedTransport.toString(),
                     photoPath: selectedImage!.path,
                   );
                   Provider.of<ParticipantProvider>(

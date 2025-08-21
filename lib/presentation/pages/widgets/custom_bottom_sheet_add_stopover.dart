@@ -8,11 +8,9 @@ import 'package:desafio_final_lincetech_academy/presentation/providers/coordinat
 import 'package:desafio_final_lincetech_academy/presentation/providers/stopover_state.dart';
 import 'package:desafio_final_lincetech_academy/use_cases/geolocation/nominatim_service.dart';
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
 
 import '../../../entities/enum_experiences_list.dart';
-import '../../../entities/stopoverPlace.dart';
 import '../../../l10n/app_localizations.dart';
 
 // This bottomSheet is about adding new object "Stopover" to our "stopoverList" in "Trip"
@@ -30,7 +28,7 @@ class _CustomBottomSheetAddStopoverState
   TextEditingController cityNameController = TextEditingController();
   final List<Place> placeSuggestions = [];
   Timer? _debounceTimer;
-  String _searchText = '';
+  late String _searchText = '';
   DateTime? _startDate;
   DateTime? _endDate;
   List<EnumExperiencesList> _selectedStopoverExperiences = [];
