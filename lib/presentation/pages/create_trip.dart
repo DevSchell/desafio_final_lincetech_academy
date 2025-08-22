@@ -432,8 +432,6 @@ class _CreateTripState extends State<CreateTrip> {
                                         _selectedTransportationMethod
                                             .toString(),
                                   );
-
-                                  print('CÇÇÇÇÇÇÇÇÇÇÇÇÇ');
                                 }
                               },
                             ),
