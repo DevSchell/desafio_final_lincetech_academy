@@ -10,24 +10,42 @@ import 'enum_experiences_list.dart';
  */
 
 class Trip {
-  int? tripId;
-  String tripTitle;
-  String experienceList;
+  int? id;
+  String title;
   DateTime startDate;
   DateTime endDate;
   String transportationMethod;
 
-  List<Participant> participantList; // Table "participant"
-  List<Stopover> stopoverList; //Table "stopover"
+//TODO: Won't use them anymore, 'cause of the DB
+//  List<Participant> participantList; // Table "participant"
+//  List<Stopover> stopoverList; //Table "stopover"
 
   Trip({
-    this.tripId,
-    required this.tripTitle,
-    required this.participantList,
-    required this.experienceList,
+    this.id,
+    required this.title,
     required this.startDate,
     required this.endDate,
-    required this.stopoverList,
     required this.transportationMethod,
   });
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id' : id,
+      'title' : title,
+      'startDate' : startDate,
+      'endDate' : endDate,
+      'transportationMethod' : transportationMethod
+    };
+  }
+
+  static Trip fromMap(Map<String, dynamic> map) {
+    return Trip(
+      id: map['id'],
+      title: map['title'],
+      startDate: map['startDate'],
+      endDate: map['endDate'],
+      transportationMethod: map['transportationMethod']
+    );
+  }
+
 }

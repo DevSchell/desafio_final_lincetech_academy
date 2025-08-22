@@ -3,41 +3,39 @@ import 'package:desafio_final_lincetech_academy/entities/review.dart';
 
 // A trip can have a lot of stopovers, so this class represents those stopovers
 class Stopover {
-  int? stopoverID;
+  int? id;
   String cityName;
   DateTime arrivalDate;
   DateTime departureDate;
   double latitude;
   double longitude;
-  List<String>? actvDescription; //Not required anymore for testing purposes
-  List<Review>? reviewList; // Isn't required anymore because I need to create the Stopover and then afterwards the user will add reviews to it
+  String? actvDescription; //Not required anymore for testing purposes
+
 
   Stopover({
+    this.id,
     required this.cityName,
     required this.arrivalDate,
     required this.departureDate,
     required this.latitude,
     required this.longitude,
-    this.stopoverID,
     this.actvDescription,
-    this.reviewList
   });
 
   Map<String, dynamic> toMap() {
     return {
-      'stopoverID' : stopoverID,
+      'id' : id,
       'cityName' : cityName,
       'arrivalDate' : arrivalDate,
       'departureDate' : departureDate,
       'latitude' : latitude,
       'longitude' : longitude,
-      // Por enquanto eu vou fazer testes apenas com essas campos
     };
   }
 
   static Stopover fromMap(Map<String, dynamic> map) {
     return Stopover (
-      stopoverID: map['stopoverID'],
+      id: map['id'],
       cityName: map['cityName'],
       arrivalDate: DateTime.parse(map['arrivalDate']),
       departureDate: DateTime.parse(map['departureDate']),
@@ -45,7 +43,6 @@ class Stopover {
       longitude: map['longitude']
     );
   }
-
 }
 
 /* Before becoming a proper "Stopover" this class is used to map the received

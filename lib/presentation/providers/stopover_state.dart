@@ -15,4 +15,9 @@ class StopoverProvider with ChangeNotifier {
     _stopoverList.remove(stopover);
     notifyListeners();
   }
+
+  void editStopover(Stopover stopover) {
+    //TODO: unimplemented method
+  }
+
 }

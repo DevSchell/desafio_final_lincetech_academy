@@ -425,18 +425,9 @@ class _CreateTripState extends State<CreateTrip> {
                               onPressed: () {
                                 if (_formKey.currentState!.validate()) {
                                   final trip = Trip(
-                                    tripTitle: _tripTitleController.text,
-                                    participantList:
-                                        Provider.of<ParticipantProvider>(
-                                          context,
-                                        ).participantList,
-                                    experienceList: _selectedTripExperiences
-                                        .toString(),
+                                    title: _tripTitleController.text,
                                     startDate: _tripStartDate!,
                                     endDate: _tripEndDate!,
-                                    stopoverList: Provider.of<StopoverProvider>(
-                                      context,
-                                    ).stopoverList,
                                     transportationMethod:
                                         _selectedTransportationMethod
                                             .toString(),
