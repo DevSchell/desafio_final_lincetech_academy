@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:desafio_final_lincetech_academy/entities/enum_transportation_method.dart';
+import 'package:provider/provider.dart';
+
+import '../../providers/settings_state.dart';
 
 class CustomTransportMethod extends StatefulWidget {
   final ValueChanged<EnumTransportationMethod> onChanged;
@@ -11,11 +14,11 @@ class CustomTransportMethod extends StatefulWidget {
 }
 
 class _CustomTransportMethodState extends State<CustomTransportMethod> {
-  EnumTransportationMethod value = EnumTransportationMethod.airplane; //TODO: ?
-
+  EnumTransportationMethod? value = EnumTransportationMethod.airplane;
 
   @override
   Widget build(BuildContext context) {
+    //TODO: Why always 'airplane' ?
     return DropdownButton<EnumTransportationMethod>(
       value: value,
       items: [
@@ -35,7 +38,9 @@ class _CustomTransportMethodState extends State<CustomTransportMethod> {
         });
       },
       style: TextStyle(
-        color: Color.fromRGBO(107, 114, 128, 1),
+        color: Provider.of<SettingsProvider>(context).isDarkMode
+            ? Color.fromRGBO(255, 255, 255, 1)
+            : Color.fromRGBO(107, 114, 128, 1),
         fontSize: 20,
         fontWeight: FontWeight.bold,
       ),

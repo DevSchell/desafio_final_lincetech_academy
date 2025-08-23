@@ -1,12 +1,9 @@
 import 'package:desafio_final_lincetech_academy/utils/formatting_methods.dart';
-
-import '../utils/formatting_methods.dart';
-
 //This class represents a trip participant
 class Participant {
   final int? id;
   final String name;
-  final DateTime dateOfBirth; //TODO: Change to DATETIME afterwards
+  final DateTime dateOfBirth;
   final String photoPath;
   final String favoriteTransp;
 

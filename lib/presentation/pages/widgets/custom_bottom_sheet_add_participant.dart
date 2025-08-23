@@ -197,18 +197,15 @@ class _CustomBottomSheetState extends State<CustomBottomSheetAddParticipant> {
               CustomActionButton(
                 text: AppLocalizations.of(context)!.add,
                 onPressed: () {
-                  //This button creates a new "Participant" object
+                  // This button creates a new "Participant" object
                   final participant = Participant(
                     name: nameController.text,
                     dateOfBirth: dateOfBirth!,
-                    favoriteTransp: selectedTransport.toString(),
+                    favoriteTransp: selectedTransport.name,
                     photoPath: selectedImage!.path,
                   );
-                  Provider.of<ParticipantProvider>(
-                    context,
-                    listen: false,
-                  ).addParticipant(participant);
-                  Navigator.pop(context);
+
+                  Navigator.pop(context, participant);
                 },
               ),
             ],

@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 
 import '../../entities/enum_experiences_list.dart';
 import '../../entities/enum_transportation_method.dart';
+import '../../entities/participant.dart';
 import '../../entities/trip.dart';
 import '../../l10n/app_localizations.dart';
 import '../providers/participant_state.dart';
@@ -28,9 +29,7 @@ class CreateTrip extends StatelessWidget {
         ChangeNotifierProvider(
           create: (_) => ParticipantProvider(idTravel: idTravel),
         ),
-        ChangeNotifierProvider(
-          create: (_) => StopoverProvider(),
-        ),
+        ChangeNotifierProvider(create: (_) => StopoverProvider()),
       ],
       child: _CreateTrip(),
     );
@@ -227,10 +226,10 @@ class _CreateTripAState extends State<_CreateTrip> {
                                           '${AppLocalizations.of(context)!.nameField} ${participant.name}',
                                         ),
                                         Text(
-                                          '${AppLocalizations.of(context)!.ageField} ${participant.dateOfBirth}',
+                                          '${AppLocalizations.of(context)!.ageField} ${participant.dateOfBirth.day}/${participant.dateOfBirth.month}/${participant.dateOfBirth.year}',
                                         ),
                                         Text(
-                                          '${AppLocalizations.of(context)!.transportField}${participant.favoriteTransp}',
+                                          '${AppLocalizations.of(context)!.transportField}${participant.favoriteTransp.toString()}',
                                         ),
                                         SizedBox(height: 10),
                                       ],
@@ -250,8 +249,8 @@ class _CreateTripAState extends State<_CreateTrip> {
                           ),
                     CustomAddButton(
                       heroTag: 'addParticipant',
-                      onPressed: () {
-                        showModalBottomSheet(
+                      onPressed: () async {
+                        final result = await showModalBottomSheet<Participant>(
                           isScrollControlled: true,
                           elevation: 700.098,
                           context: context,
@@ -259,6 +258,10 @@ class _CreateTripAState extends State<_CreateTrip> {
                             return CustomBottomSheetAddParticipant();
                           },
                         );
+                        if (result == null) {
+                          return;
+                        }
+                        participantState.addParticipant(result);
                       },
                     ),
                     SizedBox(height: 30),
