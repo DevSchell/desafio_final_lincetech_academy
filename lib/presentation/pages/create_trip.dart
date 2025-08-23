@@ -16,16 +16,37 @@ import 'widgets/custom_add_button.dart';
 import 'widgets/custom_bottom_sheet_add_participant.dart';
 import 'widgets/custom_bottom_sheet_add_stopover.dart';
 
-///That class represents the screen where we can create 'Trip' objects
-class CreateTrip extends StatefulWidget {
-  /// ...
-  const CreateTrip({super.key});
+class CreateTrip extends StatelessWidget {
+  const CreateTrip({super.key, this.idTravel});
+
+  final int? idTravel;
 
   @override
-  State<CreateTrip> createState() => _CreateTripState();
+  Widget build(BuildContext context) {
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (_) => ParticipantProvider(idTravel: idTravel),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => StopoverProvider(),
+        ),
+      ],
+      child: _CreateTrip(),
+    );
+  }
 }
 
-class _CreateTripState extends State<CreateTrip> {
+///That class represents the screen where we can create 'Trip' objects
+class _CreateTrip extends StatefulWidget {
+  /// ...
+  const _CreateTrip({super.key});
+
+  @override
+  State<_CreateTrip> createState() => _CreateTripAState();
+}
+
+class _CreateTripAState extends State<_CreateTrip> {
   bool _formIsDirty = false;
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _tripTitleController = TextEditingController();
@@ -44,7 +65,6 @@ class _CreateTripState extends State<CreateTrip> {
   Widget build(BuildContext context) {
     return Consumer<ParticipantProvider>(
       builder: (context, participantState, child) => WillPopScope(
-        //TODO: I have to change this bro here into PopScope()
         onWillPop: () async {
           if (!_formIsDirty) {
             return true;
@@ -135,7 +155,7 @@ class _CreateTripState extends State<CreateTrip> {
                         context,
                       )!.transportationMethodHeader,
                     ),
-                    CustomTranportMethod(
+                    CustomTransportMethod(
                       onChanged: (method) {
                         setState(() {
                           _selectedTransportationMethod = method;

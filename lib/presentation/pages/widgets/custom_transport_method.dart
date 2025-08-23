@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:desafio_final_lincetech_academy/entities/enum_transportation_method.dart';
 
-class CustomTranportMethod extends StatefulWidget {
+class CustomTransportMethod extends StatefulWidget {
   final ValueChanged<EnumTransportationMethod> onChanged;
 
-  const CustomTranportMethod({super.key, required this.onChanged});
+  const CustomTransportMethod({super.key, required this.onChanged});
 
   @override
-  State<CustomTranportMethod> createState() => _CustomTranportMethodState();
+  State<CustomTransportMethod> createState() => _CustomTransportMethodState();
 }
 
-class _CustomTranportMethodState extends State<CustomTranportMethod> {
+class _CustomTransportMethodState extends State<CustomTransportMethod> {
   EnumTransportationMethod value = EnumTransportationMethod.airplane; //TODO: ?
 
   @override

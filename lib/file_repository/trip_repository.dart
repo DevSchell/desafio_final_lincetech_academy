@@ -32,8 +32,8 @@ class TripRepositorySQLite implements TripRepository {
            CREATE TABLE trips(
             id INTEGER PRIMARY KEY NOT NULL,
             title TEXT,
-            start_date DATETIME,
-            end_date, DATETIME,
+            start_date TEXT,
+            end_date, TEXT,
             PRIMARY KEY (id)
            );
           ''');

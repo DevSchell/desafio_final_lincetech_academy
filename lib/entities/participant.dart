@@ -1,10 +1,12 @@
-import 'package:desafio_final_lincetech_academy/entities/enum_transportation_method.dart';
+import 'package:desafio_final_lincetech_academy/utils/formatting_methods.dart';
+
+import '../utils/formatting_methods.dart';
 
 //This class represents a trip participant
 class Participant {
   final int? id;
   final String name;
-  final String dateOfBirth; //TODO: Change to DATETIME afterwards
+  final DateTime dateOfBirth; //TODO: Change to DATETIME afterwards
   final String photoPath;
   final String favoriteTransp;
 
@@ -19,7 +21,7 @@ class Participant {
   Map<String, dynamic> toMap() {
     return {
       'name': name,
-      'age_of_birth': dateOfBirth,
+      'date_of_birth': Utils().dateFormat(dateOfBirth),
       'photoPath': photoPath,
       'favoriteTransp': favoriteTransp,
     };

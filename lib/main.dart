@@ -12,18 +12,14 @@ import 'presentation/providers/stopover_state.dart';
 void main() {
   runApp(
     MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (_) => ParticipantProvider()),
-        ChangeNotifierProvider(create: (_) => SettingsProvider()),
-        ChangeNotifierProvider(create: (_) => StopoverProvider()),
-      ],
+      providers: [ChangeNotifierProvider(create: (_) => SettingsProvider())],
       child: MyApp(),
     ),
   );
 }
+
 /// This is the main class of the app, because it makes the app run
 class MyApp extends StatelessWidget {
-
   ///That's the constructor for this class
   const MyApp({super.key});
 
@@ -43,6 +39,10 @@ class MyApp extends StatelessWidget {
         '/': (context) => Home(),
         '/settings': (context) => Settings(),
         '/createTrip': (context) => CreateTrip(),
+        '/editTrip': (context) {
+          final id = ModalRoute.of(context)!.settings.arguments as int;
+          return CreateTrip(idTravel: id);
+        },
       },
       initialRoute: '/',
       debugShowCheckedModeBanner: false,

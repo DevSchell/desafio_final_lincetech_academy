@@ -8,6 +8,7 @@ import '../../../entities/enum_transportation_method.dart';
 import '../../../entities/participant.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../use_cases/image_picker_use_cases.dart';
+import '../../providers/settings_state.dart';
 import 'custom_action_button.dart';
 import 'custom_header.dart';
 import 'custom_transport_method.dart';
@@ -24,7 +25,7 @@ class CustomBottomSheetAddParticipant extends StatefulWidget {
 class _CustomBottomSheetState extends State<CustomBottomSheetAddParticipant> {
   //Those are the variables we are using to temporarily keep data
   TextEditingController nameController = TextEditingController();
-  TextEditingController ageController = TextEditingController();
+  DateTime? dateOfBirth;
   EnumTransportationMethod selectedTransport =
       EnumTransportationMethod.airplane;
   XFile? selectedImage;
@@ -49,7 +50,6 @@ class _CustomBottomSheetState extends State<CustomBottomSheetAddParticipant> {
               Center(
                 child: CustomHeader(
                   text: AppLocalizations.of(context)!.addParticipantButton,
-                  //TODO: gotta change the intl later
                   size: 20,
                 ),
               ),
@@ -58,56 +58,49 @@ class _CustomBottomSheetState extends State<CustomBottomSheetAddParticipant> {
                   showDialog(
                     context: context,
                     builder: (context) => Dialog(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              AppLocalizations.of(context)!.choosePictureFrom,
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(AppLocalizations.of(context)!.choosePictureFrom),
+                          const SizedBox(height: 15),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: CustomActionButton(
+                              text: AppLocalizations.of(
+                                context,
+                              )!.chooseFromCamera,
+                              onPressed: () async {
+                                final picker = ImagePickerUseCase();
+                                final newImage = await picker.pickFromCamera();
+                                if (newImage != null) {
+                                  setState(() {
+                                    selectedImage = newImage;
+                                  });
+                                }
+                                Navigator.pop(context);
+                              },
                             ),
-                            const SizedBox(height: 15),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: CustomActionButton(
-                                text: AppLocalizations.of(
-                                  context,
-                                )!.chooseFromCamera,
-                                onPressed: () async {
-                                  final picker = ImagePickerUseCase();
-                                  final newImage = await picker
-                                      .pickFromCamera();
-                                  if (newImage != null) {
-                                    setState(() {
-                                      selectedImage = newImage;
-                                    });
-                                  }
-                                  Navigator.pop(context);
-                                },
-                              ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: CustomActionButton(
+                              text: AppLocalizations.of(
+                                context,
+                              )!.chooseFromGallery,
+                              onPressed: () async {
+                                final picker = ImagePickerUseCase();
+                                final newImage = await picker.pickFromGallery();
+                                if (newImage != null) {
+                                  setState(() {
+                                    selectedImage = newImage;
+                                  });
+                                }
+                                Navigator.pop(context);
+                              },
                             ),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: CustomActionButton(
-                                text: AppLocalizations.of(
-                                  context,
-                                )!.chooseFromGallery,
-                                onPressed: () async {
-                                  final picker = ImagePickerUseCase();
-                                  final newImage = await picker
-                                      .pickFromGallery();
-                                  if (newImage != null) {
-                                    setState(() {
-                                      selectedImage = newImage;
-                                    });
-                                  }
-                                  Navigator.pop(context);
-                                },
-                              ),
-                            ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
                   );
@@ -130,19 +123,71 @@ class _CustomBottomSheetState extends State<CustomBottomSheetAddParticipant> {
               SizedBox(height: 30),
 
               CustomHeader(text: AppLocalizations.of(context)!.age),
-              TextFormField(
-                keyboardType: TextInputType.number,
-                controller: ageController,
-                decoration: InputDecoration(
-                  labelText: AppLocalizations.of(context)!.enterAgeHere,
-                ),
+              //TODO: DatePick here
+              Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      dateOfBirth != null
+                          ? '${dateOfBirth!.day}/${dateOfBirth!.month}/${dateOfBirth!.year}'
+                          : 'No date selected',
+                    ),
+                  ),
+                  Expanded(
+                    child: CustomActionButton(
+                      text: 'select date',
+                      onPressed: () async {
+                        DateTime? selectedDate;
+                        final pickedDate = await showDatePicker(
+                          context: context,
+                          firstDate: DateTime(1875),
+                          lastDate: DateTime.now(),
+                          builder: (context, child) {
+                            return Theme(
+                              data: Theme.of(context).copyWith(
+                                colorScheme:
+                                    Provider.of<SettingsProvider>(
+                                      context,
+                                    ).isDarkMode
+                                    ? ColorScheme.dark(
+                                        primary: Color(0xFFFF774A),
+                                        onPrimary: Colors.black,
+                                        surface: Colors.grey[800]!,
+                                        onSurface: Colors.white,
+                                      )
+                                    : ColorScheme.light(
+                                        primary: Color(0xFFFFA600),
+                                        onPrimary: Colors.white,
+                                        surface: Colors.white,
+                                        onSurface: Colors.black,
+                                      ),
+                                dialogBackgroundColor:
+                                    Provider.of<SettingsProvider>(
+                                      context,
+                                    ).isDarkMode
+                                    ? Colors.grey[900]
+                                    : Colors.white,
+                              ),
+                              child: child!,
+                            );
+                          },
+                        );
+
+                        setState(() {
+                          dateOfBirth = pickedDate;
+                        });
+                      },
+                    ),
+                  ),
+                ],
               ),
+
               SizedBox(height: 30),
 
               CustomHeader(
                 text: AppLocalizations.of(context)!.favoriteTransport,
               ),
-              CustomTranportMethod(
+              CustomTransportMethod(
                 onChanged: (method) {
                   _selectedTransportationMethod = method;
                 },
@@ -155,8 +200,7 @@ class _CustomBottomSheetState extends State<CustomBottomSheetAddParticipant> {
                   //This button creates a new "Participant" object
                   final participant = Participant(
                     name: nameController.text,
-                    dateOfBirth: ageController.text,
-                    //TODO: Change to DATETIME afterwards
+                    dateOfBirth: dateOfBirth!,
                     favoriteTransp: selectedTransport.toString(),
                     photoPath: selectedImage!.path,
                   );

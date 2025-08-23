@@ -5,7 +5,7 @@ import 'package:path/path.dart';
 abstract interface class StopoverRepository {
   Future<void> createStopover(Stopover stopover);
 
-  Future<List<Stopover>> listStopovers();
+  Future<List<Stopover>> listStopovers(int idTravel);
 
   Future<void> updateStopover(Stopover stopover);
 
@@ -31,10 +31,10 @@ class StopoverRepositorySQLite implements StopoverRepository {
           CREATE TABLE stopovers(
             id INTEGER NOT NULL,
             city_name TEXT,
-            latitude REAL,
-            longitude REAL,
-            arrival_date DATETIME,
-            departure_date DATETIME,
+            latitude INTEGER,
+            longitude INTEGER,
+            arrival_date TEXT,
+            departure_date TEXT,
             actv_description TEXT,
             PRIMARY KEY(id)
           );
@@ -51,7 +51,7 @@ class StopoverRepositorySQLite implements StopoverRepository {
   }
 
   @override
-  Future<List<Stopover>> listStopovers() async {
+  Future<List<Stopover>> listStopovers(int idTravel) async {
     final db = await _initDb();
     final List<Map<String, dynamic>> maps = await db.query('stopovers');
 

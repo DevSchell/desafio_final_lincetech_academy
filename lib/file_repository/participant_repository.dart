@@ -5,7 +5,7 @@ import 'package:desafio_final_lincetech_academy/entities/participant.dart';
 abstract interface class ParticipantRepository {
   Future<void> createParticipant(Participant participant);
 
-  Future<List<Participant>> listParticpants(Participant participant);
+  Future<List<Participant>> listParticipants(int idTravel);
 
   Future<void> updateParticipant(Participant participant);
 
@@ -31,7 +31,7 @@ class ParticipantRepositorySQLite implements ParticipantRepository {
         CREATE TABLE participants(
           id INTEGER NOT NULL,
           name TEXT,
-          date_of_birth DATETIME,
+          date_of_birth TEXT,
           photo_path TEXT,
           favorite_transport TEXT,
           PRIMARY KEY (id)
@@ -49,9 +49,11 @@ class ParticipantRepositorySQLite implements ParticipantRepository {
   }
 
   @override
-  Future<List<Participant>> listParticpants(Participant participant) async {
+  Future<List<Participant>> listParticipants(int idTravel) async {
     final db = await _initDb();
-    final List<Map<String, dynamic>> maps = await db.query('participants');
+    final List<Map<String, dynamic>> maps = await db.query(
+      'participants',
+    ); //TODO: Add method to list participants based on tripID
     return List.generate(maps.length, (i) {
       return Participant.fromMap(maps[i]);
     });
