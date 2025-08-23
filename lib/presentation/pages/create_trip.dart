@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import '../../entities/enum_experiences_list.dart';
 import '../../entities/enum_transportation_method.dart';
 import '../../entities/participant.dart';
+import '../../entities/stopover.dart';
 import '../../entities/trip.dart';
 import '../../l10n/app_localizations.dart';
 import '../providers/participant_state.dart';
@@ -29,7 +30,10 @@ class CreateTrip extends StatelessWidget {
         ChangeNotifierProvider(
           create: (_) => ParticipantProvider(idTravel: idTravel),
         ),
-        ChangeNotifierProvider(create: (_) => StopoverProvider()),
+        ChangeNotifierProvider(
+          create: (_) => StopoverProvider(),
+          child: _CreateTrip(),
+        ),
       ],
       child: _CreateTrip(),
     );
@@ -425,8 +429,8 @@ class _CreateTripAState extends State<_CreateTrip> {
                     SizedBox(height: 10),
                     CustomAddButton(
                       heroTag: 'addStopover',
-                      onPressed: () {
-                        showModalBottomSheet(
+                      onPressed: () async {
+                        final result = await showModalBottomSheet<Stopover>(
                           isScrollControlled: true,
                           elevation: 700.098,
                           context: context,
@@ -434,6 +438,13 @@ class _CreateTripAState extends State<_CreateTrip> {
                             return CustomBottomSheetAddStopover();
                           },
                         );
+                        if (result == null) {
+                          return;
+                        }
+                        Provider.of<StopoverProvider>(
+                          context,
+                          listen: false,
+                        ).addStopover(result);
                       },
                     ),
                     Padding(

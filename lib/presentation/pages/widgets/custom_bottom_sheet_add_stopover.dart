@@ -51,17 +51,24 @@ class _CustomBottomSheetAddStopoverState
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Center(child: CustomHeader(text: AppLocalizations.of(context)!.addStopover, size: 20)),
+                Center(
+                  child: CustomHeader(
+                    text: AppLocalizations.of(context)!.addStopover,
+                    size: 20,
+                  ),
+                ),
                 SizedBox(height: 20),
 
                 CustomHeader(text: AppLocalizations.of(context)!.cityName),
                 TextFormField(
                   controller: cityNameController,
                   keyboardType: TextInputType.text,
-                  decoration: InputDecoration(labelText: AppLocalizations.of(context)!.enterNameHere),
+                  decoration: InputDecoration(
+                    labelText: AppLocalizations.of(context)!.enterNameHere,
+                  ),
 
                   /*Here each time the user types, the API searches the value on Nominatim API*/
-                  onChanged: (String value) async {
+                  onChanged: (value) async {
                     _searchText = value;
                     if (_debounceTimer?.isActive ?? false) {
                       _debounceTimer!.cancel();
@@ -87,7 +94,7 @@ class _CustomBottomSheetAddStopoverState
                 * the elements of the List placesSuggestions*/
                 Center(
                   child: placeSuggestions.isEmpty
-                      ? Text("")
+                      ? Text('')
                       : SizedBox(
                           height: 200,
                           child: ListView.builder(
@@ -98,7 +105,7 @@ class _CustomBottomSheetAddStopoverState
 
                               return ListTile(
                                 title: Text(
-                                  "${foundPlace.cityName}, ${foundPlace.cityState},${foundPlace.cityCountry}",
+                                  '${foundPlace.cityName}, ${foundPlace.cityState},${foundPlace.cityCountry}',
                                 ),
                                 onTap: () {
                                   cityNameController.text =
@@ -146,7 +153,7 @@ class _CustomBottomSheetAddStopoverState
                       latitude: globalFoundPlace.latitude,
                       longitude: globalFoundPlace.longitude,
                     );
-                    final selectedStopover = Stopover(
+                    final stopover = Stopover(
                       cityName: globalFoundPlace.cityName,
                       latitude: selectedStopoverCoordinates.latitude,
                       longitude: selectedStopoverCoordinates.longitude,
@@ -154,16 +161,6 @@ class _CustomBottomSheetAddStopoverState
                       arrivalDate: _startDate!,
                       departureDate: _endDate!,
                     );
-                    Provider.of<StopoverProvider>(
-                      context,
-                      listen: false,
-                    ).addStopover(selectedStopover);
-                    print("ççççççççççç");
-                    print(
-                      '${selectedStopover.cityName} '
-                          '${AppLocalizations.of(context)!.wasAddedSuccessfully}',
-                    );
-                    print(StopoverProvider().stopoverList.length);
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
                         content: Text(
@@ -174,7 +171,9 @@ class _CustomBottomSheetAddStopoverState
                         duration: Duration(seconds: 2),
                       ),
                     );
-                    Navigator.pop(context);
+                    print('ççççççççççççççççççççç _> objeto adicionado');
+                    print(stopover);
+                    Navigator.pop(context, stopover);
                   },
                 ),
               ],
