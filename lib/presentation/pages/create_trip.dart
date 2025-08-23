@@ -12,6 +12,7 @@ import '../../l10n/app_localizations.dart';
 import '../providers/participant_state.dart';
 import '../providers/settings_state.dart';
 import '../providers/stopover_state.dart';
+import '../providers/trip_state.dart';
 import 'widgets/all_widgets.dart';
 import 'widgets/custom_action_button.dart';
 import 'widgets/custom_add_button.dart';
@@ -34,6 +35,10 @@ class CreateTrip extends StatelessWidget {
           create: (_) => StopoverProvider(),
           child: _CreateTrip(),
         ),
+        // ChangeNotifierProvider(
+        //   create: (_) => TripProvider(),
+        //   child: _CreateTrip(),
+        // ),
       ],
       child: _CreateTrip(),
     );
@@ -466,6 +471,19 @@ class _CreateTripAState extends State<_CreateTrip> {
                                         _selectedTransportationMethod
                                             .toString(),
                                   );
+                                  Provider.of<TripProvider>(
+                                    context,
+                                    listen: false,
+                                  ).createTrip(trip);
+                                  print('ÇÇÇÇÇÇÇÇÇÇÇÇÇÇÇÇÇÇÇÇÇÇÇ');
+                                  final listaTeste = Provider.of<TripProvider>(
+                                    context,
+                                    listen: false,
+                                  ).tripList;
+                                  for (int i = 0; i < listaTeste.length; i++) {
+                                    print('Nome: ${listaTeste[i].title}');
+                                  }
+                                  Navigator.pop(context);
                                 }
                               },
                             ),

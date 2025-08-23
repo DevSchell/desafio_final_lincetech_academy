@@ -8,11 +8,15 @@ import 'presentation/pages/settings.dart';
 import 'presentation/providers/participant_state.dart';
 import 'presentation/providers/settings_state.dart';
 import 'presentation/providers/stopover_state.dart';
+import 'presentation/providers/trip_state.dart';
 
 void main() {
   runApp(
     MultiProvider(
-      providers: [ChangeNotifierProvider(create: (_) => SettingsProvider())],
+      providers: [
+        ChangeNotifierProvider(create: (_) => SettingsProvider()),
+        ChangeNotifierProvider(create: (_) => TripProvider()),
+      ],
       child: MyApp(),
     ),
   );

@@ -19,17 +19,17 @@ class Participant {
     return {
       'name': name,
       'date_of_birth': Utils().dateFormat(dateOfBirth),
-      'photoPath': photoPath,
-      'favoriteTransp': favoriteTransp,
+      'photo_path': photoPath,
+      'favorite_transport': favoriteTransp,
     };
   }
 
   static Participant fromMap(Map<String, dynamic> map) {
     return Participant(
       name: map['name'],
-      dateOfBirth: map['dateOfBirth'],
-      photoPath: map['photoPath'],
-      favoriteTransp: map['favoriteTransp']
+      dateOfBirth: map['date_of_birth'],
+      photoPath: map['photo_path'],
+      favoriteTransp: map['favorite_transport']
     );
   }
 

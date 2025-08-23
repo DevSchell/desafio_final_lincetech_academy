@@ -9,7 +9,7 @@ class TripProvider with ChangeNotifier {
 
   final List<Trip> _tripsList = [];
 
-  List<Trip> get TripList  => _tripsList;
+  List<Trip> get tripList  => _tripsList;
 
   void createTrip(Trip trip)  {
     tripRepo.createTrip(trip);

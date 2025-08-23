@@ -29,12 +29,12 @@ class TripRepositorySQLite implements TripRepository {
       version: 1,
       onCreate: (db, version) {
         return db.execute('''
-           CREATE TABLE trips(
+           CREATE TABLE IF NOT EXISTS trips(
             id INTEGER PRIMARY KEY NOT NULL,
             title TEXT,
             start_date TEXT,
-            end_date, TEXT,
-            PRIMARY KEY (id)
+            end_date TEXT,
+            transportation_method
            );
           ''');
       },

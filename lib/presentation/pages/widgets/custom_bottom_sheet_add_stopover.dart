@@ -110,8 +110,7 @@ class _CustomBottomSheetAddStopoverState
                                 onTap: () {
                                   cityNameController.text =
                                       '${foundPlace.cityName}, ${foundPlace.cityState}, ${foundPlace.cityCountry}';
-                                  globalFoundPlace =
-                                      foundPlace; //TODO: That's a test, delete later
+                                  globalFoundPlace = foundPlace;
                                   defaultLon = foundPlace.longitude;
                                   defaultLat = foundPlace.latitude;
                                   placeSuggestions.clear();
@@ -171,8 +170,6 @@ class _CustomBottomSheetAddStopoverState
                         duration: Duration(seconds: 2),
                       ),
                     );
-                    print('ççççççççççççççççççççç _> objeto adicionado');
-                    print(stopover);
                     Navigator.pop(context, stopover);
                   },
                 ),

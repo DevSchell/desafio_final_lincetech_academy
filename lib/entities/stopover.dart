@@ -25,9 +25,9 @@ class Stopover {
   Map<String, dynamic> toMap() {
     return {
       'id' : id,
-      'cityName' : cityName,
-      'arrivalDate' : arrivalDate,
-      'departureDate' : departureDate,
+      'city_name' : cityName,
+      'arrival_date' : arrivalDate,
+      'departure_date' : departureDate,
       'latitude' : latitude,
       'longitude' : longitude,
     };
@@ -36,9 +36,9 @@ class Stopover {
   static Stopover fromMap(Map<String, dynamic> map) {
     return Stopover (
       id: map['id'],
-      cityName: map['cityName'],
-      arrivalDate: DateTime.parse(map['arrivalDate']),
-      departureDate: DateTime.parse(map['departureDate']),
+      cityName: map['city_name'],
+      arrivalDate: DateTime.parse(map['arrival_date']),
+      departureDate: DateTime.parse(map['departure_date']),
       latitude: map['latitude'],
       longitude: map['longitude']
     );

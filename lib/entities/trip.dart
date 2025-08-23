@@ -32,9 +32,9 @@ class Trip {
     return {
       'id' : id,
       'title' : title,
-      'startDate' : startDate,
-      'endDate' : endDate,
-      'transportationMethod' : transportationMethod
+      'start_date' : startDate.toString(),
+      'end_date' : endDate.toString(),
+      'transportation_method' : transportationMethod
     };
   }
 
@@ -42,9 +42,9 @@ class Trip {
     return Trip(
       id: map['id'],
       title: map['title'],
-      startDate: map['startDate'],
-      endDate: map['endDate'],
-      transportationMethod: map['transportationMethod']
+      startDate: map['start_date'],
+      endDate: map['end_date'],
+      transportationMethod: map['transportation_method']
     );
   }
 
