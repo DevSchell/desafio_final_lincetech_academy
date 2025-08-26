@@ -3,6 +3,8 @@ import 'package:desafio_final_lincetech_academy/presentation/providers/settings_
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../entities/trip.dart';
+import '../../utils/formatting_methods.dart';
 import '../providers/trip_state.dart';
 
 class Home extends StatelessWidget {
@@ -29,7 +31,19 @@ class Home extends StatelessWidget {
         appBar: AppBar(
           backgroundColor: Color.fromRGBO(25, 121, 130, 1),
           centerTitle: true,
-          leading: Image.asset('assets/images/logo_desafio_final.png'),
+          leading: InkWell(
+            child: Image.asset('assets/images/logo_desafio_final.png'),
+            onTap: () {
+              final trip = Trip(
+                id: tripState.tripList.length + 1,
+                title: 'Test Trip ${tripState.tripList.length + 1}',
+                transportationMethod: 'Kart',
+                startDate: DateTime(2025, 5, 20),
+                endDate: DateTime(2025, 5, 20),
+              );
+              tripState.createTrip(trip);
+            },
+          ),
           title: Text(
             'WanderPlan',
             style: TextStyle(color: Colors.white, fontSize: 30),
@@ -53,21 +67,26 @@ class Home extends StatelessWidget {
                   style: TextStyle(fontSize: 30),
                 )
               : Padding(
-                padding: const EdgeInsets.all(32.0),
-                child: GridView.builder(
-                  itemCount: tripState.tripList.length,
+                  padding: const EdgeInsets.all(32.0),
+                  child: GridView.builder(
+                    itemCount: tripState.tripList.length,
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
                       mainAxisSpacing: 10,
-                      crossAxisSpacing: 10
+                      crossAxisSpacing: 10,
                     ),
                     itemBuilder: (context, index) {
                       //TODO: Aqui agora é só customizar pra ficar melhor de se ver
                       final trip = tripState.tripList[index];
-                      return Card(child: Center(child: Text(trip.title)));
+                      return Card(
+                        elevation: 4.0,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20.0),
+                        ),
+                      );
                     },
                   ),
-              ),
+                ),
         ),
       ),
     );

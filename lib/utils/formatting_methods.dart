@@ -1,7 +1,7 @@
 
 class Utils {
 
-  String dateFormat(DateTime date) {
+  String dateFormatToString(DateTime date) {
     return '${date.day}/${date.month}/${date.year}';
   }
 
