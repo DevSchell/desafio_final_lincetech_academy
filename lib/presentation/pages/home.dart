@@ -7,87 +7,166 @@ import '../../entities/trip.dart';
 import '../../utils/formatting_methods.dart';
 import '../providers/trip_state.dart';
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
   const Home({super.key});
+
+  @override
+  State<Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  @override
+  void initState() {
+    super.initState();
+    Provider.of<TripProvider>(context, listen: false).loadTrips();
+  }
 
   @override
   Widget build(BuildContext context) {
     final tripState = Provider.of<TripProvider>(context);
     final settingsState = Provider.of<SettingsProvider>(context);
 
-    return ChangeNotifierProvider(
-      create: (_) => TripProvider(),
-      child: Scaffold(
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: settingsState.isDarkMode
-              ? Color.fromRGBO(255, 119, 74, 1)
-              : Color.fromRGBO(255, 166, 0, 1),
-          onPressed: () {
-            Navigator.pushNamed(context, '/createTrip');
+    return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: settingsState.isDarkMode
+            ? Color.fromRGBO(255, 119, 74, 1)
+            : Color.fromRGBO(255, 166, 0, 1),
+        onPressed: () {
+          Navigator.pushNamed(context, '/createTrip');
+        },
+        shape: CircleBorder(),
+        child: Icon(Icons.add, color: Colors.white),
+      ),
+      appBar: AppBar(
+        backgroundColor: Color.fromRGBO(25, 121, 130, 1),
+        centerTitle: true,
+        leading: InkWell(
+          child: Image.asset('assets/images/logo_desafio_final.png'),
+          onTap: () {
+            final trip = Trip(
+              title: 'Test Trip ${tripState.tripList.length + 1}',
+              transportationMethod: 'Kart',
+              startDate: DateTime(2025, 05, 20),
+              endDate: DateTime(2025, 05, 20),
+            );
+            tripState.createTrip(trip);
           },
-          shape: CircleBorder(),
-          child: Icon(Icons.add, color: Colors.white),
         ),
-        appBar: AppBar(
-          backgroundColor: Color.fromRGBO(25, 121, 130, 1),
-          centerTitle: true,
-          leading: InkWell(
-            child: Image.asset('assets/images/logo_desafio_final.png'),
+        title: Text(
+          'WanderPlan',
+          style: TextStyle(color: Colors.white, fontSize: 30),
+        ),
+        actions: [
+          InkWell(
+            child: Icon(Icons.settings, size: 40, color: Colors.white),
             onTap: () {
-              final trip = Trip(
-                id: tripState.tripList.length + 1,
-                title: 'Test Trip ${tripState.tripList.length + 1}',
-                transportationMethod: 'Kart',
-                startDate: DateTime(2025, 5, 20),
-                endDate: DateTime(2025, 5, 20),
-              );
-              tripState.createTrip(trip);
+              Navigator.pushNamed(context, '/settings');
             },
           ),
-          title: Text(
-            'WanderPlan',
-            style: TextStyle(color: Colors.white, fontSize: 30),
-          ),
-          actions: [
-            InkWell(
-              child: Icon(Icons.settings, size: 40, color: Colors.white),
-              onTap: () {
-                Navigator.pushNamed(context, '/settings');
-              },
-            ),
-          ],
-        ),
-        backgroundColor: Provider.of<SettingsProvider>(context).isDarkMode
-            ? Color.fromRGBO(20, 24, 28, 1)
-            : Colors.white,
-        body: Center(
-          child: tripState.tripList.isEmpty
-              ? Text(
-                  AppLocalizations.of(context)!.noTripsAdded,
-                  style: TextStyle(fontSize: 30),
-                )
-              : Padding(
-                  padding: const EdgeInsets.all(32.0),
-                  child: GridView.builder(
-                    itemCount: tripState.tripList.length,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      mainAxisSpacing: 10,
-                      crossAxisSpacing: 10,
-                    ),
-                    itemBuilder: (context, index) {
-                      //TODO: Aqui agora é só customizar pra ficar melhor de se ver
-                      final trip = tripState.tripList[index];
-                      return Card(
-                        elevation: 4.0,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20.0),
-                        ),
-                      );
-                    },
+        ],
+      ),
+      backgroundColor: Provider.of<SettingsProvider>(context).isDarkMode
+          ? Color.fromRGBO(20, 24, 28, 1)
+          : Colors.white,
+      body: Center(
+        child: tripState.tripList.isEmpty
+            ? Text(
+                AppLocalizations.of(context)!.noTripsAdded,
+                style: TextStyle(fontSize: 30),
+              )
+            : Padding(
+                padding: const EdgeInsets.all(32.0),
+                child: GridView.builder(
+                  itemCount: tripState.tripList.length,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    mainAxisSpacing: 10,
+                    crossAxisSpacing: 10,
                   ),
+                  itemBuilder: (context, index) {
+                    final trip = tripState.tripList[index];
+                    return Stack(
+                      children: [
+                        Card(
+                          elevation: 4.0,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                          ),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(20.0),
+                            //TODO: Img only for testing purposes
+                            child: Image.network(
+                              'https://imgs.search.brave.com/LzP-dmtzjLKE9y-MlSlNig_In1TNfFyRXTNjyY1434I/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9zdGMu/b3R2Zm9jby5jb20u/YnIvMjAyMC8wMy9j/aGF2ZXMtZW0tYWNh/cHVsY28tMS5qcGc',
+                              fit: BoxFit.cover,
+                              height: 200,
+                              width: double.infinity,
+                            ),
+                          ),
+                        ),
+                        Positioned(
+                          bottom: 10,
+                          left: 10,
+                          right: 10,
+                          child: Container(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 15,
+                              vertical: 8,
+                            ),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(15.0),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.2),
+                                  spreadRadius: 1,
+                                  blurRadius: 3,
+                                  offset: Offset(0, 2),
+                                ),
+                              ],
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text(
+                                  trip.title,
+                                  // Temporary customization
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.teal[700],
+                                  ),
+                                ),
+                                SizedBox(height: 4),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      Utils().dateTimeToStringFormat(
+                                        trip.startDate,
+                                      ),
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        color: Colors.grey[700],
+                                      ),
+                                    ),
+                                    Icon(
+                                      Icons.directions_car,
+                                      color: Colors.teal[700],
+                                      size: 20,
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    );
+                  },
                 ),
-        ),
+              ),
       ),
     );
   }

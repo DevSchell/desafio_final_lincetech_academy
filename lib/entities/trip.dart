@@ -1,6 +1,7 @@
 import 'package:desafio_final_lincetech_academy/entities/participant.dart';
 import 'package:desafio_final_lincetech_academy/entities/stopover.dart';
 
+import '../utils/formatting_methods.dart';
 import 'enum_experiences_list.dart';
 
 /*
@@ -32,8 +33,8 @@ class Trip {
     return {
       'id' : id,
       'title' : title,
-      'start_date' : startDate.toString(),
-      'end_date' : endDate.toString(),
+      'start_date' : startDate.toIso8601String(),
+      'end_date' : endDate.toIso8601String(),
       'transportation_method' : transportationMethod
     };
   }
@@ -42,9 +43,9 @@ class Trip {
     return Trip(
       id: map['id'],
       title: map['title'],
-      startDate: map['start_date'],
-      endDate: map['end_date'],
-      transportationMethod: map['transportation_method']
+      transportationMethod: map['transportation_method'],
+      startDate: DateTime.parse(map['start_date']),
+      endDate: DateTime.parse(map['end_date'])
     );
   }
 

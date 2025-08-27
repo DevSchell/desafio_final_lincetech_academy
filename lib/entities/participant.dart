@@ -18,7 +18,7 @@ class Participant {
   Map<String, dynamic> toMap() {
     return {
       'name': name,
-      'date_of_birth': Utils().dateFormatToString(dateOfBirth),
+      'date_of_birth': Utils().dateTimeToStringFormat(dateOfBirth),
       'photo_path': photoPath,
       'favorite_transport': favoriteTransp,
     };

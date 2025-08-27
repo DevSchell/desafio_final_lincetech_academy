@@ -4,23 +4,28 @@ import '../../entities/trip.dart';
 import '../../file_repository/trip_repository.dart';
 
 class TripProvider with ChangeNotifier {
-
   final TripRepositorySQLite tripRepo = TripRepositorySQLite();
 
-  final List<Trip> _tripsList = [];
+  List<Trip> _tripsList = [];
 
-  List<Trip> get tripList  => _tripsList;
+  List<Trip> get tripList => _tripsList;
 
-  void createTrip(Trip trip)  {
-    tripRepo.createTrip(trip);
-    _tripsList.add(trip);
-    notifyListeners();
+  Future<void> initializeProvider() async {
+    await loadTrips();
   }
 
-  void deleteTrip(Trip trip) {
-    tripRepo.deleteTrip(trip);
-    _tripsList.remove(trip);
-    notifyListeners();
+  void createTrip(Trip trip) async {
+    await tripRepo.createTrip(trip);
+    await loadTrips();
   }
 
+  void deleteTrip(Trip trip) async {
+    await tripRepo.deleteTrip(trip);
+    await loadTrips();
+  }
+
+  Future<void> loadTrips() async {
+    _tripsList = await tripRepo.listTrips();
+    notifyListeners();
+  }
 }

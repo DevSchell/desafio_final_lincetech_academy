@@ -34,7 +34,7 @@ class TripRepositorySQLite implements TripRepository {
             title TEXT,
             start_date TEXT,
             end_date TEXT,
-            transportation_method
+            transportation_method TEXT
            );
           ''');
       },
@@ -82,6 +82,6 @@ class TripRepositorySQLite implements TripRepository {
       return;
     }
 
-    await db.delete('table', where: 'id = ?', whereArgs: [trip.id]);
+    await db.delete('trips', where: 'id = ?', whereArgs: [trip.id]);
   }
 }
