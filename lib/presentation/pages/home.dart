@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import '../../entities/trip.dart';
 import '../../utils/formatting_methods.dart';
 import '../providers/trip_state.dart';
+import 'trip_details.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -85,84 +86,94 @@ class _HomeState extends State<Home> {
                   ),
                   itemBuilder: (context, index) {
                     final trip = tripState.tripList[index];
-                    return Stack(
-                      children: [
-                        Card(
-                          elevation: 4.0,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20.0),
+                    return InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => TripDetails(trip: trip),
                           ),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(20.0),
-                            //TODO: Img only for testing purposes
-                            child: Image.network(
-                              'https://imgs.search.brave.com/LzP-dmtzjLKE9y-MlSlNig_In1TNfFyRXTNjyY1434I/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9zdGMu/b3R2Zm9jby5jb20u/YnIvMjAyMC8wMy9j/aGF2ZXMtZW0tYWNh/cHVsY28tMS5qcGc',
-                              fit: BoxFit.cover,
-                              height: 200,
-                              width: double.infinity,
+                        );
+                      },
+                      child: Stack(
+                        children: [
+                          Card(
+                            elevation: 4.0,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20.0),
+                            ),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(20.0),
+                              //TODO: Img only for testing purposes
+                              child: Image.network(
+                                'https://imgs.search.brave.com/LzP-dmtzjLKE9y-MlSlNig_In1TNfFyRXTNjyY1434I/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9zdGMu/b3R2Zm9jby5jb20u/YnIvMjAyMC8wMy9j/aGF2ZXMtZW0tYWNh/cHVsY28tMS5qcGc',
+                                fit: BoxFit.cover,
+                                height: 200,
+                                width: double.infinity,
+                              ),
                             ),
                           ),
-                        ),
-                        Positioned(
-                          bottom: 10,
-                          left: 10,
-                          right: 10,
-                          child: Container(
-                            padding: EdgeInsets.symmetric(
-                              horizontal: 15,
-                              vertical: 8,
-                            ),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(15.0),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black.withOpacity(0.2),
-                                  spreadRadius: 1,
-                                  blurRadius: 3,
-                                  offset: Offset(0, 2),
-                                ),
-                              ],
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Text(
-                                  trip.title,
-                                  // Temporary customization
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.teal[700],
+                          Positioned(
+                            bottom: 10,
+                            left: 10,
+                            right: 10,
+                            child: Container(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 15,
+                                vertical: 8,
+                              ),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(15.0),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withOpacity(0.2),
+                                    spreadRadius: 1,
+                                    blurRadius: 3,
+                                    offset: Offset(0, 2),
                                   ),
-                                ),
-                                SizedBox(height: 4),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      Utils().dateTimeToStringFormat(
-                                        trip.startDate,
-                                      ),
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        color: Colors.grey[700],
-                                      ),
-                                    ),
-                                    Icon(
-                                      Icons.directions_car,
+                                ],
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text(
+                                    trip.title,
+                                    // Temporary customization
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
                                       color: Colors.teal[700],
-                                      size: 20,
                                     ),
-                                  ],
-                                ),
-                              ],
+                                  ),
+                                  SizedBox(height: 4),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        Utils().dateTimeToStringFormat(
+                                          trip.startDate,
+                                        ),
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          color: Colors.grey[700],
+                                        ),
+                                      ),
+                                      Icon(
+                                        Icons.directions_car,
+                                        color: Colors.teal[700],
+                                        size: 20,
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     );
                   },
                 ),

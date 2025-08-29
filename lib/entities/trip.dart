@@ -17,9 +17,8 @@ class Trip {
   DateTime endDate;
   String transportationMethod;
 
-//TODO: Won't use them anymore, 'cause of the DB
-//  List<Participant> participantList; // Table "participant"
-//  List<Stopover> stopoverList; //Table "stopover"
+  List<Participant>? participantList; // Table "participant"
+  List<Stopover>? stopoverList; //Table "stopover"
 
   Trip({
     this.id,
@@ -31,11 +30,11 @@ class Trip {
 
   Map<String, dynamic> toMap() {
     return {
-      'id' : id,
-      'title' : title,
-      'start_date' : startDate.toIso8601String(),
-      'end_date' : endDate.toIso8601String(),
-      'transportation_method' : transportationMethod
+      'id': id,
+      'title': title,
+      'start_date': startDate.toIso8601String(),
+      'end_date': endDate.toIso8601String(),
+      'transportation_method': transportationMethod,
     };
   }
 
@@ -45,8 +44,7 @@ class Trip {
       title: map['title'],
       transportationMethod: map['transportation_method'],
       startDate: DateTime.parse(map['start_date']),
-      endDate: DateTime.parse(map['end_date'])
+      endDate: DateTime.parse(map['end_date']),
     );
   }
-
 }
