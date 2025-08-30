@@ -18,6 +18,7 @@ class CustomHeader extends StatelessWidget {
       style: TextStyle(
         fontSize: size ?? 30,
         color:
+            //TODO: Change color configs
             color ??
             (Provider.of<SettingsProvider>(context).isDarkMode
                 ? Colors.white

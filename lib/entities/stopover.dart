@@ -26,8 +26,8 @@ class Stopover {
     return {
       'id' : id,
       'city_name' : cityName,
-      'arrival_date' : arrivalDate,
-      'departure_date' : departureDate,
+      'arrival_date' : arrivalDate.toIso8601String(),
+      'departure_date' : departureDate.toIso8601String(),
       'latitude' : latitude,
       'longitude' : longitude,
     };

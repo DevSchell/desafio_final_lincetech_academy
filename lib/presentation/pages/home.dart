@@ -1,8 +1,11 @@
 import 'package:desafio_final_lincetech_academy/l10n/app_localizations.dart';
 import 'package:desafio_final_lincetech_academy/presentation/providers/settings_state.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
+import '../../entities/participant.dart';
+import '../../entities/stopover.dart';
 import '../../entities/trip.dart';
 import '../../utils/formatting_methods.dart';
 import '../providers/trip_state.dart';
@@ -44,11 +47,30 @@ class _HomeState extends State<Home> {
         leading: InkWell(
           child: Image.asset('assets/images/logo_desafio_final.png'),
           onTap: () {
+            //TODO> Only test purposes...
+            var p = Participant(
+              name: 'name',
+              dateOfBirth: DateTime(2002, 05, 20),
+              photoPath: '',
+              favoriteTransp: 'Car',
+            );
+            var s = Stopover(
+              cityName: 'cityName',
+              arrivalDate: DateTime(2020, 12, 20),
+              departureDate: DateTime(2020, 12, 20),
+              latitude: 12315,
+              longitude: 12315,
+            );
+            final stopoverList = <Stopover>[s, s, s, s];
+            final participantList = <Participant>[p, p, p, p];
+
             final trip = Trip(
               title: 'Test Trip ${tripState.tripList.length + 1}',
-              transportationMethod: 'Kart',
-              startDate: DateTime(2025, 05, 20),
-              endDate: DateTime(2025, 05, 20),
+              transportationMethod: 'Car',
+              startDate: DateTime(2000, 1, 1),
+              endDate: DateTime(2000, 1, 1),
+              stopoverList: stopoverList,
+              participantList: participantList,
             );
             tripState.createTrip(trip);
           },
@@ -153,9 +175,8 @@ class _HomeState extends State<Home> {
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
-                                        Utils().dateTimeToStringFormat(
-                                          trip.startDate,
-                                        ),
+                                        DateFormat('dd/MM/yyyy').format(trip.startDate),
+
                                         style: TextStyle(
                                           fontSize: 14,
                                           color: Colors.grey[700],

@@ -6,192 +6,193 @@ import 'package:flutter/material.dart';
 import 'all_widgets.dart';
 import 'package:provider/provider.dart';
 
-class CustomDatePicker extends StatefulWidget {
-  final Function(DateTime)? onStartDateChanged;
-  final Function(DateTime)? onEndDateChanged;
+class _NewCustomDatePickerState extends ChangeNotifier {
+  DateTime? _selectedStartDate;
+  DateTime? _selectedEndDate;
 
-  const CustomDatePicker({
+  DateTime? get selectedStartDate => _selectedStartDate;
+
+  set selectedStartDate(DateTime? value) {
+    _selectedStartDate = value;
+    notifyListeners();
+  }
+
+  DateTime? get selectedEndDate => _selectedEndDate;
+
+  set selectedEndDate(DateTime? value) {
+    _selectedEndDate = value;
+    notifyListeners();
+  }
+}
+
+class NewCustomDatePicker extends StatelessWidget {
+  const NewCustomDatePicker({
     super.key,
     this.onStartDateChanged,
     this.onEndDateChanged,
+    this.headerSize,
   });
 
-  @override
-  State<CustomDatePicker> createState() => _CustomDatePickerState();
-}
-
-/*
- Reusable for everytime you need to use the structure of DateTime
- */
-class _CustomDatePickerState extends State<CustomDatePicker> {
-  DateTime? selectedStartDate;
-  DateTime? selectedEndDate;
-
-  Future<void> _selectStartDate() async {
-    final isDarkMode = Provider.of<SettingsProvider>(
-      context,
-      listen: false,
-    ).isDarkMode;
-
-    final pickedDate = await showDatePicker(
-      context: context,
-      firstDate: DateTime.now(),
-      lastDate: DateTime(9998),
-      builder: (context, child) {
-        return Theme(
-          data: Theme.of(context).copyWith(
-            colorScheme: isDarkMode
-                ? ColorScheme.dark(
-                    primary: Color(0xFFFF774A),
-                    onPrimary: Colors.black,
-                    surface: Colors.grey[800]!,
-                    onSurface: Colors.white,
-                  )
-                : ColorScheme.light(
-                    primary: Color(0xFFFFA600),
-                    onPrimary: Colors.white,
-                    surface: Colors.white,
-                    onSurface: Colors.black,
-                  ),
-            dialogBackgroundColor: isDarkMode ? Colors.grey[900] : Colors.white,
-          ),
-          child: child!,
-        );
-      },
-    );
-
-    setState(() {
-      selectedStartDate = pickedDate;
-    });
-
-    //TODO: Explain this...
-    if(pickedDate != null && widget.onStartDateChanged != null) {
-      widget.onStartDateChanged!(pickedDate);
-    }
-
-  }
-
-  Future<void> _selectedEndDate() async {
-    final pickedDate = await showDatePicker(
-      context: context,
-      firstDate: DateTime.now(),
-      lastDate: DateTime(9998),
-      builder: (context, child) {
-        return Theme(
-          data: Theme.of(context).copyWith(
-            colorScheme: Provider.of<SettingsProvider>(context).isDarkMode
-                ? ColorScheme.dark(
-                    primary: Color(0xFFFF774A),
-                    onPrimary: Colors.black,
-                    surface: Colors.grey[800]!,
-                    onSurface: Colors.white,
-                  )
-                : ColorScheme.light(
-                    primary: Color(0xFFFFA600),
-                    onPrimary: Colors.white,
-                    onSurface: Colors.black,
-                  ),
-            dialogBackgroundColor: Colors.white,
-          ),
-          child: child!,
-        );
-      },
-    );
-    setState(() {
-      selectedEndDate = pickedDate;
-    });
-
-    //TODO: Explain this...
-    if(pickedDate != null && widget.onEndDateChanged != null) {
-      widget.onEndDateChanged!(pickedDate);
-    }
-  }
+  final Function(DateTime)? onStartDateChanged;
+  final Function(DateTime)? onEndDateChanged;
+  final double? headerSize;
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Row(
-          children: [
-            Expanded(
-              child: Column(
-                children: [
-                  CustomHeader(text: AppLocalizations.of(context)!.startDate),
-                  Row(
-                    children: [
-                      InkWell(
-                        onTap: () async {
-                          await _selectStartDate();
-                        },
-                        child: Row(
-                          children: [
-                            Icon(Icons.calendar_month, size: 30),
-                            Text(
-                              selectedStartDate != null
-                                  ? '${selectedStartDate!.day}/${selectedStartDate!.month}/${selectedStartDate!.year}'
-                                  : AppLocalizations.of(
-                                      context,
-                                    )!.noDateSelected,
-                              style: TextStyle(
-                                fontSize: 20,
-                                color:
-                                    Provider.of<SettingsProvider>(
-                                      context,
-                                    ).isDarkMode
-                                    ? Color.fromRGBO(255, 119, 74, 1)
-                                    : Color.fromRGBO(255, 165, 0, 1),
-                                fontWeight: FontWeight.bold,
+    return ChangeNotifierProvider<_NewCustomDatePickerState>(
+      create: (context) => _NewCustomDatePickerState(),
+      child: Consumer<_NewCustomDatePickerState>(
+        builder: (_, state, _) {
+          return Row(
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    CustomHeader(
+                      text: AppLocalizations.of(context)!.startDate,
+                      size: headerSize,
+                    ),
+                    Row(
+                      children: [
+                        InkWell(
+                          onTap: () async {
+                            final pickedDate = await _selectDate(
+                              context,
+                            );
+
+                            if (pickedDate != null) {
+                              state.selectedStartDate = pickedDate;
+                            }
+
+                            //TODO: Explain this...
+                            if (pickedDate != null &&
+                                onStartDateChanged != null) {
+                              onStartDateChanged!(pickedDate);
+                            }
+                          },
+                          child: Row(
+                            children: [
+                              Icon(Icons.calendar_month, size: 30),
+                              Text(
+                                state.selectedStartDate != null
+                                    ? '${state.selectedStartDate!.day}/${state.selectedStartDate!.month}/${state.selectedStartDate!.year}'
+                                    : AppLocalizations.of(
+                                        context,
+                                      )!.noDateSelected,
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  color:
+                                      Provider.of<SettingsProvider>(
+                                        context,
+                                      ).isDarkMode
+                                      ? Color.fromRGBO(255, 119, 74, 1)
+                                      : Color.fromRGBO(255, 165, 0, 1),
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                ],
+                      ],
+                    ),
+                  ],
+                ),
               ),
-            ),
-            Expanded(
-              child: Column(
-                children: [
-                  CustomHeader(text: AppLocalizations.of(context)!.endDate),
-                  Row(
-                    children: [
-                      InkWell(
-                        onTap: () async {
-                          await _selectedEndDate();
-                        },
-                        child: Row(
-                          children: [
-                            Icon(Icons.calendar_month, size: 30),
-                            Text(
-                              selectedEndDate != null
-                                  ? '${selectedEndDate!.day}/${selectedEndDate!.month}/${selectedEndDate!.year}'
-                                  : AppLocalizations.of(
-                                      context,
-                                    )!.noDateSelected,
-                              style: TextStyle(
-                                fontSize: 20,
-                                color:
-                                    Provider.of<SettingsProvider>(
-                                      context,
-                                    ).isDarkMode
-                                    ? Color.fromRGBO(255, 119, 74, 1)
-                                    : Color.fromRGBO(255, 165, 0, 1),
-                                fontWeight: FontWeight.bold,
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    CustomHeader(
+                      text: AppLocalizations.of(context)!.endDate,
+                      size: headerSize,
+                    ),
+                    Row(
+                      children: [
+                        InkWell(
+                          onTap: () async {
+                            final pickedDate = await _selectDate(
+                              context,
+                            );
+
+                            if (pickedDate != null) {
+                              state.selectedEndDate = pickedDate;
+                            }
+
+                            //TODO: Explain this...
+                            if (pickedDate != null &&
+                                onEndDateChanged != null) {
+                              onEndDateChanged!(pickedDate);
+                            }
+                          },
+                          child: Row(
+                            children: [
+                              Icon(Icons.calendar_month, size: 30),
+                              Text(
+                                state.selectedEndDate != null
+                                    ? '${state.selectedEndDate!.day}/${state.selectedEndDate!.month}/${state.selectedEndDate!.year}'
+                                    : AppLocalizations.of(
+                                        context,
+                                      )!.noDateSelected,
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  color:
+                                      Provider.of<SettingsProvider>(
+                                        context,
+                                      ).isDarkMode
+                                      ? Color.fromRGBO(255, 119, 74, 1)
+                                      : Color.fromRGBO(255, 165, 0, 1),
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                ],
+                      ],
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
-        ),
-      ],
+            ],
+          );
+        },
+      ),
     );
   }
+}
+
+Future<DateTime?> _selectDate(BuildContext context) async {
+  final isDarkMode = Provider.of<SettingsProvider>(
+    context,
+    listen: false,
+  ).isDarkMode;
+
+  final pickedDate = await showDatePicker(
+    context: context,
+    firstDate: DateTime.now(),
+    lastDate: DateTime(2500),
+    builder: (context, child) {
+      return Theme(
+        data: Theme.of(context).copyWith(
+          colorScheme: isDarkMode
+              ? ColorScheme.dark(
+            primary: Color(0xFFFF774A),
+            onPrimary: Colors.black,
+            surface: Colors.grey[800]!,
+            onSurface: Colors.white,
+          )
+              : ColorScheme.light(
+            primary: Color(0xFFFFA600),
+            onPrimary: Colors.white,
+            surface: Colors.white,
+            onSurface: Colors.black,
+          ),
+          dialogBackgroundColor: isDarkMode ? Colors.grey[900] : Colors.white,
+        ),
+        child: child!,
+      );
+    },
+  );
+
+  return pickedDate;
 }

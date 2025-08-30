@@ -26,6 +26,8 @@ class Trip {
     required this.startDate,
     required this.endDate,
     required this.transportationMethod,
+    this.participantList,
+    this.stopoverList,
   });
 
   Map<String, dynamic> toMap() {
@@ -35,6 +37,9 @@ class Trip {
       'start_date': startDate.toIso8601String(),
       'end_date': endDate.toIso8601String(),
       'transportation_method': transportationMethod,
+
+      // 'participant_list' : participantList,
+      // 'stopover_list' : stopoverList
     };
   }
 
@@ -45,6 +50,9 @@ class Trip {
       transportationMethod: map['transportation_method'],
       startDate: DateTime.parse(map['start_date']),
       endDate: DateTime.parse(map['end_date']),
+
+      // participantList: map['participant_list'],
+      // stopoverList: map['stopover_list'],
     );
   }
 }

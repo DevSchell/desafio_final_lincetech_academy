@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'file_repository/participant_repository.dart';
+import 'file_repository/stopover_repository.dart';
+import 'file_repository/trip_repository.dart';
 import 'l10n/app_localizations.dart';
 import 'presentation/pages/create_trip.dart';
 import 'presentation/pages/home.dart';
@@ -30,6 +33,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final settingsProvider = Provider.of<SettingsProvider>(context);
+
+    final tripRepository = TripRepositorySQLite();
+
+    tripRepository.initDb();
 
     return MaterialApp(
       locale: settingsProvider.currentLocale,

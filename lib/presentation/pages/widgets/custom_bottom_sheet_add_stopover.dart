@@ -122,7 +122,7 @@ class _CustomBottomSheetAddStopoverState
                         ),
                 ),
 
-                CustomDatePicker(
+                NewCustomDatePicker(
                   onStartDateChanged: (date) {
                     setState(() {
                       _startDate = date;

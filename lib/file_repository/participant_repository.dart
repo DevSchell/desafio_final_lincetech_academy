@@ -20,42 +20,27 @@ abstract interface class ParticipantRepository {
 class ParticipantRepositorySQLite implements ParticipantRepository {
   Database? _db;
 
-  Future<Database> _initDb() async {
+  Future<Database> initDb() async {
     if (_db != null) {
       return _db!;
     }
 
     final dbPath = await getDatabasesPath();
-    final path = join(dbPath, 'participants.db');
+    final path = join(dbPath, 'wanderplan.db');
 
-    _db = await openDatabase(
-      path,
-      version: 1,
-      onCreate: (db, version) {
-        return db.execute('''
-        CREATE TABLE participants(
-          id INTEGER NOT NULL,
-          name TEXT,
-          date_of_birth TEXT,
-          photo_path TEXT,
-          favorite_transport TEXT,
-          PRIMARY KEY (id)
-        );
-        ''');
-      },
-    );
+    _db = await openDatabase(path);
     return _db!;
   }
 
   @override
   Future<void> createParticipant(Participant participant) async {
-    final db = await _initDb();
-    await db.insert('participants', participant.toMap());
+    final db = await initDb();
+    await db.insert('trip_participant', participant.toMap(null));
   }
 
   @override
   Future<List<Participant>> listParticipants(int idTravel) async {
-    final db = await _initDb();
+    final db = await initDb();
     final List<Map<String, dynamic>> maps = await db.rawQuery(
       '''
       SELECT P.*FROM participants AS P
@@ -71,7 +56,7 @@ class ParticipantRepositorySQLite implements ParticipantRepository {
 
   @override
   Future<void> updateParticipant(Participant participant) async {
-    final db = await _initDb();
+    final db = await initDb();
 
     if (participant.id == null) {
       return;
@@ -79,7 +64,7 @@ class ParticipantRepositorySQLite implements ParticipantRepository {
 
     await db.update(
       'participants',
-      participant.toMap(),
+      participant.toMap(null),
       where: 'id = ?',
       whereArgs: [participant.id],
     );
@@ -87,7 +72,7 @@ class ParticipantRepositorySQLite implements ParticipantRepository {
 
   @override
   Future<void> deleteParticipant(Participant participant) async {
-    final db = await _initDb();
+    final db = await initDb();
 
     if (participant.id == null) {
       return;
@@ -102,7 +87,7 @@ class ParticipantRepositorySQLite implements ParticipantRepository {
 
   @override
   Future<void> addParticipantToTrip(int tripId, int participantId) async {
-    final db = await _initDb();
+    final db = await initDb();
     await db.insert('trip_participant', {
       'trip_id': tripId,
       'participant_id': participantId,
@@ -111,7 +96,7 @@ class ParticipantRepositorySQLite implements ParticipantRepository {
 
   @override
   Future<void> removeParticipantFromTrip(int tripId, int participantId) async {
-    final db = await _initDb();
+    final db = await initDb();
     await db.delete(
       'trip_participant',
       where: 'trip_id = ? AND participant_id = ?',

@@ -15,11 +15,12 @@ class Participant {
     required this.favoriteTransp,
   });
 
-  Map<String, dynamic> toMap() {
+  Map<String, dynamic> toMap(int? tripId) {
     return {
       'name': name,
       'date_of_birth': Utils().dateTimeToStringFormat(dateOfBirth),
       'photo_path': photoPath,
+      'trip_id': tripId,
       'favorite_transport': favoriteTransp,
     };
   }

@@ -22,63 +22,27 @@ abstract interface class StopoverRepository {
 class StopoverRepositorySQLite implements StopoverRepository {
   Database? _db;
 
-  Future<Database> _initDb() async {
+  Future<Database> initDb() async {
     if (_db != null) {
       return _db!;
     }
 
     final dbPath = await getDatabasesPath();
-    final path = join(dbPath, 'stopovers.db');
+    final path = join(dbPath, 'wanderplan.db');
 
-    _db = await openDatabase(
-      path,
-      version: 1,
-      onCreate: (db, version) {
-        db.execute('''
-        CREATE TABLE stopovers(
-          id INTEGER NOT NULL,
-          city_name TEXT,
-          latitude REAL,
-          longitude REAL,
-          arrival_date TEXT,
-          departure_date TEXT,
-          actv_description TEXT,
-          PRIMARY KEY(id)
-        );
-      ''');
-        db.execute('''
-        CREATE TABLE IF NOT EXISTS review(
-          id INTEGER NOT NULL,
-          stopover_id INTEGER NOT NULL,
-          message TEXT,
-          photo_path TEXT,
-          FOREIGN KEY (stopover_id) REFERENCES stopovers(id),
-          PRIMARY KEY(id)
-        );
-      ''');
-        return db.execute('''
-        CREATE TABLE IF NOT EXISTS trip_stopover(
-          trip_id INTEGER NOT NULL,
-          stopover_id INTEGER NOT NULL,
-          FOREIGN KEY (trip_id) REFERENCES trips(id),
-          FOREIGN KEY (stopover_id) REFERENCES stopovers(id),
-          PRIMARY KEY (trip_id, stopover_id)
-        );
-      ''');
-      },
-    );
+    _db = await openDatabase(path);
     return _db!;
   }
 
   @override
   Future<void> createStopover(Stopover stopover) async {
-    final db = await _initDb();
+    final db = await initDb();
     await db.insert('stopovers', stopover.toMap());
   }
 
   @override
   Future<List<Stopover>> listStopovers(int idTravel) async {
-    final db = await _initDb();
+    final db = await initDb();
     final List<Map<String, dynamic>> maps = await db.query('stopovers');
 
     return List.generate(maps.length, (i) {
@@ -88,7 +52,7 @@ class StopoverRepositorySQLite implements StopoverRepository {
 
   @override
   Future<void> updateStopover(Stopover stopover) async {
-    final db = await _initDb();
+    final db = await initDb();
 
     if (stopover.id == null) {
       return;
@@ -104,7 +68,7 @@ class StopoverRepositorySQLite implements StopoverRepository {
 
   @override
   Future<void> deleteStopover(Stopover stopover) async {
-    final db = await _initDb();
+    final db = await initDb();
 
     if (stopover.id == null) {
       return;
@@ -115,7 +79,7 @@ class StopoverRepositorySQLite implements StopoverRepository {
 
   @override
   Future<void> addStopoverToTrip(int tripId, int stopoverId) async {
-    final db = await _initDb();
+    final db = await initDb();
     await db.insert('trip_stopover', {
       'trip_id': tripId,
       'stopover_id': stopoverId,
@@ -124,7 +88,7 @@ class StopoverRepositorySQLite implements StopoverRepository {
 
   @override
   Future<void> removeStopoverFromTrip(int tripId, int stopoverId) async {
-    final db = await _initDb();
+    final db = await initDb();
     await db.delete(
       'trip_stopover',
       where: 'trip_id = ? AND stopover_id = ?',
@@ -134,7 +98,7 @@ class StopoverRepositorySQLite implements StopoverRepository {
 
   @override
   Future<List<Map<String, dynamic>>> listStopoversFromTrip(int tripId) async {
-    final db = await _initDb();
+    final db = await initDb();
     return await db.rawQuery(
       '''
       SELECT S.* FROM stopovers AS S

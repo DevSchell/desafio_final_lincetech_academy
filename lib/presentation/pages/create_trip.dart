@@ -144,7 +144,8 @@ class _CreateTripAState extends State<_CreateTrip> {
                     ),
                     SizedBox(height: 20),
 
-                    CustomDatePicker(
+                    NewCustomDatePicker(
+                      headerSize: 16,
                       onStartDateChanged: (date) {
                         setState(() {
                           _tripStartDate = date;
@@ -470,6 +471,12 @@ class _CreateTripAState extends State<_CreateTrip> {
                                     transportationMethod:
                                         _selectedTransportationMethod
                                             .toString(),
+                                    participantList:
+                                        participantState.participantList,
+                                    stopoverList: Provider.of<StopoverProvider>(
+                                      context,
+                                      listen: false,
+                                    ).stopoverList,
                                   );
                                   Provider.of<TripProvider>(
                                     context,

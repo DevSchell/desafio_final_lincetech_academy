@@ -28,7 +28,10 @@ class _CustomExperienceListState extends State<CustomExperienceList> {
             onChanged: (value) {
               setState(() {
                 _map[i] = value ?? false;
-                final selectedExperiences = _map.entries.where((entry) => entry.value).map((entry) => entry.key).toList();
+                final selectedExperiences = _map.entries
+                    .where((entry) => entry.value)
+                    .map((entry) => entry.key)
+                    .toList();
                 widget.onChanged(selectedExperiences);
               });
             },
@@ -42,7 +45,9 @@ class _CustomExperienceListState extends State<CustomExperienceList> {
             ),
             fillColor: WidgetStateProperty.resolveWith((states) {
               if (_map[i] ?? false) {
-                return Provider.of<SettingsProvider>(context).isDarkMode ? Color.fromRGBO(255, 119, 74, 1) : Color.fromRGBO(255, 166, 0, 1);
+                return Provider.of<SettingsProvider>(context).isDarkMode
+                    ? Color.fromRGBO(255, 119, 74, 1)
+                    : Color.fromRGBO(255, 166, 0, 1);
               } else {
                 return Colors.grey;
               }
