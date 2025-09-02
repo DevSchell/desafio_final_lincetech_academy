@@ -159,11 +159,17 @@ class TripRepositorySQLite implements TripRepository {
   @override
   Future<List<Trip>> listTrips() async {
     final db = await initDb();
-    final List<Map<String, dynamic>> maps = await db.query('trips');
-    // Like a "for" but better for this situation
-    return List.generate(maps.length, (i) {
-      return Trip.fromMap(maps[i]);
-    });
+    final List<Map<String, dynamic>> tripMaps = await db.query('trips');
+    final trips = <Trip>[];
+
+    for (final tripMap in tripMaps) {
+      final trip = Trip.fromMap(tripMap);
+      final participants = await listParticipantsFromTrip(trip.id!);
+      trip.participantList = participants;
+      trips.add(trip);
+    }
+
+    return trips;
   }
 
   @override

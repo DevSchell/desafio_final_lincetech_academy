@@ -73,16 +73,37 @@ class TripDetails extends StatelessWidget {
                     size: 20,
                   ),
                   (trip.participantList?.isEmpty ?? true)
-                      ? Center(child: Text('No participants'))
+                      ? Center(
+                          child: Text(
+                            AppLocalizations.of(context)!.noParticipantsAdded,
+                          ),
+                        )
                       : ListView.builder(
+                          shrinkWrap: true,
                           itemCount: trip.participantList?.length ?? 0,
                           itemBuilder: (context, i) {
                             final participant = trip.participantList![i];
-                            
-                            return ListTile(
-                              title: Text(participant.name),
-                            );
-                            
+
+                            return ListTile(title: Text(participant.name));
+                          },
+                        ),
+                  CustomHeader(
+                    text: AppLocalizations.of(context)!.stopoverList,
+                    size: 20,
+                  ),
+                  (trip.stopoverList?.isEmpty ?? true)
+                      ? Center(
+                          child: Text(
+                            AppLocalizations.of(context)!.noStopoverAddedYet,
+                          ),
+                        )
+                      : ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: trip.participantList?.length ?? 0,
+                          itemBuilder: (context, i) {
+                            final stopover = trip.stopoverList![i];
+
+                            return ListTile(title: Text(stopover.cityName));
                           },
                         ),
                 ],
