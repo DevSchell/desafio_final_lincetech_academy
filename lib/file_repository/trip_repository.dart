@@ -4,26 +4,48 @@ import '../entities/participant.dart';
 import '../entities/stopover.dart';
 import '../entities/trip.dart';
 
+/// This interface defines the contract for any class that handles the
+/// persistence of [Trip], including relationships with
+/// participants and stopovers.
 abstract interface class TripRepository {
+  /// Creates a new trip record in the database.
   Future<void> createTrip(Trip trip);
 
+  /// Retrieves a list of all trips from the database.
   Future<List<Trip>> listTrips();
 
+  /// Updates an existing trip record.
   Future<void> updateTrip(Trip trip);
 
+  /// Deletes a trip record from the database.
   Future<void> deleteTrip(Trip trip);
 
-  //New methods
+  /// Links a participant to a trip.
   Future<void> addParticipantToTrip(int tripId, int participantId);
 
+  /// Removes the link between a participant and a trip.
   Future<void> removeParticipantFromTrip(int tripId, int participantId);
 
+  /// Retrieves a list of all participants associated with a specific trip.
   Future<List<Participant>?> listParticipantsFromTrip(int tripId);
+
+  /// Links a stopover to a trip.
+  Future<void> addStopoverToTrip(int tripId, int stopoverId);
+
+  /// Removes the link between a stopover and a trip.
+  Future<void> removeStopoverFromTrip(int tripId, int stopoverId);
+
+  /// Retrieves a list of all stopovers associated with a specific trip.
+  Future<List<Stopover>?> listStopoversFromTrip(int? tripId);
 }
 
+/// A concrete implementation of the [TripRepository] interface
+/// using SQLite as the data persistence layer.
 class TripRepositorySQLite implements TripRepository {
   Database? _db;
 
+  /// Initializes and returns a database instance.
+  /// If the database connection is already open, it returns the existing instance.
   Future<Database> initDb() async {
     if (_db != null) {
       return _db!;
@@ -132,16 +154,15 @@ class TripRepositorySQLite implements TripRepository {
     final db = await initDb();
 
     final id = await db.insert('trips', trip.toMap());
-    // Coloquei isso
     trip.id = id;
 
-    print('Ç52');
-    print(trip.participantList?.isEmpty ?? true);
+    //print('Ç52');
+    //print(trip.participantList?.isEmpty ?? true);
 
     for (final participant in trip.participantList ?? <Participant>[]) {
       final id = await db.insert('participants', participant.toMap(trip.id));
-      print('ÇÇÇÇÇÇ');
-      print(participant.name);
+      //print('ÇÇÇÇÇÇ');
+      //print(participant.name);
 
       await db.insert('trip_participant', {
         'trip_id': trip.id,
@@ -165,6 +186,8 @@ class TripRepositorySQLite implements TripRepository {
     for (final tripMap in tripMaps) {
       final trip = Trip.fromMap(tripMap);
       final participants = await listParticipantsFromTrip(trip.id!);
+      final stopovers = await listStopoversFromTrip(trip.id);
+      trip.stopoverList = stopovers;
       trip.participantList = participants;
       trips.add(trip);
     }
@@ -219,6 +242,36 @@ class TripRepositorySQLite implements TripRepository {
   }
 
   @override
+  Future<List<Stopover>?> listStopoversFromTrip(int? tripId) async {
+    final db = await initDb();
+    final result = await db.rawQuery(
+      '''
+    SELECT S.id, S.city_name, S.latitude, S.longitude, S.arrival_date, S.departure_date, S.actv_description FROM stopovers AS S
+    JOIN trip_stopover AS TS ON S.id = TS.stopover_id
+    WHERE TS.trip_id = ?
+  ''',
+      [tripId],
+    );
+
+    final stopovers = <Stopover>[];
+
+    for (final item in result) {
+      final stopover = Stopover(
+        id: item['id'] as int,
+        cityName: item['city_name'] as String,
+        latitude: item['latitude'] as double,
+        longitude: item['longitude'] as double,
+        arrivalDate: DateTime.parse(item['arrival_date'] as String),
+        departureDate: DateTime.parse(item['departure_date'] as String),
+        actvDescription: item['actv_description'] as String?,
+      );
+      stopovers.add(stopover);
+    }
+
+    return stopovers;
+  }
+
+  @override
   Future<List<Participant>?> listParticipantsFromTrip(int tripId) async {
     final db = await initDb();
 
@@ -257,5 +310,24 @@ class TripRepositorySQLite implements TripRepository {
     }
 
     return participants;
+  }
+
+  @override
+  Future<void> addStopoverToTrip(int tripId, int stopoverId) async {
+    final db = await initDb();
+    await db.insert('trip_stopover', {
+      'trip_id': tripId,
+      'stopover_id': stopoverId,
+    });
+  }
+
+  @override
+  Future<void> removeStopoverFromTrip(int tripId, int stopoverId) async {
+    final db = await initDb();
+    await db.delete(
+      'trip_stopover',
+      where: 'trip_id = ? AND stopover_id = ?',
+      whereArgs: [tripId, stopoverId],
+    );
   }
 }

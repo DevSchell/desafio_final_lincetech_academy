@@ -21,7 +21,14 @@ class TripDetails extends StatelessWidget {
       create: (context) => _TripDetailsState(),
       child: Consumer<_TripDetailsState>(
         builder: (_, state, _) => Scaffold(
-          appBar: CustomAppbar(title: 'Trip Details'),
+          appBar: CustomAppbar(
+            title: 'Trip Details',
+            actions: [
+              //TODO: Implements crud methods...
+              IconButton(onPressed: () {}, icon: Icon(Icons.edit)),
+              IconButton(onPressed: () {}, icon: Icon(Icons.delete)),
+            ],
+          ),
           body: Padding(
             padding: const EdgeInsets.all(32.0),
             child: SingleChildScrollView(
@@ -39,7 +46,11 @@ class TripDetails extends StatelessWidget {
                   ),
                   SizedBox(height: 10),
 
-                  NewCustomDatePicker(headerSize: 20),
+                  NewCustomDatePicker(
+                    headerSize: 20,
+                    initialStartDate: trip.startDate,
+                    initialEndDate: trip.endDate,
+                  ),
                   SizedBox(height: 10),
 
                   CustomHeader(
@@ -74,8 +85,12 @@ class TripDetails extends StatelessWidget {
                   ),
                   (trip.participantList?.isEmpty ?? true)
                       ? Center(
-                          child: Text(
-                            AppLocalizations.of(context)!.noParticipantsAdded,
+                          child: CustomHeader(
+                            text: AppLocalizations.of(
+                              context,
+                            )!.noParticipantsAdded,
+                            size: 30,
+                            color: Color.fromRGBO(107, 114, 128, 1),
                           ),
                         )
                       : ListView.builder(
@@ -84,7 +99,13 @@ class TripDetails extends StatelessWidget {
                           itemBuilder: (context, i) {
                             final participant = trip.participantList![i];
 
-                            return ListTile(title: Text(participant.name));
+                            return ListTile(
+                              title: CustomHeader(
+                                text: participant.name,
+                                size: 30,
+                                color: Color.fromRGBO(107, 114, 128, 1),
+                              ),
+                            );
                           },
                         ),
                   CustomHeader(
@@ -93,8 +114,12 @@ class TripDetails extends StatelessWidget {
                   ),
                   (trip.stopoverList?.isEmpty ?? true)
                       ? Center(
-                          child: Text(
-                            AppLocalizations.of(context)!.noStopoverAddedYet,
+                          child: CustomHeader(
+                            text: AppLocalizations.of(
+                              context,
+                            )!.noStopoverAddedYet,
+                            size: 30,
+                            color: Color.fromRGBO(107, 114, 128, 1),
                           ),
                         )
                       : ListView.builder(
@@ -103,7 +128,13 @@ class TripDetails extends StatelessWidget {
                           itemBuilder: (context, i) {
                             final stopover = trip.stopoverList![i];
 
-                            return ListTile(title: Text(stopover.cityName));
+                            return ListTile(
+                              title: CustomHeader(
+                                text: stopover.cityName,
+                                size: 30,
+                                color: Color.fromRGBO(107, 114, 128, 1),
+                              ),
+                            );
                           },
                         ),
                 ],

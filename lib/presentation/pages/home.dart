@@ -49,13 +49,13 @@ class _HomeState extends State<Home> {
           onTap: () {
             //TODO> Only test purposes...
             var p = Participant(
-              name: 'name',
+              name: 'John Doe',
               dateOfBirth: DateTime(2002, 05, 20),
               photoPath: '',
               favoriteTransp: 'Car',
             );
             var s = Stopover(
-              cityName: 'cityName',
+              cityName: 'Whiterun',
               arrivalDate: DateTime(2020, 12, 20),
               departureDate: DateTime(2020, 12, 20),
               latitude: 12315,
@@ -181,11 +181,6 @@ class _HomeState extends State<Home> {
                                           fontSize: 14,
                                           color: Colors.grey[700],
                                         ),
-                                      ),
-                                      Icon(
-                                        Icons.directions_car,
-                                        color: Colors.teal[700],
-                                        size: 20,
                                       ),
                                     ],
                                   ),

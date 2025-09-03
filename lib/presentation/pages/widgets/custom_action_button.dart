@@ -3,12 +3,20 @@ import 'package:provider/provider.dart';
 
 import '../../providers/settings_state.dart';
 
-/* This custom widget relies on the idea of using a custom button which will
-* follow the selected theme and is inside the design pattern*/
+/// A custom button widget that adapts its color based on the theme.
+///
+/// This widget follows a specific design pattern to ensure consistent styling
+/// across the application, using a [FloatingActionButton.extended] to provide
+/// a labeled action button.
 class CustomActionButton extends StatelessWidget {
+
+  /// The text to be displayed on the button's label.
   final String text;
+
+  /// The callback function that is executed when the button is pressed.
   final VoidCallback onPressed;
 
+  /// Constructs a [CustomActionButton].
   const CustomActionButton({
     super.key,
     required this.text,

@@ -31,16 +31,25 @@ class NewCustomDatePicker extends StatelessWidget {
     this.onStartDateChanged,
     this.onEndDateChanged,
     this.headerSize,
+    this.initialStartDate,
+    this.initialEndDate,
   });
 
   final Function(DateTime)? onStartDateChanged;
   final Function(DateTime)? onEndDateChanged;
   final double? headerSize;
+  final DateTime? initialStartDate;
+  final DateTime? initialEndDate;
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<_NewCustomDatePickerState>(
-      create: (context) => _NewCustomDatePickerState(),
+      create: (context) {
+        final state = _NewCustomDatePickerState();
+        state.selectedStartDate = initialStartDate;
+        state.selectedEndDate = initialEndDate;
+        return state;
+      },
       child: Consumer<_NewCustomDatePickerState>(
         builder: (_, state, _) {
           return Row(
@@ -57,9 +66,7 @@ class NewCustomDatePicker extends StatelessWidget {
                       children: [
                         InkWell(
                           onTap: () async {
-                            final pickedDate = await _selectDate(
-                              context,
-                            );
+                            final pickedDate = await _selectDate(context);
 
                             if (pickedDate != null) {
                               state.selectedStartDate = pickedDate;
@@ -111,9 +118,7 @@ class NewCustomDatePicker extends StatelessWidget {
                       children: [
                         InkWell(
                           onTap: () async {
-                            final pickedDate = await _selectDate(
-                              context,
-                            );
+                            final pickedDate = await _selectDate(context);
 
                             if (pickedDate != null) {
                               state.selectedEndDate = pickedDate;
@@ -176,17 +181,17 @@ Future<DateTime?> _selectDate(BuildContext context) async {
         data: Theme.of(context).copyWith(
           colorScheme: isDarkMode
               ? ColorScheme.dark(
-            primary: Color(0xFFFF774A),
-            onPrimary: Colors.black,
-            surface: Colors.grey[800]!,
-            onSurface: Colors.white,
-          )
+                  primary: Color(0xFFFF774A),
+                  onPrimary: Colors.black,
+                  surface: Colors.grey[800]!,
+                  onSurface: Colors.white,
+                )
               : ColorScheme.light(
-            primary: Color(0xFFFFA600),
-            onPrimary: Colors.white,
-            surface: Colors.white,
-            onSurface: Colors.black,
-          ),
+                  primary: Color(0xFFFFA600),
+                  onPrimary: Colors.white,
+                  surface: Colors.white,
+                  onSurface: Colors.black,
+                ),
           dialogBackgroundColor: isDarkMode ? Colors.grey[900] : Colors.white,
         ),
         child: child!,

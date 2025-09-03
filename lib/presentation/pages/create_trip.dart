@@ -470,7 +470,7 @@ class _CreateTripAState extends State<_CreateTrip> {
                                     endDate: _tripEndDate!,
                                     transportationMethod:
                                         _selectedTransportationMethod
-                                            .toString(),
+                                            .name,
                                     participantList:
                                         participantState.participantList,
                                     stopoverList: Provider.of<StopoverProvider>(
