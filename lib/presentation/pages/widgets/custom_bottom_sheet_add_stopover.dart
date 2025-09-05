@@ -1,20 +1,20 @@
 import 'dart:async';
 
-import 'package:desafio_final_lincetech_academy/entities/coordinate.dart';
-import 'package:desafio_final_lincetech_academy/entities/stopover.dart';
-import 'package:desafio_final_lincetech_academy/presentation/pages/widgets/all_widgets.dart';
-import 'package:desafio_final_lincetech_academy/presentation/pages/widgets/custom_action_button.dart';
-import 'package:desafio_final_lincetech_academy/presentation/providers/coordinates_state.dart';
-import 'package:desafio_final_lincetech_academy/presentation/providers/stopover_state.dart';
-import 'package:desafio_final_lincetech_academy/use_cases/geolocation/nominatim_service.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
+import '../../../entities/coordinate.dart';
 import '../../../entities/enum_experiences_list.dart';
+import '../../../entities/stopover.dart';
 import '../../../l10n/app_localizations.dart';
+import '../../../use_cases/geolocation/nominatim_service.dart';
+import 'all_widgets.dart';
+import 'custom_action_button.dart';
 
-// This bottomSheet is about adding new object "Stopover" to our "stopoverList" in "Trip"
+/// This file defines a widget responsible for displaying a [BottomSheet] to add
+/// a new stopover to a trip. It allows the user to search for cities, select a
+/// date range, and choose experiences associated with the stopover
 class CustomBottomSheetAddStopover extends StatefulWidget {
+  /// Creates a [CustomBottomSheetAddStopover]
   const CustomBottomSheetAddStopover({super.key});
 
   @override
@@ -24,21 +24,37 @@ class CustomBottomSheetAddStopover extends StatefulWidget {
 
 class _CustomBottomSheetAddStopoverState
     extends State<CustomBottomSheetAddStopover> {
-  //Those are the variables we use to temporarily keep data
+  /// Those are the variables we use to temporarily keep data
+
+  /// This is the controller for the city name text field
   TextEditingController cityNameController = TextEditingController();
+
+  /// A list to store place suggestions from the Nominatim API
   final List<Place> placeSuggestions = [];
+
+  /// A timer to reduce the API search requests
   Timer? _debounceTimer;
+
+  ///The text currently in the city name text field
   late String _searchText = '';
+
+  /// The selected start date for the stopover
   DateTime? _startDate;
+
+  /// The selected end date for the stopover
   DateTime? _endDate;
+
+  /// A list of selected experiences for the stopover
   List<EnumExperiencesList> _selectedStopoverExperiences = [];
 
-  //TEST AREA
+  /// The globally selected place objet after a user taps on a place suggestion
   late Place globalFoundPlace;
-  double defaultLat = 0;
-  double defaultLon = 0;
 
-  CoordinatesProvider coordState = CoordinatesProvider();
+  /// The latitude of the selected place
+  double defaultLat = 0;
+
+  /// The latitude of the selected place
+  double defaultLon = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -60,6 +76,8 @@ class _CustomBottomSheetAddStopoverState
                 SizedBox(height: 20),
 
                 CustomHeader(text: AppLocalizations.of(context)!.cityName),
+
+                /// The text field for searching a city
                 TextFormField(
                   controller: cityNameController,
                   keyboardType: TextInputType.text,
@@ -67,19 +85,18 @@ class _CustomBottomSheetAddStopoverState
                     labelText: AppLocalizations.of(context)!.enterNameHere,
                   ),
 
-                  /*Here each time the user types, the API searches the value on Nominatim API*/
                   onChanged: (value) async {
                     _searchText = value;
                     if (_debounceTimer?.isActive ?? false) {
                       _debounceTimer!.cancel();
                     }
+
+                    /// This block reduces the number of API requests
                     _debounceTimer = Timer(
                       const Duration(milliseconds: 500),
                       () async {
                         final places = await searchPlace(value);
-                        placeSuggestions
-                            .clear(); //Cleaning the suggestions list
-                        /* For each element in places, we will create an object "Place"*/
+                        placeSuggestions.clear();
                         for (var value in places ?? []) {
                           final place = Place.fromJson(value);
                           placeSuggestions.add(place);
@@ -89,9 +106,8 @@ class _CustomBottomSheetAddStopoverState
                     );
                   },
                 ),
-                /*If placeSuggestions is empty, it'll display nothing,
-                * but if there's data there, we'll display a ListView below the TextFormField() with
-                * the elements of the List placesSuggestions*/
+
+                /// Displays a list of city suggestions from Nominatim API
                 Center(
                   child: placeSuggestions.isEmpty
                       ? Text('')
@@ -102,19 +118,14 @@ class _CustomBottomSheetAddStopoverState
                             itemCount: placeSuggestions.length,
                             itemBuilder: (context, index) {
                               final foundPlace = placeSuggestions[index];
-
+                              var listTileText =
+                                  '${foundPlace.cityName}, '
+                                  '${foundPlace.cityState}'
+                                  ',${foundPlace.cityCountry}';
                               return ListTile(
-                                title: Text(
-                                  '${foundPlace.cityName}, ${foundPlace.cityState},${foundPlace.cityCountry}',
-                                ),
+                                title: Text(listTileText),
                                 onTap: () {
-                                  cityNameController.text =
-                                      '${foundPlace.cityName}, ${foundPlace.cityState}, ${foundPlace.cityCountry}';
-                                  globalFoundPlace = foundPlace;
-                                  defaultLon = foundPlace.longitude;
-                                  defaultLat = foundPlace.latitude;
-                                  placeSuggestions.clear();
-                                  setState(() {});
+                                  _onPlaceSelected(foundPlace);
                                 },
                               );
                             },
@@ -122,6 +133,7 @@ class _CustomBottomSheetAddStopoverState
                         ),
                 ),
 
+                /// A custom widget for selecting start and end dates
                 NewCustomDatePicker(
                   onStartDateChanged: (date) {
                     setState(() {
@@ -136,6 +148,7 @@ class _CustomBottomSheetAddStopoverState
                 ),
                 SizedBox(height: 30),
 
+                /// A custom widget for selecting experiences
                 CustomExperienceList(
                   onChanged: (experiences) {
                     setState(() {
@@ -145,6 +158,7 @@ class _CustomBottomSheetAddStopoverState
                 ),
                 SizedBox(height: 30),
 
+                /// The action button to save the stopover
                 CustomActionButton(
                   text: AppLocalizations.of(context)!.addStopover,
                   onPressed: () {
@@ -156,7 +170,7 @@ class _CustomBottomSheetAddStopoverState
                       cityName: globalFoundPlace.cityName,
                       latitude: selectedStopoverCoordinates.latitude,
                       longitude: selectedStopoverCoordinates.longitude,
-                      // "!" because if they're here in the code, this won't be null
+                      // "!" because if they're here in the code, won't be null
                       arrivalDate: _startDate!,
                       departureDate: _endDate!,
                     );
@@ -179,5 +193,21 @@ class _CustomBottomSheetAddStopoverState
         ),
       ),
     );
+  }
+
+  void _onPlaceSelected(Place foundPlace) {
+    cityNameController.text =
+        '${foundPlace.cityName}, '
+        '${foundPlace.cityState}, '
+        '${foundPlace.cityCountry}';
+
+    /// Update the state variables
+    globalFoundPlace = foundPlace;
+    defaultLat = foundPlace.latitude;
+    defaultLon = foundPlace.longitude;
+
+    /// Clean the suggestions and update the UI
+    placeSuggestions.clear();
+    setState(() {});
   }
 }

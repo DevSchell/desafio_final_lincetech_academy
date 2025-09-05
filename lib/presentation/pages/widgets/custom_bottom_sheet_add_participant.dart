@@ -1,8 +1,8 @@
 import 'dart:io';
 
-import 'package:desafio_final_lincetech_academy/presentation/providers/participant_state.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 
 import '../../../entities/enum_transportation_method.dart';
 import '../../../entities/participant.dart';
@@ -12,9 +12,12 @@ import '../../providers/settings_state.dart';
 import 'custom_action_button.dart';
 import 'custom_header.dart';
 import 'custom_transport_method.dart';
-import 'package:provider/provider.dart';
 
+/// A custom bottom sheet widget for adding a new participant.
+/// This widget provides a form that allows the user to input a participant's
+/// name, date of birth, favorite transportation method, and a profile picture.
 class CustomBottomSheetAddParticipant extends StatefulWidget {
+  /// The constructor of [CustomBottomSheetAddParticipant].
   const CustomBottomSheetAddParticipant({super.key});
 
   @override
@@ -22,18 +25,31 @@ class CustomBottomSheetAddParticipant extends StatefulWidget {
       _CustomBottomSheetState();
 }
 
+/// The state for [CustomBottomSheetAddParticipant].
 class _CustomBottomSheetState extends State<CustomBottomSheetAddParticipant> {
-  //Those are the variables we are using to temporarily keep data
+
+  /// Controller for the name text field.
   TextEditingController nameController = TextEditingController();
+
+  /// Holds the selected date of birth.
   DateTime? dateOfBirth;
+
+  //TODO: Fix this "EnumTransportationMethod.airplane"
+  /// Holds the selected favorite transportation method.
   EnumTransportationMethod selectedTransport =
       EnumTransportationMethod.airplane;
-  XFile? selectedImage;
+
+  //TODO: What was I planning with that? ...
+  /// Private state variable to hold the selected transportation method.
   late EnumTransportationMethod _selectedTransportationMethod;
+
+  /// Holds the selected profile image file.
+  XFile? selectedImage;
 
   @override
   void initState() {
     super.initState();
+    /// Initializes the selected transportation method to a default value.
     _selectedTransportationMethod = EnumTransportationMethod.airplane;
   }
 
@@ -53,8 +69,10 @@ class _CustomBottomSheetState extends State<CustomBottomSheetAddParticipant> {
                   size: 20,
                 ),
               ),
+              /// InkWell makes the CircleAvatar tappable for image selection.
               InkWell(
                 onTap: () {
+                  /// Shows a dialog to choose between camera or gallery.
                   showDialog(
                     context: context,
                     builder: (context) => Dialog(
@@ -105,6 +123,7 @@ class _CustomBottomSheetState extends State<CustomBottomSheetAddParticipant> {
                     ),
                   );
                 },
+                /// Displays the selected image or a placeholder.
                 child: CircleAvatar(
                   radius: 100,
                   backgroundImage: selectedImage == null

@@ -1,31 +1,39 @@
-import 'dart:math';
-
-import 'package:desafio_final_lincetech_academy/l10n/app_localizations.dart';
-import 'package:desafio_final_lincetech_academy/presentation/providers/settings_state.dart';
 import 'package:flutter/material.dart';
-import 'all_widgets.dart';
 import 'package:provider/provider.dart';
+
+import '../../../l10n/app_localizations.dart';
+import '../../providers/settings_state.dart';
+import 'all_widgets.dart';
 
 class _NewCustomDatePickerState extends ChangeNotifier {
   DateTime? _selectedStartDate;
   DateTime? _selectedEndDate;
 
+  /// The currently selected start date.
   DateTime? get selectedStartDate => _selectedStartDate;
 
+  /// Sets the start date and notifies listeners of the change.
   set selectedStartDate(DateTime? value) {
     _selectedStartDate = value;
     notifyListeners();
   }
 
+  /// The currently selected end date.
   DateTime? get selectedEndDate => _selectedEndDate;
 
+  /// Sets the end date and notifies listeners of the change.
   set selectedEndDate(DateTime? value) {
     _selectedEndDate = value;
     notifyListeners();
   }
 }
 
+/// A Custom date picker widget that allows the user to select dates
+///
+/// This widget uses the provider inside this file do manage it's states
 class NewCustomDatePicker extends StatelessWidget {
+
+  /// Creates a [NewCustomDatePicker] widget
   const NewCustomDatePicker({
     super.key,
     this.onStartDateChanged,
@@ -35,10 +43,19 @@ class NewCustomDatePicker extends StatelessWidget {
     this.initialEndDate,
   });
 
+  /// A callback function that is called when the start date is changed
   final Function(DateTime)? onStartDateChanged;
+
+  /// A callback function that is called when the end date is changed
   final Function(DateTime)? onEndDateChanged;
+
+  ///The font size for the header text
   final double? headerSize;
+
+  /// The initial start date to display
   final DateTime? initialStartDate;
+
+  /// The initial end date to display
   final DateTime? initialEndDate;
 
   @override
@@ -72,7 +89,6 @@ class NewCustomDatePicker extends StatelessWidget {
                               state.selectedStartDate = pickedDate;
                             }
 
-                            //TODO: Explain this...
                             if (pickedDate != null &&
                                 onStartDateChanged != null) {
                               onStartDateChanged!(pickedDate);
@@ -124,7 +140,6 @@ class NewCustomDatePicker extends StatelessWidget {
                               state.selectedEndDate = pickedDate;
                             }
 
-                            //TODO: Explain this...
                             if (pickedDate != null &&
                                 onEndDateChanged != null) {
                               onEndDateChanged!(pickedDate);
@@ -166,6 +181,10 @@ class NewCustomDatePicker extends StatelessWidget {
   }
 }
 
+/// A helper function to show a native date picker dialog
+///
+/// It applies a theme based on the current dark mode setting to ensure the
+/// picker's appearance matches the rest of the application
 Future<DateTime?> _selectDate(BuildContext context) async {
   final isDarkMode = Provider.of<SettingsProvider>(
     context,

@@ -232,7 +232,7 @@ class TripRepositorySQLite implements TripRepository {
   }
 
   @override
-  Future<void> removeParticipantFromTrip(int tripId, int participantId) async {
+  Future<void> removeParticipantFromTrip(int? tripId, int? participantId) async {
     final db = await initDb();
     await db.delete(
       'trip_participant',

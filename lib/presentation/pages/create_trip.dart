@@ -18,6 +18,8 @@ import 'widgets/custom_action_button.dart';
 import 'widgets/custom_add_button.dart';
 import 'widgets/custom_bottom_sheet_add_participant.dart';
 import 'widgets/custom_bottom_sheet_add_stopover.dart';
+import 'widgets/participant_item.dart';
+import 'widgets/stopover_item.dart';
 
 class CreateTrip extends StatelessWidget {
   const CreateTrip({super.key, this.idTravel});
@@ -218,42 +220,24 @@ class _CreateTripAState extends State<_CreateTrip> {
                             itemBuilder: (context, index) {
                               final participant =
                                   participantState.participantList[index];
-                              return Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  CircleAvatar(
-                                    backgroundImage: FileImage(
-                                      File(participant.photoPath),
+
+                              return ParticipantItem(isEditable: true,
+                                participant: participant,
+                                onDelete: () {
+                                  participantState.deleteParticipant(
+                                    participant,
+                                  );
+
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(
+                                        'Participant deleted successfully',
+                                      ),
+                                      duration: Duration(seconds: 2),
                                     ),
-                                  ),
-                                  SizedBox(width: 10),
-                                  Expanded(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.stretch,
-                                      children: [
-                                        Text(
-                                          '${AppLocalizations.of(context)!.nameField} ${participant.name}',
-                                        ),
-                                        Text(
-                                          '${AppLocalizations.of(context)!.ageField} ${participant.dateOfBirth.day}/${participant.dateOfBirth.month}/${participant.dateOfBirth.year}',
-                                        ),
-                                        Text(
-                                          '${AppLocalizations.of(context)!.transportField}${participant.favoriteTransp.toString()}',
-                                        ),
-                                        SizedBox(height: 10),
-                                      ],
-                                    ),
-                                  ),
-                                  IconButton(
-                                    icon: Icon(Icons.delete),
-                                    onPressed: () {
-                                      participantState.deleteParticipant(
-                                        participant,
-                                      );
-                                    },
-                                  ),
-                                ],
+                                  );
+                                },
+                                onEdit: () {},
                               );
                             },
                           ),
@@ -298,136 +282,11 @@ class _CreateTripAState extends State<_CreateTrip> {
                               itemBuilder: (context, index) {
                                 final stopover =
                                     stopoverState.stopoverList[index];
-                                return Row(
-                                  children: [
-                                    //TODO: Pls remove this image afterwards.
-                                    ClipRRect(
-                                      child: Image.network(
-                                        'https://www.gaspar.sc.gov.br/uploads/sites/421/2022/05/3229516.jpg',
-                                        height: 100,
-                                        width: 100,
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                    SizedBox(width: 12),
 
-                                    Expanded(
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          Text(
-                                            stopover.cityName,
-                                            style: TextStyle(
-                                              color:
-                                                  Provider.of<SettingsProvider>(
-                                                    context,
-                                                    listen: false,
-                                                  ).isDarkMode
-                                                  ? Color.fromRGBO(
-                                                      255,
-                                                      119,
-                                                      74,
-                                                      1,
-                                                    )
-                                                  : Color.fromRGBO(
-                                                      255,
-                                                      166,
-                                                      0,
-                                                      1,
-                                                    ),
-                                              fontSize: 20,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                          SizedBox(height: 4),
-                                          Row(
-                                            children: [
-                                              Text(
-                                                '${stopover.arrivalDate.day}/${stopover.arrivalDate.month}',
-                                                style: TextStyle(
-                                                  color: Color.fromRGBO(
-                                                    107,
-                                                    114,
-                                                    128,
-                                                    1,
-                                                  ),
-                                                ),
-                                              ),
-                                              SizedBox(width: 4),
-                                              Icon(
-                                                Icons.arrow_right_alt,
-                                                color: Color.fromRGBO(
-                                                  107,
-                                                  114,
-                                                  128,
-                                                  1,
-                                                ),
-                                                size: 20,
-                                              ),
-                                              SizedBox(width: 4),
-                                              Text(
-                                                '${stopover.departureDate.day}/${stopover.departureDate.month}',
-                                                style: TextStyle(
-                                                  color: Color.fromRGBO(
-                                                    107,
-                                                    114,
-                                                    128,
-                                                    1,
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    Column(
-                                      children: [
-                                        IconButton(
-                                          onPressed: () {},
-                                          icon: Icon(
-                                            Icons.edit,
-                                            color: Color.fromRGBO(
-                                              107,
-                                              114,
-                                              128,
-                                              1,
-                                            ),
-                                          ),
-                                        ),
-                                        IconButton(
-                                          onPressed: () {
-                                            stopoverState.deleteStopover(
-                                              stopover,
-                                            );
-                                            ScaffoldMessenger.of(
-                                              context,
-                                            ).showSnackBar(
-                                              SnackBar(
-                                                content: Text(
-                                                  AppLocalizations.of(
-                                                    context,
-                                                  )!.stopoverDeletedSuccessfully,
-                                                ),
-                                                duration: Duration(seconds: 2),
-                                              ),
-                                            );
-                                          },
-                                          icon: Icon(
-                                            Icons.delete,
-                                            color: Color.fromRGBO(
-                                              107,
-                                              114,
-                                              128,
-                                              1,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
+                                return StopoverItem(isEditable: true,
+                                  stopover: stopover,
+                                  onDelete: () {},
+                                  onEdit: () {},
                                 );
                               },
                             ),
@@ -469,8 +328,7 @@ class _CreateTripAState extends State<_CreateTrip> {
                                     startDate: _tripStartDate!,
                                     endDate: _tripEndDate!,
                                     transportationMethod:
-                                        _selectedTransportationMethod
-                                            .name,
+                                        _selectedTransportationMethod.name,
                                     participantList:
                                         participantState.participantList,
                                     stopoverList: Provider.of<StopoverProvider>(

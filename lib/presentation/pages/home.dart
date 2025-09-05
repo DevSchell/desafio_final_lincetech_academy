@@ -20,6 +20,12 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    Provider.of<TripProvider>(context, listen: false).loadTrips();
+  }
+
+  @override
   void initState() {
     super.initState();
     Provider.of<TripProvider>(context, listen: false).loadTrips();
@@ -175,7 +181,9 @@ class _HomeState extends State<Home> {
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
-                                        DateFormat('dd/MM/yyyy').format(trip.startDate),
+                                        DateFormat(
+                                          'dd/MM/yyyy',
+                                        ).format(trip.startDate),
 
                                         style: TextStyle(
                                           fontSize: 14,
