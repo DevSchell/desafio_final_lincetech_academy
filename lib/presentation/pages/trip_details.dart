@@ -138,7 +138,6 @@ class TripDetails extends StatelessWidget {
                     )!.requestedExperiencesHeader,
                     size: 20,
                   ),
-                  //TODO: Experiences list here...
                   CustomHeader(
                     text: trip.experiencesList!.join(', '),
                     color: Color.fromRGBO(107, 114, 128, 1),

@@ -92,23 +92,6 @@ class TripRepositorySQLite implements TripRepository {
         );
         ''');
 
-        await db.execute('''
-        CREATE TABLE IF NOT EXISTS experiences(
-          id          INTEGER PRIMARY KEY NOT NULL,
-          experience  TEXT
-        );
-      ''');
-
-        await db.execute('''
-        CREATE TABLE IF NOT EXISTS trip_experience(
-          id              INTEGER PRIMARY KEY NOT NULL,
-          trip_id         INTEGER NOT NULL,
-          experience_id   INTEGER NOT NULL,
-          FOREIGN KEY (trip_id) REFERENCES trips(id),
-          FOREIGN KEY (experience_id) REFERENCES experiences(id),
-          UNIQUE (trip_id, experience_id)
-        );
-      ''');
 
         // -----------------------------------------------------
 
@@ -157,13 +140,8 @@ class TripRepositorySQLite implements TripRepository {
     final id = await db.insert('trips', trip.toMap());
     trip.id = id;
 
-    //print('Ç52');
-    //print(trip.participantList?.isEmpty ?? true);
-
     for (final participant in trip.participantList ?? <Participant>[]) {
       final id = await db.insert('participants', participant.toMap(trip.id));
-      //print('ÇÇÇÇÇÇ');
-      //print(participant.name);
 
       await db.insert('trip_participant', {
         'trip_id': trip.id,
