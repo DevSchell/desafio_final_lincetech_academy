@@ -64,7 +64,8 @@ class TripRepositorySQLite implements TripRepository {
           title TEXT,
           start_date TEXT,
           end_date TEXT,
-          transportation_method TEXT
+          transportation_method TEXT,
+          experiences_list TEXT
         );
       ''');
 

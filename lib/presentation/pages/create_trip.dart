@@ -221,7 +221,8 @@ class _CreateTripAState extends State<_CreateTrip> {
                               final participant =
                                   participantState.participantList[index];
 
-                              return ParticipantItem(isEditable: true,
+                              return ParticipantItem(
+                                isEditable: true,
                                 participant: participant,
                                 onDelete: () {
                                   participantState.deleteParticipant(
@@ -283,7 +284,8 @@ class _CreateTripAState extends State<_CreateTrip> {
                                 final stopover =
                                     stopoverState.stopoverList[index];
 
-                                return StopoverItem(isEditable: true,
+                                return StopoverItem(
+                                  isEditable: true,
                                   stopover: stopover,
                                   onDelete: () {},
                                   onEdit: () {},
@@ -329,6 +331,9 @@ class _CreateTripAState extends State<_CreateTrip> {
                                     endDate: _tripEndDate!,
                                     transportationMethod:
                                         _selectedTransportationMethod.name,
+                                    experiencesList: _selectedTripExperiences
+                                        .map((e) => e.name)
+                                        .toList(),
                                     participantList:
                                         participantState.participantList,
                                     stopoverList: Provider.of<StopoverProvider>(
@@ -340,14 +345,7 @@ class _CreateTripAState extends State<_CreateTrip> {
                                     context,
                                     listen: false,
                                   ).createTrip(trip);
-                                  print('ÇÇÇÇÇÇÇÇÇÇÇÇÇÇÇÇÇÇÇÇÇÇÇ');
-                                  final listaTeste = Provider.of<TripProvider>(
-                                    context,
-                                    listen: false,
-                                  ).tripList;
-                                  for (int i = 0; i < listaTeste.length; i++) {
-                                    print('Nome: ${listaTeste[i].title}');
-                                  }
+
                                   Navigator.pop(context);
                                 }
                               },

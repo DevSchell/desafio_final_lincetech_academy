@@ -24,7 +24,7 @@ class Trip {
   /// The main method of transportation used for the trip.
   String transportationMethod;
 
-  //List<String> experiencesList; TODO: Need to do that!
+  List<String>? experiencesList;
 
   /// The list of participants associated with this trip.
   List<Participant>? participantList; // Table "participant"
@@ -41,6 +41,7 @@ class Trip {
     required this.startDate,
     required this.endDate,
     required this.transportationMethod,
+    this.experiencesList,
     this.participantList,
     this.stopoverList,
   });
@@ -58,6 +59,7 @@ class Trip {
       'start_date': startDate.toIso8601String(),
       'end_date': endDate.toIso8601String(),
       'transportation_method': transportationMethod,
+      'experiences_list' : experiencesList?.join(',')
 
       // 'participant_list' : participantList,
       // 'stopover_list' : stopoverList
@@ -77,6 +79,7 @@ class Trip {
       transportationMethod: map['transportation_method'],
       startDate: DateTime.parse(map['start_date']),
       endDate: DateTime.parse(map['end_date']),
+      experiencesList: (map['experiences_list'] as String?)?.split(','),
 
       // participantList: map['participant_list'],
       // stopoverList: map['stopover_list'],

@@ -79,6 +79,7 @@ class TripDetails extends StatelessWidget {
                   );
                   if (isConfirmed == true) {
                     await state.tripRepo.deleteTrip(trip);
+                    state.participants.clear();
 
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
@@ -139,7 +140,7 @@ class TripDetails extends StatelessWidget {
                   ),
                   //TODO: Experiences list here...
                   CustomHeader(
-                    text: 'adventure, shopping, hiking',
+                    text: trip.experiencesList!.join(', '),
                     color: Color.fromRGBO(107, 114, 128, 1),
                   ),
                   SizedBox(height: 10),
