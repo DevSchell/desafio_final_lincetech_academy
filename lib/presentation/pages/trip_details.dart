@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../entities/participant.dart';
+import '../../entities/stopover.dart';
 import '../../entities/trip.dart';
 import '../../file_repository/trip_repository.dart';
 import '../../l10n/app_localizations.dart';
@@ -13,9 +14,11 @@ class _TripDetailsState with ChangeNotifier {
   TripRepositorySQLite tripRepo = TripRepositorySQLite();
   final Trip initialTrip;
   late List<Participant> participants;
+  late List<Stopover> stopovers;
 
   _TripDetailsState(this.initialTrip) {
     participants = List.from(initialTrip.participantList ?? []);
+    stopovers = List.from(initialTrip.stopoverList ??[]);
   }
 
   void deleteParticipant(Participant participant) async {
@@ -80,6 +83,7 @@ class TripDetails extends StatelessWidget {
                   if (isConfirmed == true) {
                     await state.tripRepo.deleteTrip(trip);
                     state.participants.clear();
+                    state.stopovers.clear();
 
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
@@ -188,11 +192,10 @@ class TripDetails extends StatelessWidget {
                         )
                       : ListView.builder(
                           shrinkWrap: true,
-                          itemCount: trip.participantList?.length ?? 0,
+                          itemCount: trip.stopoverList?.length ?? 0,
                           itemBuilder: (context, i) {
                             final stopover = trip.stopoverList![i];
 
-                            //TODO: Must finish here...
                             return StopoverItem(
                               isEditable: false,
                               stopover: stopover,

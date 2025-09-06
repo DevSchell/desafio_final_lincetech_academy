@@ -1,16 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'file_repository/participant_repository.dart';
-import 'file_repository/stopover_repository.dart';
 import 'file_repository/trip_repository.dart';
 import 'l10n/app_localizations.dart';
 import 'presentation/pages/create_trip.dart';
 import 'presentation/pages/home.dart';
 import 'presentation/pages/settings.dart';
-import 'presentation/providers/participant_state.dart';
 import 'presentation/providers/settings_state.dart';
-import 'presentation/providers/stopover_state.dart';
 import 'presentation/providers/trip_state.dart';
 
 void main() {

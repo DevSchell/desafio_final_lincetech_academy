@@ -92,7 +92,6 @@ class TripRepositorySQLite implements TripRepository {
         );
         ''');
 
-
         // -----------------------------------------------------
 
         await db.execute('''
@@ -150,9 +149,25 @@ class TripRepositorySQLite implements TripRepository {
     }
 
     for (final stopover in trip.stopoverList ?? <Stopover>[]) {
-      final id = await db.insert('stopovers', stopover.toMap());
+      int stopoverId;
 
-      await db.insert('trip_stopover', {'trip_id': trip.id, 'stopover_id': id});
+      final existingStopover = await db.query(
+        'stopovers',
+        where: 'city_name = ?',
+        whereArgs: [stopover.cityName],
+        limit: 1,
+      );
+
+      if (existingStopover.isNotEmpty) {
+        stopoverId = existingStopover.first['id'] as int;
+      } else {
+        stopoverId = await db.insert('stopovers', stopover.toMap());
+      }
+
+      await db.insert('trip_stopover', {
+        'trip_id': trip.id,
+        'stopover_id': stopoverId,
+      });
     }
   }
 
@@ -198,7 +213,69 @@ class TripRepositorySQLite implements TripRepository {
       return;
     }
 
+    /// Gather all participants from specific trip
+    final participantIds = await db.query(
+      'trip_participant',
+      columns: ['participant_id'],
+      where: 'trip_id = ?',
+      whereArgs: [trip.id],
+    );
+
+    /// Gather all stopover from specific trip
+    final stopoverIds = await db.query(
+      'trip_stopover',
+      columns: ['stopover_id'],
+      where: 'trip_id = ?',
+      whereArgs: [trip.id],
+    );
+
+    await db.delete(
+      'trip_participant',
+      where: 'trip_id = ?',
+      whereArgs: [trip.id],
+    );
+
+    await db.delete(
+      'trip_stopover',
+      where: 'trip_id = ?',
+      whereArgs: [trip.id],
+    );
+
     await db.delete('trips', where: 'id = ?', whereArgs: [trip.id]);
+
+    // Checks and deletes participants who are not linked to any trip
+    for (final participant in participantIds) {
+      final participantId = participant['participant_id'];
+      final count = Sqflite.firstIntValue(
+        await db.rawQuery(
+          'SELECT COUNT(*) FROM trip_participant WHERE participant_id = ?',
+          [participantId],
+        ),
+      );
+
+      if (count == 0) {
+        await db.delete(
+          'participants',
+          where: 'id = ?',
+          whereArgs: [participantId],
+        );
+      }
+    }
+
+    // Checks and deletes stopovers which are not linked to any trips
+    for (final stopover in stopoverIds) {
+      final stopoverId = stopover['stopover_id'];
+      final count = Sqflite.firstIntValue(
+        await db.rawQuery(
+          'SELECT COUNT(*) FROM trip_stopover WHERE stopover_id = ?',
+          [stopoverId],
+        ),
+      );
+
+      if (count == 0) {
+        await db.delete('stopovers', where: 'id = ?', whereArgs: [stopoverId]);
+      }
+    }
   }
 
   @override
@@ -211,7 +288,10 @@ class TripRepositorySQLite implements TripRepository {
   }
 
   @override
-  Future<void> removeParticipantFromTrip(int? tripId, int? participantId) async {
+  Future<void> removeParticipantFromTrip(
+    int? tripId,
+    int? participantId,
+  ) async {
     final db = await initDb();
     await db.delete(
       'trip_participant',
