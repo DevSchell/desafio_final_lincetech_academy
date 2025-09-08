@@ -6,6 +6,7 @@ import '../../entities/stopover.dart';
 import '../../entities/trip.dart';
 import '../../file_repository/trip_repository.dart';
 import '../../l10n/app_localizations.dart';
+import 'stopover_details_screen.dart';
 import 'widgets/all_widgets.dart';
 import 'widgets/participant_item.dart';
 import 'widgets/stopover_item.dart';
@@ -15,10 +16,11 @@ class _TripDetailsState with ChangeNotifier {
   final Trip initialTrip;
   late List<Participant> participants;
   late List<Stopover> stopovers;
+  bool isEditing = false;
 
   _TripDetailsState(this.initialTrip) {
     participants = List.from(initialTrip.participantList ?? []);
-    stopovers = List.from(initialTrip.stopoverList ??[]);
+    stopovers = List.from(initialTrip.stopoverList ?? []);
   }
 
   void deleteParticipant(Participant participant) async {
@@ -37,6 +39,11 @@ class _TripDetailsState with ChangeNotifier {
       notifyListeners();
     }
   }
+
+  void switchEditMode() {
+    isEditing = !isEditing;
+    notifyListeners();
+  }
 }
 
 class TripDetails extends StatelessWidget {
@@ -54,7 +61,6 @@ class TripDetails extends StatelessWidget {
             title: 'Trip Details',
             actions: [
               //TODO: Implement crud methods...
-              IconButton(onPressed: () {}, icon: Icon(Icons.edit)),
               IconButton(
                 onPressed: () async {
                   final isConfirmed = await showDialog<bool>(
@@ -117,6 +123,7 @@ class TripDetails extends StatelessWidget {
                   SizedBox(height: 10),
 
                   NewCustomDatePicker(
+                    isEditable: false,
                     headerSize: 20,
                     initialStartDate: trip.startDate,
                     initialEndDate: trip.endDate,
@@ -169,7 +176,7 @@ class TripDetails extends StatelessWidget {
                             final participant = trip.participantList![i];
 
                             return ParticipantItem(
-                              isEditable: false,
+                              isEditable: state.isEditing,
                               participant: participant,
                               onDelete: () {},
                               onEdit: () {},
@@ -196,11 +203,22 @@ class TripDetails extends StatelessWidget {
                           itemBuilder: (context, i) {
                             final stopover = trip.stopoverList![i];
 
-                            return StopoverItem(
-                              isEditable: false,
-                              stopover: stopover,
-                              onDelete: () {},
-                              onEdit: () {},
+                            return InkWell(
+                              child: StopoverItem(
+                                isEditable: state.isEditing,
+                                stopover: stopover,
+                                onDelete: () {},
+                                onEdit: () {},
+                              ),
+                              onTap: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) => StopoverDetailsScreen(
+                                      stopover: stopover,
+                                    ),
+                                  ),
+                                );
+                              },
                             );
                           },
                         ),

@@ -50,37 +50,7 @@ class _HomeState extends State<Home> {
       appBar: AppBar(
         backgroundColor: Color.fromRGBO(25, 121, 130, 1),
         centerTitle: true,
-        leading: InkWell(
-          child: Image.asset('assets/images/logo_desafio_final.png'),
-          onTap: () {
-            // //TODO> Only test purposes...
-            // var p = Participant(
-            //   name: 'John Doe',
-            //   dateOfBirth: DateTime(2002, 05, 20),
-            //   photoPath: '',
-            //   favoriteTransp: 'Car',
-            // );
-            // var s = Stopover(
-            //   cityName: 'Whiterun',
-            //   arrivalDate: DateTime(2020, 12, 20),
-            //   departureDate: DateTime(2020, 12, 20),
-            //   latitude: 12315,
-            //   longitude: 12315,
-            // );
-            // final stopoverList = <Stopover>[s, s, s, s];
-            // final participantList = <Participant>[p, p, p, p];
-            //
-            // final trip = Trip(
-            //   title: 'Test Trip ${tripState.tripList.length + 1}',
-            //   transportationMethod: 'Car',
-            //   startDate: DateTime(2000, 1, 1),
-            //   endDate: DateTime(2000, 1, 1),
-            //   stopoverList: stopoverList,
-            //   participantList: participantList,
-            // );me
-            // tripState.createTrip(trip);
-          },
-        ),
+        leading: Image.asset('assets/images/logo_desafio_final.png'),
         title: Text(
           'WanderPlan',
           style: TextStyle(color: Colors.white, fontSize: 30),

@@ -32,7 +32,6 @@ class _NewCustomDatePickerState extends ChangeNotifier {
 ///
 /// This widget uses the provider inside this file do manage it's states
 class NewCustomDatePicker extends StatelessWidget {
-
   /// Creates a [NewCustomDatePicker] widget
   const NewCustomDatePicker({
     super.key,
@@ -41,6 +40,7 @@ class NewCustomDatePicker extends StatelessWidget {
     this.headerSize,
     this.initialStartDate,
     this.initialEndDate,
+    required this.isEditable,
   });
 
   /// A callback function that is called when the start date is changed
@@ -57,6 +57,8 @@ class NewCustomDatePicker extends StatelessWidget {
 
   /// The initial end date to display
   final DateTime? initialEndDate;
+
+  final bool isEditable;
 
   @override
   Widget build(BuildContext context) {
@@ -82,18 +84,20 @@ class NewCustomDatePicker extends StatelessWidget {
                     Row(
                       children: [
                         InkWell(
-                          onTap: () async {
-                            final pickedDate = await _selectDate(context);
+                          onTap: isEditable
+                              ? () async {
+                                  final pickedDate = await _selectDate(context);
 
-                            if (pickedDate != null) {
-                              state.selectedStartDate = pickedDate;
-                            }
+                                  if (pickedDate != null) {
+                                    state.selectedStartDate = pickedDate;
+                                  }
 
-                            if (pickedDate != null &&
-                                onStartDateChanged != null) {
-                              onStartDateChanged!(pickedDate);
-                            }
-                          },
+                                  if (pickedDate != null &&
+                                      onStartDateChanged != null) {
+                                    onStartDateChanged!(pickedDate);
+                                  }
+                                }
+                              : null,
                           child: Row(
                             children: [
                               Icon(Icons.calendar_month, size: 30),
@@ -133,18 +137,20 @@ class NewCustomDatePicker extends StatelessWidget {
                     Row(
                       children: [
                         InkWell(
-                          onTap: () async {
-                            final pickedDate = await _selectDate(context);
+                          onTap: isEditable
+                              ? () async {
+                                  final pickedDate = await _selectDate(context);
 
-                            if (pickedDate != null) {
-                              state.selectedEndDate = pickedDate;
-                            }
+                                  if (pickedDate != null) {
+                                    state.selectedEndDate = pickedDate;
+                                  }
 
-                            if (pickedDate != null &&
-                                onEndDateChanged != null) {
-                              onEndDateChanged!(pickedDate);
-                            }
-                          },
+                                  if (pickedDate != null &&
+                                      onEndDateChanged != null) {
+                                    onEndDateChanged!(pickedDate);
+                                  }
+                                }
+                              : null,
                           child: Row(
                             children: [
                               Icon(Icons.calendar_month, size: 30),

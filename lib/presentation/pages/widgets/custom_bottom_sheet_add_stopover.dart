@@ -135,6 +135,7 @@ class _CustomBottomSheetAddStopoverState
 
                 /// A custom widget for selecting start and end dates
                 NewCustomDatePicker(
+                  isEditable: true,
                   onStartDateChanged: (date) {
                     setState(() {
                       _startDate = date;

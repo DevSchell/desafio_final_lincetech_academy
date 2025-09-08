@@ -147,6 +147,7 @@ class _CreateTripAState extends State<_CreateTrip> {
                     SizedBox(height: 20),
 
                     NewCustomDatePicker(
+                      isEditable: true,
                       headerSize: 16,
                       onStartDateChanged: (date) {
                         setState(() {
