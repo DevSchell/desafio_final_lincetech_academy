@@ -108,7 +108,7 @@ class TripRepositorySQLite implements TripRepository {
       ''');
 
         await db.execute('''
-        CREATE TABLE IF NOT EXISTS review(
+        CREATE TABLE IF NOT EXISTS reviews(
           id INTEGER NOT NULL,
           stopover_id INTEGER NOT NULL,
           message TEXT,

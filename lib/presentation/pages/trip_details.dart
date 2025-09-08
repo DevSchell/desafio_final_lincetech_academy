@@ -222,6 +222,7 @@ class TripDetails extends StatelessWidget {
                             );
                           },
                         ),
+                  //TODO: implement GoogleMap()
                 ],
               ),
             ),

@@ -14,11 +14,6 @@ class Review {
   /// This field is required to provide the feedback or commentary.
   final String message;
 
-  /// The author of the review.
-  /// This is an instance of the [Participant] class, linking the review
-  /// to a specific person.
-  Participant author;
-
   /// The foreign key that links this review to its corresponding stopover.
   /// This field is required to associate a review with a specific location.
   final int stopoverId;
@@ -27,6 +22,8 @@ class Review {
   /// This can be used to visually complement the text message.
   String photoPath;
 
+  final int participantId;
+
   /// Constructs a [Review] instance.
   ///
   /// The [reviewID] is optional and is used to identify existing reviews.
@@ -34,9 +31,29 @@ class Review {
   /// to create a new, complete review.
   Review({
     this.reviewID,
-    required this.author,
     required this.message,
+    required this.participantId,
     required this.stopoverId,
     required this.photoPath,
   });
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': reviewID,
+      'stopover_id': stopoverId,
+      'participant_id': participantId,
+      'message': message,
+      'photo_path': photoPath,
+    };
+  }
+
+  factory Review.fromMap(Map<String, dynamic> map) {
+    return Review(
+      reviewID: map['id'] as int?,
+      stopoverId: map['stopover_id'] as int,
+      participantId: map['participant_id'],
+      message: map['message'] as String,
+      photoPath: map['photo_path'] as String,
+    );
+  }
 }
