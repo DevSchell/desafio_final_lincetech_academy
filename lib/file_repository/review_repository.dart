@@ -26,20 +26,25 @@ class ReviewRepositorySQLite implements ReviewRepository {
   @override
   Future<int> createReview(Review review) async {
     final db = await initDb();
-    //TODO: create topMap() and fromMap() methods
-    // return await db.insert('reviews', review.toMap());
-    throw UnimplementedError();
+    return await db.insert('reviews', review.toMap());
   }
 
   @override
-  Future<void> deleteReview(int reviewId) {
-    // TODO: implement deleteReview
-    throw UnimplementedError();
+  Future<void> deleteReview(int reviewId) async {
+    final db = await initDb();
+    await db.delete('reviews', where: 'id = ?', whereArgs: [reviewId]);
   }
 
   @override
-  Future<List<Review>> listReviewFromStopover(int stopoverId) {
-    // TODO: implement listReviewFromStopover
-    throw UnimplementedError();
+  Future<List<Review>> listReviewFromStopover(int stopoverId) async {
+    final db = await initDb();
+    final List<Map<String, dynamic>> maps = await db.query(
+      'reviews',
+      where: 'stopover_id = ?',
+      whereArgs: [stopoverId],
+    );
+    return List.generate(maps.length, (i) {
+      return Review.fromMap(maps[i]);
+    });
   }
 }
