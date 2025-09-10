@@ -22,7 +22,7 @@ class Review {
   /// This can be used to visually complement the text message.
   String photoPath;
 
-  final int participantId;
+  final int? participantId;
 
   /// Constructs a [Review] instance.
   ///
@@ -32,7 +32,7 @@ class Review {
   Review({
     this.reviewID,
     required this.message,
-    required this.participantId,
+    this.participantId,
     required this.stopoverId,
     required this.photoPath,
   });

@@ -13,8 +13,13 @@ import 'widgets/review_item.dart';
 
 class StopoverDetailsScreen extends StatefulWidget {
   final Stopover stopover;
+  final int tripId;
 
-  const StopoverDetailsScreen({super.key, required this.stopover});
+  const StopoverDetailsScreen({
+    super.key,
+    required this.stopover,
+    required this.tripId,
+  });
 
   @override
   State<StopoverDetailsScreen> createState() => _StopoverDetailsScreenState();
@@ -76,8 +81,8 @@ class _StopoverDetailsScreenState extends State<StopoverDetailsScreen> {
                     target: stopoverLocation,
                     zoom: 14,
                   ),
-                  zoomControlsEnabled: false,
-                  zoomGesturesEnabled: true,
+                  zoomControlsEnabled: true,
+                  zoomGesturesEnabled: false,
                   markers: markers,
                   onMapCreated: (mapController) {},
                 ),
@@ -110,9 +115,7 @@ class _StopoverDetailsScreenState extends State<StopoverDetailsScreen> {
                   },
                 ),
               ),
-              SizedBox(height: 16),
-              CustomActionButton(
-                text: 'Add review',
+              CustomAddButton(
                 onPressed: () {
                   showModalBottomSheet(
                     context: context,
@@ -121,12 +124,14 @@ class _StopoverDetailsScreenState extends State<StopoverDetailsScreen> {
                       return ChangeNotifierProvider.value(
                         value: _reviewsProvider,
                         child: AddReviewBottomSheet(
+                          tripId: widget.tripId,
                           stopoverId: widget.stopover.id!,
                         ),
                       );
                     },
                   );
                 },
+                heroTag: 'showReviewBottomSheet',
               ),
             ],
           ),

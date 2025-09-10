@@ -214,6 +214,7 @@ class TripDetails extends StatelessWidget {
                                 Navigator.of(context).push(
                                   MaterialPageRoute(
                                     builder: (context) => StopoverDetailsScreen(
+                                      tripId: trip.id!,
                                       stopover: stopover,
                                     ),
                                   ),
