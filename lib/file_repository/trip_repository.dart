@@ -66,7 +66,7 @@ class TripRepositorySQLite implements TripRepository {
           end_date TEXT,
           transportation_method TEXT,
           experiences_list TEXT
-        );
+        )
       ''');
 
         await db.execute('''
@@ -77,7 +77,7 @@ class TripRepositorySQLite implements TripRepository {
           FOREIGN KEY (trip_id) REFERENCES trips(id),
           FOREIGN KEY (participant_id) REFERENCES participants(id),
           UNIQUE (trip_id, participant_id)
-        );
+        )
       ''');
 
         await db.execute('''
@@ -89,33 +89,31 @@ class TripRepositorySQLite implements TripRepository {
           favorite_transport  TEXT,
           trip_id             INTEGER,
           UNIQUE(id)
-        );
+        )
         ''');
 
         // -----------------------------------------------------
 
         await db.execute('''
-        CREATE TABLE stopovers(
-          id INTEGER NOT NULL,
+        CREATE TABLE IF NOT EXISTS stopovers(
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
           city_name TEXT,
           latitude REAL,
           longitude REAL,
           arrival_date TEXT,
           departure_date TEXT,
-          actv_description TEXT,
-          PRIMARY KEY(id)
-        );
+          actv_description TEXT
+        )
       ''');
 
         await db.execute('''
         CREATE TABLE IF NOT EXISTS reviews(
-          id INTEGER NOT NULL,
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
           stopover_id INTEGER NOT NULL,
           message TEXT,
           photo_path TEXT,
-          FOREIGN KEY (stopover_id) REFERENCES stopovers(id),
-          PRIMARY KEY(id)
-        );
+          FOREIGN KEY (stopover_id) REFERENCES stopovers(id)
+        )
       ''');
 
         await db.execute('''
@@ -125,7 +123,7 @@ class TripRepositorySQLite implements TripRepository {
           FOREIGN KEY (trip_id) REFERENCES trips(id),
           FOREIGN KEY (stopover_id) REFERENCES stopovers(id),
           PRIMARY KEY (trip_id, stopover_id)
-        );
+        )
       ''');
       },
     );
