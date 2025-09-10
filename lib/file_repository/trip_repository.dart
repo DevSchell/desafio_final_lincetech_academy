@@ -1,6 +1,7 @@
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import '../entities/participant.dart';
+import '../entities/review.dart';
 import '../entities/stopover.dart';
 import '../entities/trip.dart';
 
@@ -37,6 +38,13 @@ abstract interface class TripRepository {
 
   /// Retrieves a list of all stopovers associated with a specific trip.
   Future<List<Stopover>?> listStopoversFromTrip(int? tripId);
+
+  // New methods
+  Future<int> createReview(Review review);
+
+  Future<List<Review>> listReviewFromStopover(int stopoverId);
+
+  Future<void> deleteReview(int reviewId);
 }
 
 /// A concrete implementation of the [TripRepository] interface
@@ -110,6 +118,7 @@ class TripRepositorySQLite implements TripRepository {
         CREATE TABLE IF NOT EXISTS reviews(
           id INTEGER PRIMARY KEY AUTOINCREMENT,
           stopover_id INTEGER NOT NULL,
+          participant_id INTEGER,
           message TEXT,
           photo_path TEXT,
           FOREIGN KEY (stopover_id) REFERENCES stopovers(id)
@@ -386,5 +395,31 @@ class TripRepositorySQLite implements TripRepository {
       where: 'trip_id = ? AND stopover_id = ?',
       whereArgs: [tripId, stopoverId],
     );
+  }
+
+  @override
+  Future<int> createReview(Review review) async {
+    final db = await initDb();
+    return await db.insert('reviews', review.toMap());
+  }
+
+  @override
+  Future<void> deleteReview(int reviewId) async {
+    final db = await initDb();
+    await db.delete('reviews', where: 'id = ?', whereArgs: [reviewId]);
+  }
+
+  @override
+  Future<List<Review>> listReviewFromStopover(int stopoverId) async {
+    final db = await initDb();
+    final List<Map<String, dynamic>> maps = await db.query(
+      'reviews',
+      where: 'stopover_id = ?',
+      whereArgs: [stopoverId],
+    );
+
+    return List.generate(maps.length, (i) {
+      return Review.fromMap(maps[i]);
+    });
   }
 }

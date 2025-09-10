@@ -4,10 +4,12 @@ import 'package:provider/provider.dart';
 import '../../entities/review.dart';
 import '../../entities/stopover.dart';
 import '../../file_repository/review_repository.dart';
+import '../../file_repository/trip_repository.dart';
 import 'widgets/add_review_bottom_sheet.dart';
 import 'widgets/all_widgets.dart';
 import 'widgets/custom_action_button.dart';
 import 'widgets/custom_add_button.dart';
+import 'widgets/review_item.dart';
 
 class StopoverDetailsScreen extends StatefulWidget {
   final Stopover stopover;
@@ -50,94 +52,84 @@ class _StopoverDetailsScreenState extends State<StopoverDetailsScreen> {
       appBar: CustomAppbar(title: widget.stopover.cityName),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            NewCustomDatePicker(
-              isEditable: false,
-              initialStartDate: widget.stopover.arrivalDate,
-              initialEndDate: widget.stopover.departureDate,
-            ),
-            SizedBox(height: 8),
-
-            SizedBox(height: 16),
-            CustomHeader(text: 'Activities'),
-            Text(widget.stopover.actvDescription ?? 'No activities planned'),
-            SizedBox(height: 16),
-
-            CustomHeader(text: 'Map Location'),
-            SizedBox(
-              height: 300,
-              child: GoogleMap(
-                initialCameraPosition: CameraPosition(
-                  target: stopoverLocation,
-                  zoom: 14,
-                ),
-                zoomControlsEnabled: false,
-                zoomGesturesEnabled: true,
-                markers: markers,
-                onMapCreated: (mapController) {},
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              NewCustomDatePicker(
+                isEditable: false,
+                initialStartDate: widget.stopover.arrivalDate,
+                initialEndDate: widget.stopover.departureDate,
               ),
-            ),
-            SizedBox(height: 16),
-            CustomHeader(text: 'Reviews'),
+              SizedBox(height: 8),
 
-            ChangeNotifierProvider.value(
-              value: _reviewsProvider,
-              child: Consumer<ReviewsProvider>(
-                builder: (_, reviewState, _) {
-                  if (reviewState.isLoading) {
-                    return Center(
-                      child: CircularProgressIndicator(
-                        color: Color.fromRGBO(255, 165, 0, 1),
-                      ),
-                    );
-                  } else if (reviewState.reviews.isEmpty) {
-                    return Center(child: Text('No reviews yet'));
-                  } else {
-                    return ListView.builder(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: reviewState.reviews.length,
-                      itemBuilder: (context, index) {
-                        final review = reviewState.reviews[index];
+              SizedBox(height: 16),
+              CustomHeader(text: 'Activities'),
+              Text(widget.stopover.actvDescription ?? 'No activities planned'),
+              SizedBox(height: 16),
 
-                        //TODO: Maybe I change here to a GridView instead
-                        return ListTile(
-                          title: Text(review.message),
-                          subtitle: Text('ID: ${review.reviewID}'),
-                          trailing: IconButton(
-                            onPressed: () {
-                              reviewState.removeReview(review.reviewID!);
-                            },
-                            icon: Icon(Icons.delete),
-                          ),
-                        );
-                      },
-                    );
-                  }
+              CustomHeader(text: 'Map Location'),
+              SizedBox(
+                height: 300,
+                child: GoogleMap(
+                  initialCameraPosition: CameraPosition(
+                    target: stopoverLocation,
+                    zoom: 14,
+                  ),
+                  zoomControlsEnabled: false,
+                  zoomGesturesEnabled: true,
+                  markers: markers,
+                  onMapCreated: (mapController) {},
+                ),
+              ),
+              SizedBox(height: 16),
+              CustomHeader(text: 'Reviews'),
+
+              ChangeNotifierProvider.value(
+                value: _reviewsProvider,
+                child: Consumer<ReviewsProvider>(
+                  builder: (_, reviewState, _) {
+                    if (reviewState.isLoading) {
+                      return Center(
+                        child: CircularProgressIndicator(
+                          color: Color.fromRGBO(255, 165, 0, 1),
+                        ),
+                      );
+                    } else if (reviewState.reviews.isEmpty) {
+                      return Center(child: Text('No reviews yet'));
+                    } else {
+                      return ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: reviewState.reviews.length,
+                        itemBuilder: (context, index) {
+                          final review = reviewState.reviews[index];
+                          return ReviewItem(review: review, onDelete: () {});
+                        },
+                      );
+                    }
+                  },
+                ),
+              ),
+              SizedBox(height: 16),
+              CustomActionButton(
+                text: 'Add review',
+                onPressed: () {
+                  showModalBottomSheet(
+                    context: context,
+                    isScrollControlled: true,
+                    builder: (context) {
+                      return ChangeNotifierProvider.value(
+                        value: _reviewsProvider,
+                        child: AddReviewBottomSheet(
+                          stopoverId: widget.stopover.id!,
+                        ),
+                      );
+                    },
+                  );
                 },
               ),
-            ),
-            SizedBox(height: 16),
-            CustomActionButton(
-              text: 'Add review',
-              onPressed: () {
-                showModalBottomSheet(
-                  context: context,
-                  isScrollControlled: true,
-                  builder: (context) {
-                    return ChangeNotifierProvider.value(
-                      value: _reviewsProvider,
-                      child: AddReviewBottomSheet(
-                        stopoverId: widget.stopover.id!,
-                      ),
-                    );
-                  },
-                );
-              },
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -145,7 +137,7 @@ class _StopoverDetailsScreenState extends State<StopoverDetailsScreen> {
 }
 
 class ReviewsProvider with ChangeNotifier {
-  final ReviewRepositorySQLite reviewRepo = ReviewRepositorySQLite();
+  final TripRepositorySQLite tripRepo = TripRepositorySQLite();
   final int stopoverId;
   List<Review> _reviews = [];
   bool _isLoading = false;
@@ -161,7 +153,7 @@ class ReviewsProvider with ChangeNotifier {
     notifyListeners();
 
     try {
-      _reviews = await reviewRepo.listReviewFromStopover(stopoverId);
+      _reviews = await tripRepo.listReviewFromStopover(stopoverId);
     } catch (e) {
       print('Falha ao carregar reviews: $e');
     } finally {
@@ -172,7 +164,7 @@ class ReviewsProvider with ChangeNotifier {
 
   Future<void> addReview(Review review) async {
     try {
-      await reviewRepo.createReview(review);
+      await tripRepo.createReview(review);
       _reviews.add(review);
     } catch (e) {
       print('Falha ao adicionar um Review: $e');
@@ -182,7 +174,7 @@ class ReviewsProvider with ChangeNotifier {
 
   Future<void> removeReview(int reviewId) async {
     try {
-      await reviewRepo.deleteReview(reviewId);
+      await tripRepo.deleteReview(reviewId);
       _reviews.removeWhere((review) {
         return review.reviewID != null && review.reviewID == reviewId;
       });

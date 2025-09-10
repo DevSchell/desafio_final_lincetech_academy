@@ -44,31 +44,34 @@ class _AddReviewBottomSheetState extends State<AddReviewBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(
-        bottom: MediaQuery.of(context).viewInsets.bottom,
-        left: 16.0,
-        right: 16.0,
-        top: 16.0,
-      ),
-      child: SizedBox(
-        height: 500,
-        child: Column(
-          children: [
-            TextField(
-              controller: _messageController,
-              decoration: const InputDecoration(
-                labelText: 'Enter your review...',
-                border: OutlineInputBorder(),
+    return FractionallySizedBox(
+      heightFactor: 0.6,
+      child: Padding(
+        padding: EdgeInsets.only(
+          bottom: MediaQuery.of(context).viewInsets.bottom,
+          left: 16.0,
+          right: 16.0,
+          top: 16.0,
+        ),
+        child: SizedBox(
+          height: 500,
+          child: Column(
+            children: [
+              TextField(
+                controller: _messageController,
+                decoration: const InputDecoration(
+                  labelText: 'Enter your review...',
+                  border: OutlineInputBorder(),
+                ),
+                maxLength: 250,
               ),
-              maxLength: 250,
-            ),
-            const SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: _submitReview,
-              child: const Text('Add Review'),
-            ),
-          ],
+              const SizedBox(height: 16),
+              ElevatedButton(
+                onPressed: _submitReview,
+                child: const Text('Add Review'),
+              ),
+            ],
+          ),
         ),
       ),
     );
