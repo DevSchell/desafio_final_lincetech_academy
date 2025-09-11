@@ -58,7 +58,6 @@ class _StopoverDetailsScreenState extends State<StopoverDetailsScreen> {
       appBar: CustomAppbar(title: widget.stopover.cityName),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        //TODO: How do I make this Map work without deleting SingleChildScrollView()?
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
