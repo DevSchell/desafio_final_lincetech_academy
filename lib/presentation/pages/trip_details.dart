@@ -171,6 +171,7 @@ class TripDetails extends StatelessWidget {
                         )
                       : ListView.builder(
                           shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
                           itemCount: trip.participantList?.length ?? 0,
                           itemBuilder: (context, i) {
                             final participant = trip.participantList![i];
@@ -199,6 +200,7 @@ class TripDetails extends StatelessWidget {
                         )
                       : ListView.builder(
                           shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
                           itemCount: trip.stopoverList?.length ?? 0,
                           itemBuilder: (context, i) {
                             final stopover = trip.stopoverList![i];

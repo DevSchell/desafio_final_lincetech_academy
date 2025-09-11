@@ -422,4 +422,17 @@ class TripRepositorySQLite implements TripRepository {
       return Review.fromMap(maps[i]);
     });
   }
+
+  Future<Participant?> getParticipantById(int? participantId) async {
+    final db = await initDb();
+    final result = await db.query(
+      'participants',
+      where: 'id = ?',
+      whereArgs: [participantId],
+    );
+    if (result.isNotEmpty) {
+      return Participant.fromMap(result.first);
+    }
+    return null;
+  }
 }

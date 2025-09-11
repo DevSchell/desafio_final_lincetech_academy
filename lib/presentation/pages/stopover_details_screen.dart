@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
+import '../../entities/participant.dart';
 import '../../entities/review.dart';
 import '../../entities/stopover.dart';
 import '../../file_repository/review_repository.dart';
@@ -57,6 +58,7 @@ class _StopoverDetailsScreenState extends State<StopoverDetailsScreen> {
       appBar: CustomAppbar(title: widget.stopover.cityName),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
+        //TODO: How do I make this Map work without deleting SingleChildScrollView()?
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -104,6 +106,7 @@ class _StopoverDetailsScreenState extends State<StopoverDetailsScreen> {
                       return Center(child: Text('No reviews yet'));
                     } else {
                       return ListView.builder(
+                        physics: NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
                         itemCount: reviewState.reviews.length,
                         itemBuilder: (context, index) {
@@ -147,6 +150,10 @@ class ReviewsProvider with ChangeNotifier {
   List<Review> _reviews = [];
   bool _isLoading = false;
 
+  Map<int, Participant> _participants = {};
+
+
+
   List<Review> get reviews => _reviews;
 
   bool get isLoading => _isLoading;
@@ -174,7 +181,7 @@ class ReviewsProvider with ChangeNotifier {
     } catch (e) {
       print('Falha ao adicionar um Review: $e');
     }
-    notifyListeners();
+    loadReviews();
   }
 
   Future<void> removeReview(int reviewId) async {
@@ -186,6 +193,6 @@ class ReviewsProvider with ChangeNotifier {
     } catch (e) {
       print('Falhou ao remover Review: $e');
     }
-    notifyListeners();
+    loadReviews();
   }
 }

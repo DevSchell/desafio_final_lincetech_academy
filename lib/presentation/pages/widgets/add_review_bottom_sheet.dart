@@ -9,6 +9,7 @@ import '../../../entities/review.dart';
 import '../../../file_repository/trip_repository.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../use_cases/image_picker_use_cases.dart';
+import '../../providers/settings_state.dart';
 import '../stopover_details_screen.dart';
 import 'all_widgets.dart';
 import 'custom_action_button.dart';
@@ -75,7 +76,7 @@ class _AddReviewBottomSheetState extends State<AddReviewBottomSheet> {
       message: _messageController.text.trim(),
       stopoverId: widget.stopoverId,
       participantId: _selectedParticipant!.id,
-      photoPath: _selectedImage!.path,
+      photoPath: _selectedImage?.path ?? '',
     );
 
     state.addReview(newReview);
@@ -197,12 +198,10 @@ class _AddReviewBottomSheetState extends State<AddReviewBottomSheet> {
                 /// Displays the selected image or a placeholder.
                 child: Container(
                   decoration: BoxDecoration(
-                    color: Colors.grey[200],
+                    color: Provider.of<SettingsProvider>(context).isDarkMode
+                        ? Color.fromRGBO(255, 119, 74, 1)
+                        : Color.fromRGBO(255, 165, 0, 1),
                     borderRadius: BorderRadius.circular(8.0),
-                    border: Border.all(
-                      color: Theme.of(context).primaryColor,
-                      width: _selectedImage != null ? 3.0 : 1.0,
-                    ),
                   ),
                   child: _selectedImage != null
                       ? ClipRRect(
@@ -219,13 +218,13 @@ class _AddReviewBottomSheetState extends State<AddReviewBottomSheet> {
                           children: [
                             Icon(
                               Icons.add_a_photo,
-                              color: Colors.grey[600],
+                              color: Colors.white,
                               size: 50,
                             ),
                             const SizedBox(height: 10),
                             Text(
                               'Add a photo',
-                              style: TextStyle(color: Colors.grey[600]),
+                              style: TextStyle(color: Colors.white),
                             ),
                           ],
                         ),
