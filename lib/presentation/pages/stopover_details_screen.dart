@@ -110,7 +110,52 @@ class _StopoverDetailsScreenState extends State<StopoverDetailsScreen> {
                         itemCount: reviewState.reviews.length,
                         itemBuilder: (context, index) {
                           final review = reviewState.reviews[index];
-                          return ReviewItem(review: review, onDelete: () {});
+                          return ReviewItem(
+                            review: review,
+                            onDelete: () async {
+                              final isConfirmed = await showDialog<bool>(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    title: Text(
+                                      'You are about to delete this review',
+                                    ),
+                                    content: Text(
+                                      'Are you sure you want to delete this review?',
+                                    ),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.of(context).pop((false));
+                                        },
+                                        child: Text('No'),
+                                      ),
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.of(context).pop(true);
+                                        },
+                                        child: Text('Yes'),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                              if (isConfirmed == true) {
+                                await reviewState.removeReview(
+                                  review.reviewID!,
+                                );
+
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                      'Review deleted successfully',
+                                    ),
+                                    backgroundColor: Colors.green,
+                                  ),
+                                );
+                              }
+                            },
+                          );
                         },
                       );
                     }
@@ -150,8 +195,6 @@ class ReviewsProvider with ChangeNotifier {
   bool _isLoading = false;
 
   Map<int, Participant> _participants = {};
-
-
 
   List<Review> get reviews => _reviews;
 

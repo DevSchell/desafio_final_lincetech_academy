@@ -1,4 +1,3 @@
-// Crie um novo arquivo ou coloque este código na mesma pasta, se preferir.
 import 'dart:io';
 
 import 'package:flutter/material.dart';
