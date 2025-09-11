@@ -156,20 +156,8 @@ class TripRepositorySQLite implements TripRepository {
     }
 
     for (final stopover in trip.stopoverList ?? <Stopover>[]) {
-      int stopoverId;
+      final stopoverId = await db.insert('stopovers', stopover.toMap());
 
-      final existingStopover = await db.query(
-        'stopovers',
-        where: 'city_name = ?',
-        whereArgs: [stopover.cityName],
-        limit: 1,
-      );
-
-      if (existingStopover.isNotEmpty) {
-        stopoverId = existingStopover.first['id'] as int;
-      } else {
-        stopoverId = await db.insert('stopovers', stopover.toMap());
-      }
 
       await db.insert('trip_stopover', {
         'trip_id': trip.id,

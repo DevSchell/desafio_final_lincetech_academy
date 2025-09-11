@@ -60,7 +60,12 @@ class TripDetails extends StatelessWidget {
           appBar: CustomAppbar(
             title: 'Trip Details',
             actions: [
-              //TODO: Implement crud methods...
+              IconButton(
+                onPressed: () {
+                  //TODO: Here I'll implement the method to create a PDF
+                },
+                icon: Icon(Icons.print),
+              ),
               IconButton(
                 onPressed: () async {
                   final isConfirmed = await showDialog<bool>(

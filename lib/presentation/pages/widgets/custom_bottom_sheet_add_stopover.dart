@@ -171,7 +171,6 @@ class _CustomBottomSheetAddStopoverState
                       cityName: globalFoundPlace.cityName,
                       latitude: selectedStopoverCoordinates.latitude,
                       longitude: selectedStopoverCoordinates.longitude,
-                      // "!" because if they're here in the code, won't be null
                       arrivalDate: _startDate!,
                       departureDate: _endDate!,
                     );
