@@ -206,11 +206,12 @@ class _AddReviewBottomSheetState extends State<AddReviewBottomSheet> {
                   child: _selectedImage != null
                       ? ClipRRect(
                           borderRadius: BorderRadius.circular(8.0),
-                          child: Image.file(
-                            File(_selectedImage!.path),
-                            fit: BoxFit.cover,
-                            width: double.infinity,
-                            height: double.infinity,
+                          child: SizedBox(
+                            height: 200,
+                            child: Image.file(
+                              File(_selectedImage!.path),
+                              fit: BoxFit.cover,
+                            ),
                           ),
                         )
                       : Column(

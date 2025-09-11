@@ -105,10 +105,12 @@ class _ReviewItemState extends State<ReviewItem> {
             if (widget.review.photoPath.isNotEmpty)
               ClipRRect(
                 borderRadius: BorderRadius.circular(8.0),
-                child: Image.file(
-                  File(widget.review.photoPath),
-                  width: double.infinity,
-                  fit: BoxFit.cover,
+                child: SizedBox(
+                  height: 200,
+                  child: Image.file(
+                    File(widget.review.photoPath),
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
           ],
