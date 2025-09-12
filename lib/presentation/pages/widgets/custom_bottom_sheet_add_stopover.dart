@@ -9,6 +9,7 @@ import '../../../l10n/app_localizations.dart';
 import '../../../use_cases/nominatim_service.dart';
 import 'all_widgets.dart';
 import 'custom_action_button.dart';
+import 'custom_alert_dialog.dart';
 
 /// This file defines a widget responsible for displaying a [BottomSheet] to add
 /// a new stopover to a trip. It allows the user to search for cities, select a
@@ -163,28 +164,52 @@ class _CustomBottomSheetAddStopoverState
                 CustomActionButton(
                   text: AppLocalizations.of(context)!.addStopover,
                   onPressed: () {
-                    final selectedStopoverCoordinates = Coordinate(
-                      latitude: globalFoundPlace.latitude,
-                      longitude: globalFoundPlace.longitude,
-                    );
-                    final stopover = Stopover(
-                      cityName: globalFoundPlace.cityName,
-                      latitude: selectedStopoverCoordinates.latitude,
-                      longitude: selectedStopoverCoordinates.longitude,
-                      arrivalDate: _startDate!,
-                      departureDate: _endDate!,
-                    );
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(
-                          AppLocalizations.of(
-                            context,
-                          )!.stopoverSuccessfullyAdded,
+                    String? errorMessage;
+
+                    if (cityNameController.text.trim().isEmpty) {
+                      errorMessage = 'City name can\'t be null';
+                    } else if (_startDate == null || _endDate == null) {
+                      errorMessage = 'Dates can\'t be null';
+                    } else if (_selectedStopoverExperiences.isEmpty) {
+                      errorMessage = 'Select at least 1 experience';
+                    }
+
+                    if (errorMessage != null) {
+                      showDialog(
+                        context: context,
+                        builder: (context) => CustomAlertDialog(
+                          title: 'Validation Error',
+                          content: errorMessage!,
+                          confirmText: 'OK',
+                          onConfirm: () => Navigator.pop(context),
                         ),
-                        duration: Duration(seconds: 2),
-                      ),
-                    );
-                    Navigator.pop(context, stopover);
+                      );
+
+                      return;
+                    } else {
+                      final selectedStopoverCoordinates = Coordinate(
+                        latitude: globalFoundPlace.latitude,
+                        longitude: globalFoundPlace.longitude,
+                      );
+                      final stopover = Stopover(
+                        cityName: globalFoundPlace.cityName,
+                        latitude: selectedStopoverCoordinates.latitude,
+                        longitude: selectedStopoverCoordinates.longitude,
+                        arrivalDate: _startDate!,
+                        departureDate: _endDate!,
+                      );
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                            AppLocalizations.of(
+                              context,
+                            )!.stopoverSuccessfullyAdded,
+                          ),
+                          duration: Duration(seconds: 2),
+                        ),
+                      );
+                      Navigator.pop(context, stopover);
+                    }
                   },
                 ),
               ],

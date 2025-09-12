@@ -335,7 +335,7 @@ class _CreateTripAState extends State<_CreateTrip> {
                                     builder: (context) {
                                       return CustomAlertDialog(
                                         title: 'Validation Error',
-                                        content: 'Trip title cant be null',
+                                        content: 'Trip title can\'t be null',
                                         confirmText: 'OK',
                                         onConfirm: () => Navigator.pop(context),
                                       );
@@ -351,7 +351,7 @@ class _CreateTripAState extends State<_CreateTrip> {
                                     builder: (context) {
                                       return CustomAlertDialog(
                                         title: 'Validation Error',
-                                        content: 'Datas não podem ser nulas',
+                                        content: 'Dates can\'t be null',
                                         confirmText: 'OK',
                                         onConfirm: () => Navigator.pop(context),
                                       );
