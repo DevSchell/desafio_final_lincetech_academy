@@ -79,6 +79,7 @@ flutter:
     - assets/images/flags/us.webp
     - assets/images/logo_desafio_final.png
     - assets/images/app_icon/logo_desafio_final_light.png
+    - assets/images/app_icon/logo_desafio_final_com_nome.png
 
 icons_launcher:
     image_path: 'assets/images/app_icon/logo_desafio_final_light.png'

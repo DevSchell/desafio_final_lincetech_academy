@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 
 import '../entities/trip.dart';
@@ -14,11 +15,12 @@ abstract class ExportTripToPdfUseCase {
 
 class ExportTripToPdf implements ExportTripToPdfUseCase {
   final TripRepositorySQLite tripRepo = TripRepositorySQLite();
+  final primaryColor = PdfColor.fromInt(0xFF197982);
+  final secondaryColor = PdfColor.fromInt(0xFFFFA600);
 
   @override
   Future<void> exportToPdf(Trip trip) async {
-
-    bool permissionGranted = await Permission.photos.isGranted;
+    var permissionGranted = await Permission.photos.isGranted;
 
     if (!permissionGranted) {
       final status = await Permission.photos.request();
@@ -34,7 +36,6 @@ class ExportTripToPdf implements ExportTripToPdfUseCase {
       }
     }
 
-
     if (permissionGranted) {
       final pdfDocument = pw.Document();
 
@@ -42,7 +43,11 @@ class ExportTripToPdf implements ExportTripToPdfUseCase {
         'assets/images/app_icon/logo_desafio_final_light.png',
       )).buffer.asUint8List();
 
-      //1º Page -> Capa (Dunno how I say capa in english .-.)
+      final logoWithName = (await rootBundle.load(
+        'assets/images/app_icon/logo_desafio_final_com_nome.png',
+      )).buffer.asUint8List();
+
+      //1º Page -> Cover
       pdfDocument.addPage(
         pw.Page(
           build: (context) {
@@ -50,21 +55,31 @@ class ExportTripToPdf implements ExportTripToPdfUseCase {
               child: pw.Column(
                 mainAxisAlignment: pw.MainAxisAlignment.center,
                 children: [
+                  pw.Image(pw.MemoryImage(logoWithName), height: 500),
                   pw.Text(
                     trip.title,
                     style: pw.TextStyle(
                       fontSize: 32,
                       fontWeight: pw.FontWeight.bold,
+                      color: primaryColor,
                     ),
                   ),
                   pw.SizedBox(height: 20),
                   pw.Text(
                     'Duration: ${trip.startDate.day}/${trip.startDate.month}/${trip.startDate.year} - ${trip.endDate.day}/${trip.endDate.month}/${trip.endDate.year}',
-                    style: pw.TextStyle(fontSize: 18),
+                    style: pw.TextStyle(
+                      fontSize: 18,
+                      color: secondaryColor,
+                      fontWeight: pw.FontWeight.bold,
+                    ),
                   ),
                   pw.Text(
                     'Transport Method: ${trip.transportationMethod}',
-                    style: pw.TextStyle(fontSize: 18),
+                    style: pw.TextStyle(
+                      fontSize: 18,
+                      color: secondaryColor,
+                      fontWeight: pw.FontWeight.bold,
+                    ),
                   ),
                 ],
               ),
@@ -78,48 +93,54 @@ class ExportTripToPdf implements ExportTripToPdfUseCase {
         pdfDocument.addPage(
           pw.Page(
             build: (context) {
-              return pw.Column(
-                crossAxisAlignment: pw.CrossAxisAlignment.start,
-                children: [
-                  pw.Text(
-                    'Participant List',
-                    style: pw.TextStyle(
-                      fontSize: 24,
-                      fontWeight: pw.FontWeight.bold,
+              return pw.Center(
+                child: pw.Column(
+                  crossAxisAlignment: pw.CrossAxisAlignment.start,
+                  children: [
+                    pw.Text(
+                      'Participant List',
+                      style: pw.TextStyle(
+                        fontSize: 24,
+                        fontWeight: pw.FontWeight.bold,
+                        color: primaryColor,
+                      ),
                     ),
-                  ),
-                  pw.SizedBox(height: 20),
-                  pw.Wrap(
-                    spacing: 20,
-                    runSpacing: 20,
-                    children: trip.participantList!.map((p) {
-                      return pw.SizedBox(
-                        width: 150,
-                        child: pw.Column(
-                          children: [
-                            if (p.photoPath.isNotEmpty)
-                              pw.ClipOval(
-                                child: pw.Image(
-                                  pw.MemoryImage(
-                                    File(p.photoPath).readAsBytesSync(),
+                    pw.SizedBox(height: 20),
+                    pw.Wrap(
+                      spacing: 20,
+                      runSpacing: 20,
+                      children: trip.participantList!.map((p) {
+                        return pw.SizedBox(
+                          width: 150,
+                          child: pw.Column(
+                            children: [
+                              if (p.photoPath.isNotEmpty)
+                                pw.ClipOval(
+                                  child: pw.Image(
+                                    pw.MemoryImage(
+                                      File(p.photoPath).readAsBytesSync(),
+                                    ),
+                                    fit: pw.BoxFit.cover,
+                                    width: 100,
+                                    height: 100,
                                   ),
-                                  fit: pw.BoxFit.cover,
-                                  width: 100,
-                                  height: 100,
                                 ),
+                              pw.SizedBox(height: 10),
+                              pw.Text(
+                                p.name,
+                                style: pw.TextStyle(color: primaryColor),
                               ),
-                            pw.SizedBox(height: 10),
-                            pw.Text(p.name, style: pw.TextStyle()),
-                            pw.Text(
-                              'Age: ${DateTime.now().year - p.dateOfBirth.year}',
-                              style: pw.TextStyle(),
-                            ),
-                          ],
-                        ),
-                      );
-                    }).toList(),
-                  ),
-                ],
+                              pw.Text(
+                                'Age: ${DateTime.now().year - p.dateOfBirth.year}',
+                                style: pw.TextStyle(color: secondaryColor),
+                              ),
+                            ],
+                          ),
+                        );
+                      }).toList(),
+                    ),
+                  ],
+                ),
               );
             },
           ),
@@ -130,6 +151,49 @@ class ExportTripToPdf implements ExportTripToPdfUseCase {
       if (trip.stopoverList != null && trip.stopoverList!.isNotEmpty) {
         for (var stopover in trip.stopoverList!) {
           final reviews = await tripRepo.listReviewFromStopover(stopover.id!);
+
+          final column1Reviews = <pw.Widget>[];
+          final column2Reviews = <pw.Widget>[];
+
+          for (var i = 0; i < reviews.length; i++) {
+            final review = reviews[i];
+            final participant = trip.participantList?.firstWhere(
+              (p) => p.id == review.participantId,
+            );
+
+            final reviewWidget = pw.Padding(
+              padding: const pw.EdgeInsets.only(bottom: 15),
+              child: pw.Column(
+                crossAxisAlignment: pw.CrossAxisAlignment.start,
+                children: [
+                  if (review.photoPath.isNotEmpty)
+                    pw.Image(
+                      pw.MemoryImage(File(review.photoPath).readAsBytesSync()),
+                      height: 100,
+                      fit: pw.BoxFit.cover,
+                    ),
+                  pw.SizedBox(height: 10),
+                  pw.Text(
+                    review.message,
+                    style: pw.TextStyle(color: secondaryColor),
+                  ),
+                  pw.Text(
+                    '- ${participant?.name ?? 'Participante desconhecido'}',
+                    style: pw.TextStyle(
+                      color: primaryColor,
+                      fontStyle: pw.FontStyle.italic,
+                    ),
+                  ),
+                ],
+              ),
+            );
+
+            if (i % 2 == 0) {
+              column1Reviews.add(reviewWidget);
+            } else {
+              column2Reviews.add(reviewWidget);
+            }
+          }
 
           pdfDocument.addPage(
             pw.Page(
@@ -142,42 +206,30 @@ class ExportTripToPdf implements ExportTripToPdfUseCase {
                       style: pw.TextStyle(
                         fontSize: 24,
                         fontWeight: pw.FontWeight.bold,
+                        color: primaryColor,
                       ),
                     ),
                     pw.SizedBox(height: 10),
                     pw.Text(
-                      'Período: ${stopover.arrivalDate.day}/${stopover.arrivalDate.month}/${stopover.arrivalDate.year} - ${stopover.departureDate.day}/${stopover.departureDate.month}/${stopover.departureDate.year}',
-                      style: pw.TextStyle(),
+                      'Duration: ${stopover.arrivalDate.day}/${stopover.arrivalDate.month}/${stopover.arrivalDate.year} - ${stopover.departureDate.day}/${stopover.departureDate.month}/${stopover.departureDate.year}',
+                      style: pw.TextStyle(
+                        color: secondaryColor,
+                        fontWeight: pw.FontWeight.bold,
+                      ),
                     ),
                     pw.SizedBox(height: 20),
                     if (reviews.isNotEmpty)
-                      pw.Column(
+                      pw.Row(
                         crossAxisAlignment: pw.CrossAxisAlignment.start,
-                        children: reviews.map((review) {
-                          return pw.Padding(
-                            padding: const pw.EdgeInsets.only(bottom: 15),
-                            child: pw.Column(
-                              crossAxisAlignment: pw.CrossAxisAlignment.start,
-                              children: [
-                                if (review.photoPath.isNotEmpty)
-                                  pw.Image(
-                                    pw.MemoryImage(
-                                      File(review.photoPath).readAsBytesSync(),
-                                    ),
-                                    height: 200,
-                                  ),
-                                pw.SizedBox(height: 10),
-                                pw.Text(review.message, style: pw.TextStyle()),
-                                pw.Text(
-                                  '- ${review.participantId}',
-                                  style: pw.TextStyle(
-                                    fontStyle: pw.FontStyle.italic,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          );
-                        }).toList(),
+                        children: [
+                          pw.Expanded(
+                            child: pw.Column(children: column1Reviews),
+                          ),
+                          pw.SizedBox(width: 20),
+                          pw.Expanded(
+                            child: pw.Column(children: column2Reviews),
+                          ),
+                        ],
                       ),
                   ],
                 );
@@ -186,6 +238,7 @@ class ExportTripToPdf implements ExportTripToPdfUseCase {
           );
         }
       }
+
       // 4º Page -> Final Page with logo and message
       pdfDocument.addPage(
         pw.Page(
@@ -199,7 +252,7 @@ class ExportTripToPdf implements ExportTripToPdfUseCase {
                   pw.Text(
                     'UMA VIAGEM NÃO SE MEDE EM MILHAS, MAS EM MOMENTOS. CADA PÁGINA DESTE LIVRETO GUARDA MAIS DO QUE PAISAGENS: SÃO SORRISOS ESPONTÂNEOS, DESCOBERTAS INESPERADAS, CONVERSAS QUE FICARAM NA ALMA E SILÊNCIOS QUE FALARAM MAIS QUE PALAVRAS.',
                     textAlign: pw.TextAlign.center,
-                    style: pw.TextStyle(fontSize: 16),
+                    style: pw.TextStyle(fontSize: 16, color: primaryColor),
                   ),
                 ],
               ),
