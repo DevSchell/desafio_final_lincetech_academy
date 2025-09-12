@@ -16,6 +16,7 @@ import '../providers/trip_state.dart';
 import 'widgets/all_widgets.dart';
 import 'widgets/custom_action_button.dart';
 import 'widgets/custom_add_button.dart';
+import 'widgets/custom_alert_dialog.dart';
 import 'widgets/custom_bottom_sheet_add_participant.dart';
 import 'widgets/custom_bottom_sheet_add_stopover.dart';
 import 'widgets/participant_item.dart';
@@ -319,36 +320,129 @@ class _CreateTripAState extends State<_CreateTrip> {
                       padding: const EdgeInsets.all(8.0),
                       child:
                           Provider.of<StopoverProvider>(
-                            context,
-                          ).stopoverList.isEmpty
+                                context,
+                              ).stopoverList.isEmpty ||
+                              Provider.of<ParticipantProvider>(
+                                context,
+                              ).participantList.isEmpty
                           ? SizedBox(height: 20)
                           : CustomActionButton(
                               text: AppLocalizations.of(context)!.createTrip,
                               onPressed: () {
-                                if (_formKey.currentState!.validate()) {
-                                  final trip = Trip(
-                                    title: _tripTitleController.text,
-                                    startDate: _tripStartDate!,
-                                    endDate: _tripEndDate!,
-                                    transportationMethod:
-                                        _selectedTransportationMethod.name,
-                                    experiencesList: _selectedTripExperiences
-                                        .map((e) => e.name)
-                                        .toList(),
-                                    participantList:
-                                        participantState.participantList,
-                                    stopoverList: Provider.of<StopoverProvider>(
+                                if (_tripTitleController.text.trim().isEmpty) {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return CustomAlertDialog(
+                                        title: 'Validation Error',
+                                        content: 'Trip title cant be null',
+                                        confirmText: 'OK',
+                                        onConfirm: () => Navigator.pop(context),
+                                      );
+                                    },
+                                  );
+                                  return;
+                                }
+
+                                if (_tripStartDate == null ||
+                                    _tripEndDate == null) {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return CustomAlertDialog(
+                                        title: 'Validation Error',
+                                        content: 'Datas não podem ser nulas',
+                                        confirmText: 'OK',
+                                        onConfirm: () => Navigator.pop(context),
+                                      );
+                                    },
+                                  );
+                                  return;
+                                }
+
+                                if (_selectedTripExperiences.isEmpty) {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return CustomAlertDialog(
+                                        title: 'Validation Error',
+                                        content: 'add pelo menos 1 experiência',
+                                        confirmText: 'OK',
+                                        onConfirm: () => Navigator.pop(context),
+                                      );
+                                    },
+                                  );
+                                  return;
+                                }
+
+                                final participantProvider =
+                                    Provider.of<ParticipantProvider>(
                                       context,
                                       listen: false,
-                                    ).stopoverList,
+                                    );
+                                if (participantProvider
+                                    .participantList
+                                    .isEmpty) {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return CustomAlertDialog(
+                                        title: 'Validation Error',
+                                        content: 'add pelo menos 1 participante',
+                                        confirmText: 'OK',
+                                        onConfirm: () => Navigator.pop(context),
+                                      );
+                                    },
                                   );
-                                  Provider.of<TripProvider>(
-                                    context,
-                                    listen: false,
-                                  ).createTrip(trip);
-
-                                  Navigator.pop(context);
+                                  return;
                                 }
+
+                                final stopoverProvider =
+                                    Provider.of<StopoverProvider>(
+                                      context,
+                                      listen: false,
+                                    );
+                                if (stopoverProvider.stopoverList.isEmpty) {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return CustomAlertDialog(
+                                        title: 'Validation Error',
+                                        content: 'add pelo menos 1 stopover',
+                                        confirmText: 'OK',
+                                        onConfirm: () => Navigator.pop(context),
+                                      );
+                                    },
+                                  );
+                                  return;
+                                }
+
+                                final trip = Trip(
+                                  title: _tripTitleController.text,
+                                  startDate: _tripStartDate!,
+                                  endDate: _tripEndDate!,
+                                  transportationMethod:
+                                      _selectedTransportationMethod.name,
+                                  experiencesList: _selectedTripExperiences
+                                      .map((e) => e.name)
+                                      .toList(),
+                                  participantList:
+                                      participantProvider.participantList,
+                                  stopoverList: stopoverProvider.stopoverList,
+                                );
+
+                                Provider.of<TripProvider>(
+                                  context,
+                                  listen: false,
+                                ).createTrip(trip);
+
+                                Navigator.pop(context);
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text('Trip created sucessfully'),
+                                    backgroundColor: Colors.green,
+                                  ),
+                                );
                               },
                             ),
                     ),

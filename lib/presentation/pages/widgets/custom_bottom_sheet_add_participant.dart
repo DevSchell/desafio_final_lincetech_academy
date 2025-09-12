@@ -10,6 +10,7 @@ import '../../../l10n/app_localizations.dart';
 import '../../../use_cases/image_picker_use_cases.dart';
 import '../../providers/settings_state.dart';
 import 'custom_action_button.dart';
+import 'custom_alert_dialog.dart';
 import 'custom_header.dart';
 import 'custom_transport_method.dart';
 
@@ -27,7 +28,6 @@ class CustomBottomSheetAddParticipant extends StatefulWidget {
 
 /// The state for [CustomBottomSheetAddParticipant].
 class _CustomBottomSheetState extends State<CustomBottomSheetAddParticipant> {
-
   /// Controller for the name text field.
   TextEditingController nameController = TextEditingController();
 
@@ -49,6 +49,7 @@ class _CustomBottomSheetState extends State<CustomBottomSheetAddParticipant> {
   @override
   void initState() {
     super.initState();
+
     /// Initializes the selected transportation method to a default value.
     _selectedTransportationMethod = EnumTransportationMethod.airplane;
   }
@@ -70,6 +71,7 @@ class _CustomBottomSheetState extends State<CustomBottomSheetAddParticipant> {
                     size: 20,
                   ),
                 ),
+
                 /// InkWell makes the CircleAvatar tappable for image selection.
                 InkWell(
                   onTap: () {
@@ -81,7 +83,9 @@ class _CustomBottomSheetState extends State<CustomBottomSheetAddParticipant> {
                           mainAxisSize: MainAxisSize.min,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text(AppLocalizations.of(context)!.choosePictureFrom),
+                            Text(
+                              AppLocalizations.of(context)!.choosePictureFrom,
+                            ),
                             const SizedBox(height: 15),
                             Padding(
                               padding: const EdgeInsets.all(8.0),
@@ -91,7 +95,8 @@ class _CustomBottomSheetState extends State<CustomBottomSheetAddParticipant> {
                                 )!.chooseFromCamera,
                                 onPressed: () async {
                                   final picker = ImagePickerUseCase();
-                                  final newImage = await picker.pickFromCamera();
+                                  final newImage = await picker
+                                      .pickFromCamera();
                                   if (newImage != null) {
                                     setState(() {
                                       selectedImage = newImage;
@@ -109,7 +114,8 @@ class _CustomBottomSheetState extends State<CustomBottomSheetAddParticipant> {
                                 )!.chooseFromGallery,
                                 onPressed: () async {
                                   final picker = ImagePickerUseCase();
-                                  final newImage = await picker.pickFromGallery();
+                                  final newImage = await picker
+                                      .pickFromGallery();
                                   if (newImage != null) {
                                     setState(() {
                                       selectedImage = newImage;
@@ -124,6 +130,7 @@ class _CustomBottomSheetState extends State<CustomBottomSheetAddParticipant> {
                       ),
                     );
                   },
+
                   /// Displays the selected image or a placeholder.
                   child: CircleAvatar(
                     radius: 150,
@@ -141,7 +148,7 @@ class _CustomBottomSheetState extends State<CustomBottomSheetAddParticipant> {
                   ),
                 ),
                 SizedBox(height: 30),
-            
+
                 CustomHeader(text: AppLocalizations.of(context)!.age),
                 Row(
                   children: [
@@ -191,7 +198,7 @@ class _CustomBottomSheetState extends State<CustomBottomSheetAddParticipant> {
                               );
                             },
                           );
-            
+
                           setState(() {
                             dateOfBirth = pickedDate;
                           });
@@ -200,9 +207,9 @@ class _CustomBottomSheetState extends State<CustomBottomSheetAddParticipant> {
                     ),
                   ],
                 ),
-            
+
                 SizedBox(height: 30),
-            
+
                 CustomHeader(
                   text: AppLocalizations.of(context)!.favoriteTransport,
                 ),
@@ -212,18 +219,41 @@ class _CustomBottomSheetState extends State<CustomBottomSheetAddParticipant> {
                   },
                 ),
                 SizedBox(height: 50),
-            
+
                 CustomActionButton(
                   text: AppLocalizations.of(context)!.add,
                   onPressed: () {
-                    // This button creates a new "Participant" object
+                    String? errorMessage;
+
+                    if (nameController.text.trim().isEmpty) {
+                      errorMessage = 'Nome não pode ser nulo';
+                    } else if (dateOfBirth == null) {
+                      errorMessage = 'A data de nascimento não pode ser nula';
+                    } else if (selectedImage == null) {
+                      errorMessage = 'A foto de perfil não pode ser nula';
+                    }
+
+                    if (errorMessage != null) {
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return CustomAlertDialog(
+                            title: 'Erro ao adicionar um participante',
+                            content: errorMessage!,
+                            confirmText: 'OK',
+                            onConfirm: () => Navigator.pop(context),
+                          );
+                        },
+                      );
+                    }
+
                     final participant = Participant(
                       name: nameController.text,
                       dateOfBirth: dateOfBirth!,
                       favoriteTransp: selectedTransport.name,
                       photoPath: selectedImage!.path,
                     );
-            
+
                     Navigator.pop(context, participant);
                   },
                 ),
