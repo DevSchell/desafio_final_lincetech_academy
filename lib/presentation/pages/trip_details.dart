@@ -6,6 +6,7 @@ import '../../entities/stopover.dart';
 import '../../entities/trip.dart';
 import '../../file_repository/trip_repository.dart';
 import '../../l10n/app_localizations.dart';
+import '../../use_cases/export_trip_to_pdf.dart';
 import 'stopover_details_screen.dart';
 import 'widgets/all_widgets.dart';
 import 'widgets/participant_item.dart';
@@ -61,8 +62,26 @@ class TripDetails extends StatelessWidget {
             title: 'Trip Details',
             actions: [
               IconButton(
-                onPressed: () {
-                  //TODO: Here I'll implement the method to create a PDF
+                onPressed: () async {
+                  try {
+                    ExportTripToPdfUseCase tripToPdf = ExportTripToPdf();
+                    await tripToPdf.exportToPdf(trip);
+
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Livreto gerado com sucesso'),
+                        backgroundColor: Colors.green,
+                      ),
+                    );
+                  } catch (e) {
+                    print('Erro ao gerar o PDF: $e');
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Falha ao gerar livreto'),
+                        backgroundColor: Colors.red,
+                      ),
+                    );
+                  }
                 },
                 icon: Icon(Icons.print),
               ),

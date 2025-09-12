@@ -6,7 +6,7 @@ import '../../../entities/coordinate.dart';
 import '../../../entities/enum_experiences_list.dart';
 import '../../../entities/stopover.dart';
 import '../../../l10n/app_localizations.dart';
-import '../../../use_cases/geolocation/nominatim_service.dart';
+import '../../../use_cases/nominatim_service.dart';
 import 'all_widgets.dart';
 import 'custom_action_button.dart';
 

@@ -1,5 +1,5 @@
 
-import '../use_cases/geolocation/nominatim_service.dart';
+import '../use_cases/nominatim_service.dart';
 
 class Utils {
 
