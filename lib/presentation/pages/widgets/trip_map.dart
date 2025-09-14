@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../../entities/stopover.dart';
+import '../../../l10n/app_localizations.dart';
 
 /// A widget that displays a Google Map showing a list of stopovers.
 ///
@@ -116,7 +117,7 @@ class _TripMapState extends State<TripMap> {
   @override
   Widget build(BuildContext context) {
     if (markers.isEmpty) {
-      return Center(child: Text('There are no stopovers to be shown'));
+      return Center(child: Text(AppLocalizations.of(context)!.noStopovers));
     }
 
     final initialCameraPosition = markers.first.position;

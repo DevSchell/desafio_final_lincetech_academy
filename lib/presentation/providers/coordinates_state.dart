@@ -7,7 +7,6 @@ class CoordinatesProvider with ChangeNotifier {
   double? longitude;
   String? errorMessage;
 
-  //TODO: Does it work?
   CoordinatesProvider() {
     getPosition();
   }

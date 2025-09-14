@@ -74,7 +74,7 @@ class TripDetails extends StatelessWidget {
       child: Consumer<_TripDetailsState>(
         builder: (_, state, _) => Scaffold(
           appBar: CustomAppbar(
-            title: 'Trip Details',
+            title: AppLocalizations.of(context)!.tripDetails,
             actions: [
               IconButton(
                 onPressed: () async {
@@ -83,15 +83,21 @@ class TripDetails extends StatelessWidget {
                     await tripToPdf.exportToPdf(trip);
 
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('PDF generated successfully'),
+                      SnackBar(
+                        content: Text(
+                          AppLocalizations.of(
+                            context,
+                          )!.pdfGeneratedSuccessfully,
+                        ),
                         backgroundColor: Colors.green,
                       ),
                     );
                   } catch (e) {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Error while generating de PDF'),
+                      SnackBar(
+                        content: Text(
+                          AppLocalizations.of(context)!.errorWhileGeneratingPDF,
+                        ),
                         backgroundColor: Colors.red,
                       ),
                     );
@@ -105,20 +111,28 @@ class TripDetails extends StatelessWidget {
                     context: context,
                     builder: (context) {
                       return AlertDialog(
-                        title: Text('You are about to delete your trip'),
-                        content: Text('Are you sure want to delete this trip?'),
+                        title: Text(
+                          AppLocalizations.of(
+                            context,
+                          )!.youAreAboutToDeleteYourTrip,
+                        ),
+                        content: Text(
+                          AppLocalizations.of(
+                            context,
+                          )!.areYouSureYouWantToDeleteYourTrip,
+                        ),
                         actions: [
                           TextButton(
                             onPressed: () {
                               Navigator.of(context).pop(false);
                             },
-                            child: Text('No'),
+                            child: Text(AppLocalizations.of(context)!.no),
                           ),
                           TextButton(
                             onPressed: () {
                               Navigator.of(context).pop(true);
                             },
-                            child: Text('Yes'),
+                            child: Text(AppLocalizations.of(context)!.yes),
                           ),
                         ],
                       );
@@ -131,7 +145,9 @@ class TripDetails extends StatelessWidget {
 
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        content: Text('Trip deleted successfully'),
+                        content: Text(
+                          AppLocalizations.of(context)!.tripDeletedSuccessfully,
+                        ),
                         backgroundColor: Colors.green,
                       ),
                     );

@@ -166,4 +166,112 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get thereWasAnErrorNominatimAPI => 'Houve um erro ao tentar procurar por locais';
+
+  @override
+  String get addPhoto => 'Adicionar uma foto';
+
+  @override
+  String get addReview => 'Adicionar um relato';
+
+  @override
+  String get reviewMessage => 'Mensagem do relato';
+
+  @override
+  String get reviewOwner => 'Autor do relato';
+
+  @override
+  String get labelSelectOwner => 'Selecione o autor do relato';
+
+  @override
+  String get selectDate => 'Selecione uma data';
+
+  @override
+  String get errorNameCantBeNull => 'Nome não pode ser nulo';
+
+  @override
+  String get errorDateCantBeNull => 'Data de nascimento não pode ser nula';
+
+  @override
+  String get errorProfilePhotoCantBeNull => 'Foto de perfil não pode ser nula';
+
+  @override
+  String get ok => 'OK';
+
+  @override
+  String get validationError => 'Erro de validação';
+
+  @override
+  String get errorCityName => 'Nome da cidadae não pode ser nulo';
+
+  @override
+  String get errorExperience => 'Selecione ao menos 1 experiência';
+
+  @override
+  String get unknownParticipant => 'Participante Desconhecido';
+
+  @override
+  String get noStopovers => 'Não existem paradas a serem mostradas';
+
+  @override
+  String get deletedParticipant => 'Participante excluído com êxito';
+
+  @override
+  String get errorTripTitleCantBeNull => 'Título da viagem não pode ser nulo';
+
+  @override
+  String get errorParticipant => 'Adicione pelo menos 1 participante';
+
+  @override
+  String get errorStopover => 'Adicione pelo menos 1 parada';
+
+  @override
+  String get tripCreatedSuccessfully => 'Viagem criada com êxito';
+
+  @override
+  String get activities => 'Atividades';
+
+  @override
+  String get noActivitiesPlanned => 'Sem atividades planejadas';
+
+  @override
+  String get mapLocation => 'Localização no mapa';
+
+  @override
+  String get reviewsHeader => 'Relatos';
+
+  @override
+  String get noReviewsYet => 'Sem relatos adicionada';
+
+  @override
+  String get youAreAboutToDeleteReview => 'Você está prestes excluir esse relato';
+
+  @override
+  String get areYouSureReview => 'Tem certeza que você quer excluir esse review';
+
+  @override
+  String get yes => 'Sim';
+
+  @override
+  String get no => 'Não';
+
+  @override
+  String get reviewDeletedSuccessfully => 'Relato excluído com êxito';
+
+  @override
+  String get tripDetails => 'Detalhes da Viagem';
+
+  @override
+  String get pdfGeneratedSuccessfully => 'PDF gerado com sucesso';
+
+  @override
+  String get errorWhileGeneratingPDF => 'Erro ao gerar o PDF';
+
+  @override
+  String get youAreAboutToDeleteYourTrip => 'Você está prestes a apagar a sua viagem';
+
+  @override
+  String get areYouSureYouWantToDeleteYourTrip => 'Tem certeza que você quer apagar a viagem?';
+
+  @override
+  String get tripDeletedSuccessfully => 'Viagem apagada com êxito';
 }

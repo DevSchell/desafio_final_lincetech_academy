@@ -154,12 +154,12 @@ class _CustomBottomSheetState extends State<CustomBottomSheetAddParticipant> {
                       child: Text(
                         dateOfBirth != null
                             ? '${dateOfBirth!.day}/${dateOfBirth!.month}/${dateOfBirth!.year}'
-                            : 'No date selected',
+                            : AppLocalizations.of(context)!.noDateSelected,
                       ),
                     ),
                     Expanded(
                       child: CustomActionButton(
-                        text: 'select date',
+                        text: AppLocalizations.of(context)!.selectDate,
                         onPressed: () async {
                           DateTime? selectedDate;
                           final pickedDate = await showDatePicker(
@@ -224,11 +224,17 @@ class _CustomBottomSheetState extends State<CustomBottomSheetAddParticipant> {
                     String? errorMessage;
 
                     if (nameController.text.trim().isEmpty) {
-                      errorMessage = 'Nome não pode ser nulo';
+                      errorMessage = AppLocalizations.of(
+                        context,
+                      )!.errorNameCantBeNull;
                     } else if (dateOfBirth == null) {
-                      errorMessage = 'A data de nascimento não pode ser nula';
+                      errorMessage = AppLocalizations.of(
+                        context,
+                      )!.errorDateCantBeNull;
                     } else if (selectedImage == null) {
-                      errorMessage = 'A foto de perfil não pode ser nula';
+                      errorMessage = AppLocalizations.of(
+                        context,
+                      )!.errorProfilePhotoCantBeNull;
                     }
 
                     if (errorMessage != null) {
@@ -236,7 +242,9 @@ class _CustomBottomSheetState extends State<CustomBottomSheetAddParticipant> {
                         context: context,
                         builder: (context) {
                           return CustomAlertDialog(
-                            title: 'Erro ao adicionar um participante',
+                            title: AppLocalizations.of(
+                              context,
+                            )!.errorParticipant,
                             content: errorMessage!,
                             confirmText: 'OK',
                             onConfirm: () => Navigator.pop(context),

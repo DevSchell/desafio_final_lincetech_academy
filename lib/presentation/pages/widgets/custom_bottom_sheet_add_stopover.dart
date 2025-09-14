@@ -167,18 +167,22 @@ class _CustomBottomSheetAddStopoverState
                     String? errorMessage;
 
                     if (cityNameController.text.trim().isEmpty) {
-                      errorMessage = 'City name can\'t be null';
+                      errorMessage = AppLocalizations.of(context)!.errorCityName;
                     } else if (_startDate == null || _endDate == null) {
-                      errorMessage = 'Dates can\'t be null';
+                      errorMessage = AppLocalizations.of(
+                        context,
+                      )!.errorDateCantBeNull;
                     } else if (_selectedStopoverExperiences.isEmpty) {
-                      errorMessage = 'Select at least 1 experience';
+                      errorMessage = AppLocalizations.of(
+                        context,
+                      )!.errorExperience;
                     }
 
                     if (errorMessage != null) {
                       showDialog(
                         context: context,
                         builder: (context) => CustomAlertDialog(
-                          title: 'Validation Error',
+                          title: AppLocalizations.of(context)!.validationError,
                           content: errorMessage!,
                           confirmText: 'OK',
                           onConfirm: () => Navigator.pop(context),

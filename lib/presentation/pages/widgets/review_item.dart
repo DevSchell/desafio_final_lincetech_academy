@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import '../../../entities/participant.dart';
 import '../../../entities/review.dart';
 import '../../../file_repository/trip_repository.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../providers/settings_state.dart';
 
 /// A widget that displays a single review item.
@@ -95,7 +96,8 @@ class _ReviewItemState extends State<ReviewItem> {
                 const SizedBox(width: 10.0),
                 Expanded(
                   child: Text(
-                    participant?.name ?? 'Unknown Participant',
+                    participant?.name ??
+                        AppLocalizations.of(context)!.unknownParticipant,
                     style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ),

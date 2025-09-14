@@ -12,7 +12,6 @@ import '../../../use_cases/image_picker_use_cases.dart';
 import '../../providers/settings_state.dart';
 import '../stopover_details_screen.dart';
 import 'all_widgets.dart';
-import 'custom_action_button.dart';
 
 /// A modal bottom sheet for adding a new review to a stopover.
 ///
@@ -108,6 +107,8 @@ class _AddReviewBottomSheetState extends State<AddReviewBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
+    final myLabelText = AppLocalizations.of(context)!.labelSelectOwner;
+
     return FractionallySizedBox(
       heightFactor: 0.8,
       child: Padding(
@@ -116,16 +117,21 @@ class _AddReviewBottomSheetState extends State<AddReviewBottomSheet> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Center(child: CustomHeader(text: 'Add a review', size: 20)),
+              Center(
+                child: CustomHeader(
+                  text: AppLocalizations.of(context)!.addReview,
+                  size: 20,
+                ),
+              ),
               const SizedBox(height: 20),
 
-              CustomHeader(text: 'Review Owner'),
+              CustomHeader(text: AppLocalizations.of(context)!.reviewOwner),
               _isLoadingParticipants
                   ? const Center(child: CircularProgressIndicator())
                   : DropdownButtonFormField<Participant>(
-                      decoration: const InputDecoration(
-                        labelText: 'Select the owner of the review',
-                        border: OutlineInputBorder(),
+                      decoration: InputDecoration(
+                        labelText: myLabelText,
+                        border: const OutlineInputBorder(),
                       ),
                       value: _selectedParticipant,
                       onChanged: (newValue) {
@@ -145,7 +151,7 @@ class _AddReviewBottomSheetState extends State<AddReviewBottomSheet> {
 
               const SizedBox(height: 20),
 
-              CustomHeader(text: 'Review Message'),
+              CustomHeader(text: AppLocalizations.of(context)!.reviewMessage),
               TextField(
                 controller: _messageController,
                 decoration: const InputDecoration(
@@ -241,7 +247,7 @@ class _AddReviewBottomSheetState extends State<AddReviewBottomSheet> {
                             ),
                             const SizedBox(height: 10),
                             Text(
-                              'Add a photo',
+                              AppLocalizations.of(context)!.addPhoto,
                               style: TextStyle(color: Colors.white),
                             ),
                           ],
@@ -251,7 +257,10 @@ class _AddReviewBottomSheetState extends State<AddReviewBottomSheet> {
 
               const SizedBox(height: 30),
 
-              CustomActionButton(text: 'Add Review', onPressed: _submitReview),
+              CustomActionButton(
+                text: AppLocalizations.of(context)!.addReview,
+                onPressed: _submitReview,
+              ),
             ],
           ),
         ),

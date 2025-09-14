@@ -333,8 +333,12 @@ class _CreateTripAState extends State<_CreateTrip> {
                                     context: context,
                                     builder: (context) {
                                       return CustomAlertDialog(
-                                        title: 'Validation Error',
-                                        content: 'Trip title can\'t be null',
+                                        title: AppLocalizations.of(
+                                          context,
+                                        )!.validationError,
+                                        content: AppLocalizations.of(
+                                          context,
+                                        )!.errorTripTitleCantBeNull,
                                         confirmText: 'OK',
                                         onConfirm: () => Navigator.pop(context),
                                       );
@@ -349,8 +353,12 @@ class _CreateTripAState extends State<_CreateTrip> {
                                     context: context,
                                     builder: (context) {
                                       return CustomAlertDialog(
-                                        title: 'Validation Error',
-                                        content: 'Dates can\'t be null',
+                                        title: AppLocalizations.of(
+                                          context,
+                                        )!.validationError,
+                                        content: AppLocalizations.of(
+                                          context,
+                                        )!.errorDateCantBeNull,
                                         confirmText: 'OK',
                                         onConfirm: () => Navigator.pop(context),
                                       );
@@ -364,8 +372,12 @@ class _CreateTripAState extends State<_CreateTrip> {
                                     context: context,
                                     builder: (context) {
                                       return CustomAlertDialog(
-                                        title: 'Validation Error',
-                                        content: 'select at least 1 experience',
+                                        title: AppLocalizations.of(
+                                          context,
+                                        )!.validationError,
+                                        content: AppLocalizations.of(
+                                          context,
+                                        )!.errorExperience,
                                         confirmText: 'OK',
                                         onConfirm: () => Navigator.pop(context),
                                       );
@@ -386,8 +398,12 @@ class _CreateTripAState extends State<_CreateTrip> {
                                     context: context,
                                     builder: (context) {
                                       return CustomAlertDialog(
-                                        title: 'Validation Error',
-                                        content: 'add at least 1 participant',
+                                        title: AppLocalizations.of(
+                                          context,
+                                        )!.validationError,
+                                        content: AppLocalizations.of(
+                                          context,
+                                        )!.errorParticipant,
                                         confirmText: 'OK',
                                         onConfirm: () => Navigator.pop(context),
                                       );
@@ -406,8 +422,12 @@ class _CreateTripAState extends State<_CreateTrip> {
                                     context: context,
                                     builder: (context) {
                                       return CustomAlertDialog(
-                                        title: 'Validation Error',
-                                        content: 'add at least 1 stopover',
+                                        title: AppLocalizations.of(
+                                          context,
+                                        )!.validationError,
+                                        content: AppLocalizations.of(
+                                          context,
+                                        )!.errorStopover,
                                         confirmText: 'OK',
                                         onConfirm: () => Navigator.pop(context),
                                       );
@@ -438,7 +458,11 @@ class _CreateTripAState extends State<_CreateTrip> {
                                 Navigator.pop(context);
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
-                                    content: Text('Trip created successfully'),
+                                    content: Text(
+                                      AppLocalizations.of(
+                                        context,
+                                      )!.tripCreatedSuccessfully,
+                                    ),
                                     backgroundColor: Colors.green,
                                   ),
                                 );

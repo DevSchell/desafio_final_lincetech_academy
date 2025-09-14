@@ -414,6 +414,222 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'There was an error on the attempt of searching places'**
   String get thereWasAnErrorNominatimAPI;
+
+  /// No description provided for @addPhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a photo'**
+  String get addPhoto;
+
+  /// No description provided for @addReview.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Review'**
+  String get addReview;
+
+  /// No description provided for @reviewMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Review Message'**
+  String get reviewMessage;
+
+  /// No description provided for @reviewOwner.
+  ///
+  /// In en, this message translates to:
+  /// **'Review Owner'**
+  String get reviewOwner;
+
+  /// No description provided for @labelSelectOwner.
+  ///
+  /// In en, this message translates to:
+  /// **'Select the owner of the review'**
+  String get labelSelectOwner;
+
+  /// No description provided for @selectDate.
+  ///
+  /// In en, this message translates to:
+  /// **'select date'**
+  String get selectDate;
+
+  /// No description provided for @errorNameCantBeNull.
+  ///
+  /// In en, this message translates to:
+  /// **'Name can\'t be null'**
+  String get errorNameCantBeNull;
+
+  /// No description provided for @errorDateCantBeNull.
+  ///
+  /// In en, this message translates to:
+  /// **'Date of birth can\'t be null'**
+  String get errorDateCantBeNull;
+
+  /// No description provided for @errorProfilePhotoCantBeNull.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile photo can\'t be null'**
+  String get errorProfilePhotoCantBeNull;
+
+  /// No description provided for @ok.
+  ///
+  /// In en, this message translates to:
+  /// **'OK'**
+  String get ok;
+
+  /// No description provided for @validationError.
+  ///
+  /// In en, this message translates to:
+  /// **'Validation Error'**
+  String get validationError;
+
+  /// No description provided for @errorCityName.
+  ///
+  /// In en, this message translates to:
+  /// **'City name can\'t be null'**
+  String get errorCityName;
+
+  /// No description provided for @errorExperience.
+  ///
+  /// In en, this message translates to:
+  /// **'Select at least 1 experience'**
+  String get errorExperience;
+
+  /// No description provided for @unknownParticipant.
+  ///
+  /// In en, this message translates to:
+  /// **'Unknown Participant'**
+  String get unknownParticipant;
+
+  /// No description provided for @noStopovers.
+  ///
+  /// In en, this message translates to:
+  /// **'There are no stopovers to be shown'**
+  String get noStopovers;
+
+  /// No description provided for @deletedParticipant.
+  ///
+  /// In en, this message translates to:
+  /// **'Participant deleted successfully'**
+  String get deletedParticipant;
+
+  /// No description provided for @errorTripTitleCantBeNull.
+  ///
+  /// In en, this message translates to:
+  /// **'Trip title can\'t be null'**
+  String get errorTripTitleCantBeNull;
+
+  /// No description provided for @errorParticipant.
+  ///
+  /// In en, this message translates to:
+  /// **'Add at least 1 participant'**
+  String get errorParticipant;
+
+  /// No description provided for @errorStopover.
+  ///
+  /// In en, this message translates to:
+  /// **'Add at least 1 stopover'**
+  String get errorStopover;
+
+  /// No description provided for @tripCreatedSuccessfully.
+  ///
+  /// In en, this message translates to:
+  /// **'Trip create successfully'**
+  String get tripCreatedSuccessfully;
+
+  /// No description provided for @activities.
+  ///
+  /// In en, this message translates to:
+  /// **'Activities'**
+  String get activities;
+
+  /// No description provided for @noActivitiesPlanned.
+  ///
+  /// In en, this message translates to:
+  /// **'No activities planned'**
+  String get noActivitiesPlanned;
+
+  /// No description provided for @mapLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'Map Location'**
+  String get mapLocation;
+
+  /// No description provided for @reviewsHeader.
+  ///
+  /// In en, this message translates to:
+  /// **'Reviews'**
+  String get reviewsHeader;
+
+  /// No description provided for @noReviewsYet.
+  ///
+  /// In en, this message translates to:
+  /// **'No reviews yet'**
+  String get noReviewsYet;
+
+  /// No description provided for @youAreAboutToDeleteReview.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re about to delete this review'**
+  String get youAreAboutToDeleteReview;
+
+  /// No description provided for @areYouSureReview.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this review?'**
+  String get areYouSureReview;
+
+  /// No description provided for @yes.
+  ///
+  /// In en, this message translates to:
+  /// **'Yes'**
+  String get yes;
+
+  /// No description provided for @no.
+  ///
+  /// In en, this message translates to:
+  /// **'No'**
+  String get no;
+
+  /// No description provided for @reviewDeletedSuccessfully.
+  ///
+  /// In en, this message translates to:
+  /// **'Review deleted successfully'**
+  String get reviewDeletedSuccessfully;
+
+  /// No description provided for @tripDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Trip Details'**
+  String get tripDetails;
+
+  /// No description provided for @pdfGeneratedSuccessfully.
+  ///
+  /// In en, this message translates to:
+  /// **'PDF generated successfully'**
+  String get pdfGeneratedSuccessfully;
+
+  /// No description provided for @errorWhileGeneratingPDF.
+  ///
+  /// In en, this message translates to:
+  /// **'Error while generating the PDF'**
+  String get errorWhileGeneratingPDF;
+
+  /// No description provided for @youAreAboutToDeleteYourTrip.
+  ///
+  /// In en, this message translates to:
+  /// **'You are about to delete your trip'**
+  String get youAreAboutToDeleteYourTrip;
+
+  /// No description provided for @areYouSureYouWantToDeleteYourTrip.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this trip?'**
+  String get areYouSureYouWantToDeleteYourTrip;
+
+  /// No description provided for @tripDeletedSuccessfully.
+  ///
+  /// In en, this message translates to:
+  /// **'Trip deleted successfully'**
+  String get tripDeletedSuccessfully;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
