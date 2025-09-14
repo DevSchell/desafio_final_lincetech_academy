@@ -1,5 +1,3 @@
-import 'participant.dart';
-
 /// Represents a review for a specific stopover.
 ///
 /// Every stopover is associated with a list of reviews, each containing
@@ -22,6 +20,7 @@ class Review {
   /// This can be used to visually complement the text message.
   String photoPath;
 
+  /// The int which represents de unique identifier for a participant
   final int? participantId;
 
   /// Constructs a [Review] instance.
@@ -37,6 +36,8 @@ class Review {
     required this.photoPath,
   });
 
+  /// This method transforms a [Review] into a [MapString, dynamic> which is
+  /// inserted into the database
   Map<String, dynamic> toMap() {
     return {
       'id': reviewID,
@@ -47,6 +48,7 @@ class Review {
     };
   }
 
+  /// This method creates a [Review] object from a [Map<String, dynamic>]
   factory Review.fromMap(Map<String, dynamic> map) {
     return Review(
       reviewID: map['id'] as int?,

@@ -6,7 +6,6 @@ import '../entities/participant.dart';
 
 /// An interface of a file_repository using SQLite.
 abstract interface class ParticipantRepository {
-
   /// Creates a new participant entry in the 'trip_participant' table.
   /// This method uses the participant's data to insert a new record.
   Future<void> createParticipant(Participant participant);

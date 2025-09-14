@@ -1,21 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
-import '../../entities/participant.dart';
 import '../../entities/review.dart';
 import '../../entities/stopover.dart';
-import '../../file_repository/review_repository.dart';
 import '../../file_repository/trip_repository.dart';
-import 'widgets/add_review_bottom_sheet.dart';
 import 'widgets/all_widgets.dart';
-import 'widgets/custom_action_button.dart';
-import 'widgets/custom_add_button.dart';
-import 'widgets/review_item.dart';
+
+/// A screen that displays the details of a single stopover.
+///
+/// This screen shows the stopover's date range,
+/// planned activities, map location, and a list of reviews.
+/// It also provides functionality to add and delete reviews.
 
 class StopoverDetailsScreen extends StatefulWidget {
+  /// The stopover object whose details are to be displayed.
   final Stopover stopover;
+
+  /// The ID of the trip to which this stopover belongs
   final int tripId;
 
+  /// The constructor method
   const StopoverDetailsScreen({
     super.key,
     required this.stopover,
@@ -27,6 +31,8 @@ class StopoverDetailsScreen extends StatefulWidget {
 }
 
 class _StopoverDetailsScreenState extends State<StopoverDetailsScreen> {
+  /// The provider responsible for managing and
+  /// fetching reviews for the stopover.
   late final ReviewsProvider _reviewsProvider;
 
   @override
@@ -189,20 +195,34 @@ class _StopoverDetailsScreenState extends State<StopoverDetailsScreen> {
   }
 }
 
+/// A provider that manages the state of reviews for a specific stopover.
+///
+/// This class uses [ChangeNotifier] to notify its listeners about changes
+/// in the review list, loading state, or participant data. It handles fetching,
+/// adding, and removing reviews by interacting with a [TripRepositorySQLite].
 class ReviewsProvider with ChangeNotifier {
+  /// It represents the [TripRepositorySQLite] and makes it possible to use
+  /// it's methods here
   final TripRepositorySQLite tripRepo = TripRepositorySQLite();
+
+  /// The unique identifier of the stopover in [stopoverDetails]
   final int stopoverId;
   List<Review> _reviews = [];
   bool _isLoading = false;
 
-  Map<int, Participant> _participants = {};
-
+  /// The list of reviews for the current stopover.
   List<Review> get reviews => _reviews;
 
+  /// A boolean indicating whether data is currently being loaded.
   bool get isLoading => _isLoading;
 
-  ReviewsProvider({required this.stopoverId}) {}
+  ///The constructor method
+  ReviewsProvider({required this.stopoverId});
 
+  /// Loads all reviews associated with the stopover from the database.
+  ///
+  /// This method sets the loading state to `true`, fetches the reviews,
+  /// and then sets the loading state back to `false` when finished.
   Future<void> loadReviews() async {
     _isLoading = true;
     notifyListeners();
@@ -210,23 +230,32 @@ class ReviewsProvider with ChangeNotifier {
     try {
       _reviews = await tripRepo.listReviewFromStopover(stopoverId);
     } catch (e) {
-      print('Falha ao carregar reviews: $e');
+      rethrow;
     } finally {
       _isLoading = false;
       notifyListeners();
     }
   }
 
+  /// Adds a new review to the database and the local list.
+  ///
+  /// The method interacts with the repository to create the new review.
+  /// After a successful creation, it reloads the reviews to ensure
+  /// the UI is up to date.
   Future<void> addReview(Review review) async {
     try {
       await tripRepo.createReview(review);
       _reviews.add(review);
     } catch (e) {
-      print('Falha ao adicionar um Review: $e');
+      rethrow;
     }
-    loadReviews();
+    await loadReviews();
   }
 
+  /// Removes a review from the database and the local list by its ID.
+  ///
+  /// The method interacts with the repository to delete the review and
+  /// then reloads the reviews to reflect the changes in the UI.
   Future<void> removeReview(int reviewId) async {
     try {
       await tripRepo.deleteReview(reviewId);
@@ -234,8 +263,8 @@ class ReviewsProvider with ChangeNotifier {
         return review.reviewID != null && review.reviewID == reviewId;
       });
     } catch (e) {
-      print('Falhou ao remover Review: $e');
+      rethrow;
     }
-    loadReviews();
+    await loadReviews();
   }
 }

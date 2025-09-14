@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 /// replacement for a standard [AppBar], while enforcing a specific
 /// visual style for the app.
 class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
-
   /// The main title text to be displayed in the app bar.
   final String title;
 

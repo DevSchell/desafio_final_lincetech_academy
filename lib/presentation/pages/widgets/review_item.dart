@@ -7,12 +7,21 @@ import '../../../entities/review.dart';
 import '../../../file_repository/trip_repository.dart';
 import '../../providers/settings_state.dart';
 
+/// A widget that displays a single review item.
+///
+/// This widget shows the review's content, the associated participant's photo
+/// and name, and an optional photo attached to the review.
+/// It also includes a delete button to remove the review.
+/// The participant data is loaded asynchronously.
 class ReviewItem extends StatefulWidget {
+  /// The [Review] object to be displayed.
   final Review review;
+
+  /// The callback function to be executed when the delete button is pressed.
   final VoidCallback onDelete;
 
-  const ReviewItem({Key? key, required this.review, required this.onDelete})
-    : super(key: key);
+  ///The constructor method
+  const ReviewItem({super.key, required this.review, required this.onDelete});
 
   @override
   State<ReviewItem> createState() => _ReviewItemState();
@@ -29,6 +38,10 @@ class _ReviewItemState extends State<ReviewItem> {
     _loadParticipant();
   }
 
+  /// Loads the participant data associated with the review.
+  ///
+  /// This method fetches the participant's details from the database using the
+  /// [participantId] from the review object and updates the UI state.
   Future<void> _loadParticipant() async {
     try {
       if (widget.review.participantId != null) {
@@ -36,11 +49,10 @@ class _ReviewItemState extends State<ReviewItem> {
           widget.review.participantId,
         );
         setState(() {
-        _isLoading = false;
+          _isLoading = false;
         });
       }
     } on Exception catch (e) {
-      print('Erro ao carregar participante: $e');
       setState(() {
         _isLoading = false;
       });
@@ -49,17 +61,15 @@ class _ReviewItemState extends State<ReviewItem> {
 
   @override
   Widget build(BuildContext context) {
-
     if (_isLoading) {
       return Padding(
         padding: const EdgeInsets.symmetric(vertical: 20.0),
         child: Center(
-          child: CircularProgressIndicator(color:
-          Provider.of<SettingsProvider>(
-            context,
-          ).isDarkMode
-              ? const Color.fromRGBO(255, 119, 74, 1)
-              : const Color.fromRGBO(255, 165, 0, 1),),
+          child: CircularProgressIndicator(
+            color: Provider.of<SettingsProvider>(context).isDarkMode
+                ? const Color.fromRGBO(255, 119, 74, 1)
+                : const Color.fromRGBO(255, 165, 0, 1),
+          ),
         ),
       );
     }
@@ -85,7 +95,7 @@ class _ReviewItemState extends State<ReviewItem> {
                 const SizedBox(width: 10.0),
                 Expanded(
                   child: Text(
-                    participant?.name ?? 'Participante desconhecido',
+                    participant?.name ?? 'Unknown Participant',
                     style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ),

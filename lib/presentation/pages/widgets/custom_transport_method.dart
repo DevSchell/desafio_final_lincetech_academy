@@ -4,9 +4,20 @@ import 'package:provider/provider.dart';
 
 import '../../providers/settings_state.dart';
 
+/// A custom dropdown button for selecting a transportation method.
+///
+/// This widget displays a dropdown menu populated with the values from the
+/// [EnumTransportationMethod] enum. It allows users to choose a single
+/// transportation method, and it notifies the parent widget of the selection
+/// change through a callback.
 class CustomTransportMethod extends StatefulWidget {
+  /// A callback function that is called whenever the selected transportation
+  /// method changes.
+  ///
+  /// The callback receives the new [EnumTransportationMethod] value.
   final ValueChanged<EnumTransportationMethod> onChanged;
 
+  ///The constructor method
   const CustomTransportMethod({super.key, required this.onChanged});
 
   @override
@@ -18,7 +29,6 @@ class _CustomTransportMethodState extends State<CustomTransportMethod> {
 
   @override
   Widget build(BuildContext context) {
-    //TODO: Why always 'airplane' ?
     return DropdownButton<EnumTransportationMethod>(
       value: value,
       items: [

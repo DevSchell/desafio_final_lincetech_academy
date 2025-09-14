@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -14,17 +12,19 @@ import '../providers/settings_state.dart';
 import '../providers/stopover_state.dart';
 import '../providers/trip_state.dart';
 import 'widgets/all_widgets.dart';
-import 'widgets/custom_action_button.dart';
-import 'widgets/custom_add_button.dart';
-import 'widgets/custom_alert_dialog.dart';
-import 'widgets/custom_bottom_sheet_add_participant.dart';
-import 'widgets/custom_bottom_sheet_add_stopover.dart';
-import 'widgets/participant_item.dart';
-import 'widgets/stopover_item.dart';
 
+/// A screen for creating a new trip.
+///
+/// This screen provides a form to input trip details such as title, dates,
+/// transportation method, and requested experiences. It also allows adding
+/// participants and stopovers.
+/// The screen manages its state using [ChangeNotifierProvider] for
+/// participants and stopovers.
 class CreateTrip extends StatelessWidget {
+  ///The constructor method
   const CreateTrip({super.key, this.idTravel});
 
+  /// The optional ID of the trip to be edited. If null, a new trip is created
   final int? idTravel;
 
   @override
@@ -38,19 +38,18 @@ class CreateTrip extends StatelessWidget {
           create: (_) => StopoverProvider(),
           child: _CreateTrip(),
         ),
-        // ChangeNotifierProvider(
-        //   create: (_) => TripProvider(),
-        //   child: _CreateTrip(),
-        // ),
       ],
       child: _CreateTrip(),
     );
   }
 }
 
-///That class represents the screen where we can create 'Trip' objects
+/// A private stateful widget that holds the form for creating a trip.
+///
+/// This class handles the UI logic, form validation, and state management for
+/// the trip creation process.
 class _CreateTrip extends StatefulWidget {
-  /// ...
+  /// The constructor method
   const _CreateTrip({super.key});
 
   @override
@@ -366,7 +365,7 @@ class _CreateTripAState extends State<_CreateTrip> {
                                     builder: (context) {
                                       return CustomAlertDialog(
                                         title: 'Validation Error',
-                                        content: 'add pelo menos 1 experiência',
+                                        content: 'select at least 1 experience',
                                         confirmText: 'OK',
                                         onConfirm: () => Navigator.pop(context),
                                       );
@@ -388,7 +387,7 @@ class _CreateTripAState extends State<_CreateTrip> {
                                     builder: (context) {
                                       return CustomAlertDialog(
                                         title: 'Validation Error',
-                                        content: 'add pelo menos 1 participante',
+                                        content: 'add at least 1 participant',
                                         confirmText: 'OK',
                                         onConfirm: () => Navigator.pop(context),
                                       );
@@ -408,7 +407,7 @@ class _CreateTripAState extends State<_CreateTrip> {
                                     builder: (context) {
                                       return CustomAlertDialog(
                                         title: 'Validation Error',
-                                        content: 'add pelo menos 1 stopover',
+                                        content: 'add at least 1 stopover',
                                         confirmText: 'OK',
                                         onConfirm: () => Navigator.pop(context),
                                       );
@@ -439,7 +438,7 @@ class _CreateTripAState extends State<_CreateTrip> {
                                 Navigator.pop(context);
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
-                                    content: Text('Trip created sucessfully'),
+                                    content: Text('Trip created successfully'),
                                     backgroundColor: Colors.green,
                                   ),
                                 );

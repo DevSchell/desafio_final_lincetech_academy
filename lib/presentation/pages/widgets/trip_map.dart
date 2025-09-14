@@ -1,4 +1,3 @@
-// trip_map.dart
 import 'dart:async';
 import 'dart:math';
 
@@ -7,10 +6,22 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../../entities/stopover.dart';
 
+/// A widget that displays a Google Map showing a list of stopovers.
+///
+/// This widget automatically places markers for each stopover and draws a
+/// polyline connecting them in the order they appear in the list. It also
+/// adjusts the map's camera to fit all markers on the screen.
 class TripMap extends StatefulWidget {
+  /// The list of stopovers to be displayed on the map.
   final List<Stopover> stopovers;
+
+  /// A callback function that is called when the map is ready.
+  ///
+  /// The [controller] of the GoogleMap is passed to this function,
+  /// allowing the parent widget to interact with the map.
   final Function(GoogleMapController controller) onMapReady;
 
+  /// The constructor method
   const TripMap({super.key, required this.stopovers, required this.onMapReady});
 
   @override
@@ -18,17 +29,15 @@ class TripMap extends StatefulWidget {
 }
 
 class _TripMapState extends State<TripMap> {
+  /// A set to store the markers for each stopover.
   final Set<Marker> markers = {};
+
+  /// A set to store the polyline representing the trip route
   final Set<Polyline> polylines = {};
 
+  /// A completer to handle the async creation of the [GoogleMapController]
   final Completer<GoogleMapController> _controllerCompleter =
       Completer<GoogleMapController>();
-
-  void _onMapCreated(GoogleMapController controller) {
-    _controllerCompleter.complete(controller);
-    _moveCameraToAllMarkers();
-    widget.onMapReady(controller);
-  }
 
   @override
   void initState() {
@@ -36,6 +45,11 @@ class _TripMapState extends State<TripMap> {
     _createMapElements();
   }
 
+  /// Creates markers and polylines from the list of stopovers.
+  ///
+  /// This method iterates through the [stopovers] list, creates a [Marker] for
+  /// each one, and adds their positions to a list for creating the [Polyline].
+  /// The markers and polyline are then added to their respective sets.
   void _createMapElements() {
     final polylinePoints = <LatLng>[];
 
@@ -65,6 +79,10 @@ class _TripMapState extends State<TripMap> {
     }
   }
 
+  /// Moves the map camera to show all markers at once.
+  ///
+  /// This method calculates the geographic bounds that encompass all markers
+  /// and animates the camera to fit those bounds with a specified padding.
   Future<void> _moveCameraToAllMarkers() async {
     final controller = await _controllerCompleter.future;
 

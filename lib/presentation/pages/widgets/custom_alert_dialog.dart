@@ -5,7 +5,14 @@ import '../../providers/settings_state.dart';
 import 'custom_action_button.dart';
 import 'custom_header.dart';
 
+/// A custom alert dialog widget with a customizable appearance and actions.
+///
+/// This widget provides a standardized alert dialog with a title, content,
+/// and customizable confirmation and optional cancellation buttons. The colors
+/// of the dialog adapt to the current theme (light or dark mode) managed by
+/// the [SettingsProvider].
 class CustomAlertDialog extends StatelessWidget {
+  /// That's the constructor of the widget
   const CustomAlertDialog({
     super.key,
     required this.title,
@@ -16,11 +23,22 @@ class CustomAlertDialog extends StatelessWidget {
     this.onCancel,
   });
 
+  /// The title of the alert dialog, displayed as a [CustomHeader].
   final String title;
+
+  /// The main content message of the alert dialog.
   final String content;
+
+  /// The text for the confirmation button.
   final String confirmText;
+
+  /// The callback function executed when the confirmation button is pressed.
   final VoidCallback onConfirm;
+
+  /// The optional text for the cancellation button.
   final String? cancelText;
+
+  /// The optional callback function executed when the cancel button is pressed.
   final VoidCallback? onCancel;
 
   @override

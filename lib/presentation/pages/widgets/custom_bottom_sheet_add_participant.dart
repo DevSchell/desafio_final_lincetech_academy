@@ -34,12 +34,10 @@ class _CustomBottomSheetState extends State<CustomBottomSheetAddParticipant> {
   /// Holds the selected date of birth.
   DateTime? dateOfBirth;
 
-  //TODO: Fix this "EnumTransportationMethod.airplane"
   /// Holds the selected favorite transportation method.
   EnumTransportationMethod selectedTransport =
       EnumTransportationMethod.airplane;
 
-  //TODO: What was I planning with that? ...
   /// Private state variable to hold the selected transportation method.
   late EnumTransportationMethod _selectedTransportationMethod;
 

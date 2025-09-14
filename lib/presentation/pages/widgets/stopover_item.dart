@@ -1,22 +1,38 @@
-import '../../../entities/stopover.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../../entities/stopover.dart';
 import '../../providers/settings_state.dart';
 
+/// A widget that displays a single stopover item.
+///
+/// This widget shows the stopover's image, city name, and date range. It can be
+/// displayed in two modes: a view-only mode and an editable mode that includes
+/// edit and delete buttons. The colors of the text are dynamically adjusted
+/// based on the app's dark mode setting,
+/// which is managed by the [SettingsProvider].
 class StopoverItem extends StatelessWidget {
+  /// The [Stopover] object whose information will be displayed.
   final Stopover stopover;
+
+  /// The callback function to be executed when the delete button is pressed.
   final VoidCallback onDelete;
+
+  /// The callback function to be executed when the edit button is pressed.
   final VoidCallback onEdit;
+
+  /// A boolean that determines when to show the edit and delete buttons.
+  /// If `true`, the buttons are displayed; otherwise, they are hidden.
   final bool isEditable;
 
+  /// The constructor method
   const StopoverItem({
-    Key? key,
+    super.key,
     required this.stopover,
     required this.onDelete,
     required this.onEdit,
     required this.isEditable,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -106,9 +122,9 @@ class StopoverItem extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: Row(
               children: [
-                //TODO: Pls remove this image afterwards.
                 ClipRRect(
                   child: Image.network(
+                    // Placeholder Image
                     'https://www.gaspar.sc.gov.br/uploads/sites/421/2022/05/3229516.jpg',
                     height: 100,
                     width: 100,

@@ -9,7 +9,6 @@ import '../entities/stopover.dart';
 /// updating, and deleting stopovers, as well as managing their relationships
 /// with trips.
 abstract interface class StopoverRepository {
-
   /// Creates a new stopover record in the database.
   Future<void> createStopover(Stopover stopover);
 

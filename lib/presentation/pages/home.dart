@@ -1,17 +1,19 @@
-import 'package:desafio_final_lincetech_academy/l10n/app_localizations.dart';
-import 'package:desafio_final_lincetech_academy/presentation/providers/settings_state.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-import '../../entities/participant.dart';
-import '../../entities/stopover.dart';
-import '../../entities/trip.dart';
-import '../../utils/formatting_methods.dart';
+import '../../l10n/app_localizations.dart';
+import '../providers/settings_state.dart';
 import '../providers/trip_state.dart';
 import 'trip_details.dart';
 
+/// The home screen of the application.
+///
+/// This screen displays a grid of all created trips. Users can tap on a trip
+/// to view its details or tap the floating action button to create a new trip.
+/// It uses [Provider] to listen for changes in the trip and settings states.
 class Home extends StatefulWidget {
+  ///The constructor method
   const Home({super.key});
 
   @override
@@ -22,12 +24,15 @@ class _HomeState extends State<Home> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+    // Ensures trips are loaded whenever the dependencies change,
+    // which happens on navigation events.
     Provider.of<TripProvider>(context, listen: false).loadTrips();
   }
 
   @override
   void initState() {
     super.initState();
+    // Loads trips when the widget is first initialized.
     Provider.of<TripProvider>(context, listen: false).loadTrips();
   }
 
@@ -102,9 +107,8 @@ class _HomeState extends State<Home> {
                             ),
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(20.0),
-                              //TODO: Img only for testing purposes
-                              child: Image.network(
-                                'https://imgs.search.brave.com/LzP-dmtzjLKE9y-MlSlNig_In1TNfFyRXTNjyY1434I/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9zdGMu/b3R2Zm9jby5jb20u/YnIvMjAyMC8wMy9j/aGF2ZXMtZW0tYWNh/cHVsY28tMS5qcGc',
+                              child: Image.asset(
+                                'assets/images/tripCover.png',
                                 fit: BoxFit.cover,
                                 height: 200,
                                 width: double.infinity,

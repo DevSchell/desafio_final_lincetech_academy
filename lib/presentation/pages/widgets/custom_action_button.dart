@@ -9,7 +9,6 @@ import '../../providers/settings_state.dart';
 /// across the application, using a [FloatingActionButton.extended] to provide
 /// a labeled action button.
 class CustomActionButton extends StatelessWidget {
-
   /// The text to be displayed on the button's label.
   final String text;
 
@@ -26,7 +25,6 @@ class CustomActionButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton.extended(
-
       onPressed: onPressed,
       backgroundColor: Provider.of<SettingsProvider>(context).isDarkMode
           ? Color.fromRGBO(255, 119, 74, 1)

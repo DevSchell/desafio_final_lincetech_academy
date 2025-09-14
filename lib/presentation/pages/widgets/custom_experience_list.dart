@@ -3,9 +3,21 @@ import 'package:desafio_final_lincetech_academy/presentation/providers/settings_
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+/// A custom list of checkboxes for selecting different types of experiences.
+///
+/// This widget dynamically generates a list of [CheckboxListTile] widgets
+/// based on the [EnumExperiencesList] enum.
+/// It allows users to select multiple experiences,
+/// and it notifies the parent widget of the changes through a callback.
+
 class CustomExperienceList extends StatefulWidget {
+  /// A callback function that is called when the selection changes.
+  ///
+  /// The callback receives a [List<EnumExperiencesList>] containing the
+  /// currently selected experiences.
   final ValueChanged<List<EnumExperiencesList>> onChanged;
 
+  /// That is the constructor method
   const CustomExperienceList({super.key, required this.onChanged});
 
   @override

@@ -58,6 +58,7 @@ class NewCustomDatePicker extends StatelessWidget {
   /// The initial end date to display
   final DateTime? initialEndDate;
 
+  /// The option to the UI. Modifies the displaying modes of the widget
   final bool isEditable;
 
   @override

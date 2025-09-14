@@ -1,5 +1,3 @@
-import 'package:desafio_final_lincetech_academy/utils/formatting_methods.dart';
-
 /// This class represents a participant in a trip.
 /// It stores information such as the participant's name,
 /// date of birth, a path to their photo, and their favorite

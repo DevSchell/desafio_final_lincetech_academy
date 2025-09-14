@@ -9,7 +9,6 @@ import '../../providers/settings_state.dart';
 /// [FloatingActionButton], making it ideal for use in contexts like a
 /// [BottomSheet] where a full-sized button might be too distracting.
 class CustomAddButton extends StatelessWidget {
-
   /// The callback function that is executed when the button is pressed.
   final VoidCallback onPressed;
 

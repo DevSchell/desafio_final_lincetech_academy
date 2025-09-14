@@ -4,21 +4,27 @@ import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
+import 'package:permission_handler/permission_handler.dart';
 
 import '../entities/trip.dart';
 import '../file_repository/trip_repository.dart';
-import 'package:permission_handler/permission_handler.dart';
 
-abstract class ExportTripToPdfUseCase {
-  Future<void> exportToPdf(Trip trip);
-}
-
-class ExportTripToPdf implements ExportTripToPdfUseCase {
+/// An implementation of [ExportTripToPdfUseCase] that creates a
+/// PDF from trip data.
+/// This class handles the entire process of generating a
+/// multi-page PDF, including fetching images,
+/// formatting content, and saving the file to the user's device.
+class ExportTripToPdf {
+  /// Represents the repository of Trip, containing its methods
   final TripRepositorySQLite tripRepo = TripRepositorySQLite();
+
+  /// This is the main color of the PDF, following the brand's main colors
   final primaryColor = PdfColor.fromInt(0xFF197982);
+
+  /// That is the secondary color of the PDF, following the brand's colors
   final secondaryColor = PdfColor.fromInt(0xFFFFA600);
 
-  @override
+  ///Main method, exports the [Trip] into a [PDF] and saves in the Storage
   Future<void> exportToPdf(Trip trip) async {
     var permissionGranted = await Permission.photos.isGranted;
 
@@ -39,6 +45,7 @@ class ExportTripToPdf implements ExportTripToPdfUseCase {
     if (permissionGranted) {
       final pdfDocument = pw.Document();
 
+      // Load images from assets to be used in the PDF.
       final logoImage = (await rootBundle.load(
         'assets/images/app_icon/logo_desafio_final_light.png',
       )).buffer.asUint8List();
@@ -178,7 +185,7 @@ class ExportTripToPdf implements ExportTripToPdfUseCase {
                     style: pw.TextStyle(color: secondaryColor),
                   ),
                   pw.Text(
-                    '- ${participant?.name ?? 'Participante desconhecido'}',
+                    '- ${participant?.name ?? 'Unknown Participant'}',
                     style: pw.TextStyle(
                       color: primaryColor,
                       fontStyle: pw.FontStyle.italic,
@@ -250,7 +257,11 @@ class ExportTripToPdf implements ExportTripToPdfUseCase {
                   pw.Image(pw.MemoryImage(logoImage), height: 100),
                   pw.SizedBox(height: 20),
                   pw.Text(
-                    'UMA VIAGEM NÃO SE MEDE EM MILHAS, MAS EM MOMENTOS. CADA PÁGINA DESTE LIVRETO GUARDA MAIS DO QUE PAISAGENS: SÃO SORRISOS ESPONTÂNEOS, DESCOBERTAS INESPERADAS, CONVERSAS QUE FICARAM NA ALMA E SILÊNCIOS QUE FALARAM MAIS QUE PALAVRAS.',
+                    'UMA VIAGEM NÃO SE MEDE EM MILHAS, MAS EM MOMENTOS.'
+                    ' CADA PÁGINA DESTE LIVRETO GUARDA MAIS DO '
+                    'QUE PAISAGENS: SÃO SORRISOS ESPONTÂNEOS, '
+                    'DESCOBERTAS INESPERADAS, CONVERSAS QUE FICARAM '
+                    'NA ALMA E SILÊNCIOS QUE FALARAM MAIS QUE PALAVRAS.',
                     textAlign: pw.TextAlign.center,
                     style: pw.TextStyle(fontSize: 16, color: primaryColor),
                   ),
@@ -267,12 +278,13 @@ class ExportTripToPdf implements ExportTripToPdfUseCase {
       if (output != null) {
         final file = File('${output.path}/${trip.title}_livreto.pdf');
         await file.writeAsBytes(await pdfDocument.save());
-        print('PDF salvo com sucesso em ${file.path}');
       } else {
-        throw Exception('Não foi possível acessar o diretório de downloads');
+        throw Exception(
+          'There was an error while trying to access downloads directory',
+        );
       }
     } else {
-      throw Exception('Permissão de armazenamento não concedida');
+      throw Exception('Permission to access storage was denied');
     }
   }
 }

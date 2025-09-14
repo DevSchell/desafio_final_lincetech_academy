@@ -1,21 +1,32 @@
-import 'package:desafio_final_lincetech_academy/l10n/app_localizations.dart';
-import 'package:desafio_final_lincetech_academy/presentation/pages/widgets/all_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../providers/settings_state.dart';
 
+import '../../l10n/app_localizations.dart';
+import '../providers/settings_state.dart';
+import 'widgets/all_widgets.dart';
+
+/// A screen that allows users to change application settings.
+///
+/// This screen provides options to change the app's language and theme.
+/// It uses a [StatefulWidget] to manage the selected options and a [Consumer]
+/// from the [provider] package to react to changes in the [SettingsProvider].
 class Settings extends StatefulWidget {
+  ///The constructor method
   const Settings({super.key});
 
   @override
   State<Settings> createState() => _SettingsState();
 }
 
-List<String> languageOptions = ["en", "pt", "es"]; //Test RadioButton
-List<String> themeOptions = <String>["Light Theme", "Dark Theme"];
+/// A list of supported language codes.
+List<String> languageOptions = ['en', 'pt', 'es']; //Test RadioButton
+/// A list of theme options.
+List<String> themeOptions = <String>['Light Theme', 'Dark Theme'];
 
 class _SettingsState extends State<Settings> {
+  /// The currently selected language code.
   String currentOption = languageOptions[0]; //Test RadioButton
+  /// The currently selected theme.
   String currentTheme = themeOptions[0];
 
   @override

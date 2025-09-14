@@ -9,9 +9,9 @@ import '../../l10n/app_localizations.dart';
 import '../../use_cases/export_trip_to_pdf.dart';
 import 'stopover_details_screen.dart';
 import 'widgets/all_widgets.dart';
-import 'widgets/participant_item.dart';
-import 'widgets/stopover_item.dart';
 
+/// A `ChangeNotifier` class that manages the state for
+/// the [TripDetails] screen.
 class _TripDetailsState with ChangeNotifier {
   TripRepositorySQLite tripRepo = TripRepositorySQLite();
   final Trip initialTrip;
@@ -24,6 +24,10 @@ class _TripDetailsState with ChangeNotifier {
     stopovers = List.from(initialTrip.stopoverList ?? []);
   }
 
+  /// Deletes a participant from the trip both locally and in the database.
+  ///
+  /// This method removes the specified participant from the [participants] list
+  /// and then calls the repository to delete the participant from the database.
   void deleteParticipant(Participant participant) async {
     participants.remove(participant);
     await tripRepo.removeParticipantFromTrip(initialTrip.id, participant.id);
@@ -41,15 +45,26 @@ class _TripDetailsState with ChangeNotifier {
     }
   }
 
+  /// Toggles the edit mode for the trip details screen.
+  ///
+  /// When edit mode is on, UI elements for editing or deleting items are shown
   void switchEditMode() {
     isEditing = !isEditing;
     notifyListeners();
   }
 }
 
+/// A screen that displays the detailed information of a trip.
+///
+/// This widget provides a comprehensive view of a trip, including its title,
+/// dates, transportation method, experiences, and lists of
+/// participants and stopovers. It also offers options to
+/// export the trip to a PDF or delete it.
 class TripDetails extends StatelessWidget {
+  /// The [Trip] object whose details are to be displayed.
   final Trip trip;
 
+  ///The constructor method
   const TripDetails({super.key, required this.trip});
 
   @override
@@ -64,20 +79,19 @@ class TripDetails extends StatelessWidget {
               IconButton(
                 onPressed: () async {
                   try {
-                    ExportTripToPdfUseCase tripToPdf = ExportTripToPdf();
+                    var tripToPdf = ExportTripToPdf();
                     await tripToPdf.exportToPdf(trip);
 
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
-                        content: Text('Livreto gerado com sucesso'),
+                        content: Text('PDF generated successfully'),
                         backgroundColor: Colors.green,
                       ),
                     );
                   } catch (e) {
-                    print('Erro ao gerar o PDF: $e');
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
-                        content: Text('Falha ao gerar livreto'),
+                        content: Text('Error while generating de PDF'),
                         backgroundColor: Colors.red,
                       ),
                     );
@@ -117,7 +131,7 @@ class TripDetails extends StatelessWidget {
 
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        content: Text('Trip delete successfully'),
+                        content: Text('Trip deleted successfully'),
                         backgroundColor: Colors.green,
                       ),
                     );
@@ -249,7 +263,6 @@ class TripDetails extends StatelessWidget {
                             );
                           },
                         ),
-                  //TODO: implement GoogleMap()
                 ],
               ),
             ),

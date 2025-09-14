@@ -3,6 +3,7 @@
 class Coordinate {
   ///This is the latitude of the place
   double latitude;
+
   ///This is the longitude of the place
   double longitude;
 

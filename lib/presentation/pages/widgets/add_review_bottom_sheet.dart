@@ -14,10 +14,18 @@ import '../stopover_details_screen.dart';
 import 'all_widgets.dart';
 import 'custom_action_button.dart';
 
+/// A modal bottom sheet for adding a new review to a stopover.
+///
+/// This widget provides a form for users to write a review message, select a
+/// participant as the review owner, and optionally add a photo
 class AddReviewBottomSheet extends StatefulWidget {
+  /// The ID of the stopover to which the review will be added.
   final int stopoverId;
+
+  /// The ID of the trip associated with the stopover.
   final int tripId;
 
+  /// That's the constructor method of the widget
   const AddReviewBottomSheet({
     super.key,
     required this.stopoverId,
@@ -44,6 +52,10 @@ class _AddReviewBottomSheetState extends State<AddReviewBottomSheet> {
     _loadParticipants();
   }
 
+  /// Loads the list of participants from the trip.
+  ///
+  /// This method fetches all participants associated with the current trip
+  /// from the database and updates the UI state.
   void _loadParticipants() async {
     try {
       final participants = await _tripRepo.listParticipantsFromTrip(
@@ -57,13 +69,18 @@ class _AddReviewBottomSheetState extends State<AddReviewBottomSheet> {
         _isLoadingParticipants = false;
       });
     } on Exception catch (e) {
-      print('Erro ao carregar participantes $e');
       setState(() {
         _isLoadingParticipants = false;
       });
     }
   }
 
+  /// Submits the review to the [ReviewsProvider].
+  ///
+  /// This method validates the form data (message and selected participant).
+  /// If valid, it creates a new [Review] object and calls the [addReview]
+  /// method on the [ReviewsProvider] to persist the data. Finally, it
+  /// closes the bottom sheet.
   void _submitReview() {
     if (_messageController.text.trim().isEmpty ||
         _selectedParticipant == null) {

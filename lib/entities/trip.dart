@@ -1,6 +1,5 @@
 import 'participant.dart';
 import 'stopover.dart';
-
 /// This is one of the main classes of the application, representing a trip.
 ///
 /// It aggregates all essential information, including basic trip details,
@@ -24,6 +23,7 @@ class Trip {
   /// The main method of transportation used for the trip.
   String transportationMethod;
 
+  /// The list of selected experiences of the [Trip]
   List<String>? experiencesList;
 
   /// The list of participants associated with this trip.
@@ -59,10 +59,7 @@ class Trip {
       'start_date': startDate.toIso8601String(),
       'end_date': endDate.toIso8601String(),
       'transportation_method': transportationMethod,
-      'experiences_list' : experiencesList?.join(',')
-
-      // 'participant_list' : participantList,
-      // 'stopover_list' : stopoverList
+      'experiences_list': experiencesList?.join(','),
     };
   }
 
@@ -80,9 +77,6 @@ class Trip {
       startDate: DateTime.parse(map['start_date']),
       endDate: DateTime.parse(map['end_date']),
       experiencesList: (map['experiences_list'] as String?)?.split(','),
-
-      // participantList: map['participant_list'],
-      // stopoverList: map['stopover_list'],
     );
   }
 }
